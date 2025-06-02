@@ -23,6 +23,8 @@ import { Hct } from "../hct/hct";
 
 /**
  * A playful theme - the source color's hue does not appear in the theme.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 export class SchemeFruitSalad extends DynamicScheme {
   constructor(

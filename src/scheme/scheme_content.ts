@@ -29,6 +29,8 @@ import { Hct } from "../hct/hct";
  * This adds ~5 tone in light mode, and subtracts ~5 tone in dark mode.
  * Tertiary Container is the complement to the source color, using
  * `TemperatureCache`. It also maintains constant appearance.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 export class SchemeContent extends DynamicScheme {
   constructor(

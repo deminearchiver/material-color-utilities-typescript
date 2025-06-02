@@ -21,7 +21,11 @@ import type { SpecVersion } from "../dynamiccolor/spec_version";
 import { Variant } from "../dynamiccolor/variant";
 import { Hct } from "../hct/hct";
 
-/** A Dynamic Color theme that is grayscale. */
+/**
+ * A Dynamic Color theme that is grayscale.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
+ */
 export class SchemeMonochrome extends DynamicScheme {
   constructor(
     sourceColorHct: Hct,

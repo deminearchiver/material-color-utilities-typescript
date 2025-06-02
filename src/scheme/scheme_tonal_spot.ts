@@ -26,6 +26,8 @@ import { Hct } from "../hct/hct";
  * TonalPalette with a hue related to the source color.
  *
  * The default Material You theme on Android 12 and 13.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 export class SchemeTonalSpot extends DynamicScheme {
   constructor(

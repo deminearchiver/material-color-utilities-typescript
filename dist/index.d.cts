@@ -1725,6 +1725,8 @@ declare class SchemeAndroid {
  * This adds ~5 tone in light mode, and subtracts ~5 tone in dark mode.
  * Tertiary Container is the complement to the source color, using
  * `TemperatureCache`. It also maintains constant appearance.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 declare class SchemeContent extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);
@@ -1733,6 +1735,8 @@ declare class SchemeContent extends DynamicScheme {
 //#region src/scheme/scheme_expressive.d.ts
 /**
  * A Dynamic Color theme that is intentionally detached from the source color.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 declare class SchemeExpressive extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);
@@ -1747,6 +1751,8 @@ declare class SchemeExpressive extends DynamicScheme {
  * This adds ~5 tone in light mode, and subtracts ~5 tone in dark mode.
  * Tertiary Container is the complement to the source color, using
  * `TemperatureCache`. It also maintains constant appearance.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 declare class SchemeFidelity extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);
@@ -1755,19 +1761,29 @@ declare class SchemeFidelity extends DynamicScheme {
 //#region src/scheme/scheme_fruit_salad.d.ts
 /**
  * A playful theme - the source color's hue does not appear in the theme.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 declare class SchemeFruitSalad extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);
 }
 //#endregion
 //#region src/scheme/scheme_monochrome.d.ts
-/** A Dynamic Color theme that is grayscale. */
+/**
+ * A Dynamic Color theme that is grayscale.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
+ */
 declare class SchemeMonochrome extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);
 }
 //#endregion
 //#region src/scheme/scheme_neutral.d.ts
-/** A Dynamic Color theme that is near grayscale. */
+/**
+ * A Dynamic Color theme that is near grayscale.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
+ */
 declare class SchemeNeutral extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);
 }
@@ -1775,6 +1791,8 @@ declare class SchemeNeutral extends DynamicScheme {
 //#region src/scheme/scheme_rainbow.d.ts
 /**
  * A playful theme - the source color's hue does not appear in the theme.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 declare class SchemeRainbow extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);
@@ -1786,6 +1804,8 @@ declare class SchemeRainbow extends DynamicScheme {
  * TonalPalette with a hue related to the source color.
  *
  * The default Material You theme on Android 12 and 13.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 declare class SchemeTonalSpot extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);
@@ -1795,6 +1815,8 @@ declare class SchemeTonalSpot extends DynamicScheme {
 /**
  * A Dynamic Color theme that maxes out colorfulness at each position in the
  * Primary Tonal Palette.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 declare class SchemeVibrant extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);

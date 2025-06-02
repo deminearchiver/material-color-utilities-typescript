@@ -6174,6 +6174,8 @@ var SchemeAndroid = class SchemeAndroid {
 * This adds ~5 tone in light mode, and subtracts ~5 tone in dark mode.
 * Tertiary Container is the complement to the source color, using
 * `TemperatureCache`. It also maintains constant appearance.
+*
+* @deprecated Use {@link DynamicScheme.from} instead.
 */
 var SchemeContent = class extends DynamicScheme {
 	constructor(sourceColorHct, isDark, contrastLevel, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM) {
@@ -6192,6 +6194,8 @@ var SchemeContent = class extends DynamicScheme {
 //#region src/scheme/scheme_expressive.ts
 /**
 * A Dynamic Color theme that is intentionally detached from the source color.
+*
+* @deprecated Use {@link DynamicScheme.from} instead.
 */
 var SchemeExpressive = class extends DynamicScheme {
 	constructor(sourceColorHct, isDark, contrastLevel, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM) {
@@ -6216,6 +6220,8 @@ var SchemeExpressive = class extends DynamicScheme {
 * This adds ~5 tone in light mode, and subtracts ~5 tone in dark mode.
 * Tertiary Container is the complement to the source color, using
 * `TemperatureCache`. It also maintains constant appearance.
+*
+* @deprecated Use {@link DynamicScheme.from} instead.
 */
 var SchemeFidelity = class extends DynamicScheme {
 	constructor(sourceColorHct, isDark, contrastLevel, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM) {
@@ -6234,6 +6240,8 @@ var SchemeFidelity = class extends DynamicScheme {
 //#region src/scheme/scheme_fruit_salad.ts
 /**
 * A playful theme - the source color's hue does not appear in the theme.
+*
+* @deprecated Use {@link DynamicScheme.from} instead.
 */
 var SchemeFruitSalad = class extends DynamicScheme {
 	constructor(sourceColorHct, isDark, contrastLevel, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM) {
@@ -6250,7 +6258,11 @@ var SchemeFruitSalad = class extends DynamicScheme {
 
 //#endregion
 //#region src/scheme/scheme_monochrome.ts
-/** A Dynamic Color theme that is grayscale. */
+/**
+* A Dynamic Color theme that is grayscale.
+*
+* @deprecated Use {@link DynamicScheme.from} instead.
+*/
 var SchemeMonochrome = class extends DynamicScheme {
 	constructor(sourceColorHct, isDark, contrastLevel, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM) {
 		super({
@@ -6266,7 +6278,11 @@ var SchemeMonochrome = class extends DynamicScheme {
 
 //#endregion
 //#region src/scheme/scheme_neutral.ts
-/** A Dynamic Color theme that is near grayscale. */
+/**
+* A Dynamic Color theme that is near grayscale.
+*
+* @deprecated Use {@link DynamicScheme.from} instead.
+*/
 var SchemeNeutral = class extends DynamicScheme {
 	constructor(sourceColorHct, isDark, contrastLevel, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM) {
 		super({
@@ -6284,6 +6300,8 @@ var SchemeNeutral = class extends DynamicScheme {
 //#region src/scheme/scheme_rainbow.ts
 /**
 * A playful theme - the source color's hue does not appear in the theme.
+*
+* @deprecated Use {@link DynamicScheme.from} instead.
 */
 var SchemeRainbow = class extends DynamicScheme {
 	constructor(sourceColorHct, isDark, contrastLevel, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM) {
@@ -6305,6 +6323,8 @@ var SchemeRainbow = class extends DynamicScheme {
 * TonalPalette with a hue related to the source color.
 *
 * The default Material You theme on Android 12 and 13.
+*
+* @deprecated Use {@link DynamicScheme.from} instead.
 */
 var SchemeTonalSpot = class extends DynamicScheme {
 	constructor(sourceColorHct, isDark, contrastLevel, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM) {
@@ -6324,6 +6344,8 @@ var SchemeTonalSpot = class extends DynamicScheme {
 /**
 * A Dynamic Color theme that maxes out colorfulness at each position in the
 * Primary Tonal Palette.
+*
+* @deprecated Use {@link DynamicScheme.from} instead.
 */
 var SchemeVibrant = class extends DynamicScheme {
 	constructor(sourceColorHct, isDark, contrastLevel, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM) {

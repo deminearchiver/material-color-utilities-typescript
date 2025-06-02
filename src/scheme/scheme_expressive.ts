@@ -22,6 +22,8 @@ import { Variant } from "../dynamiccolor/variant";
 import { Hct } from "../hct/hct";
 /**
  * A Dynamic Color theme that is intentionally detached from the source color.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 export class SchemeExpressive extends DynamicScheme {
   constructor(

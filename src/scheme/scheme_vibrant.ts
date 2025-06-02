@@ -24,6 +24,8 @@ import { Hct } from "../hct/hct";
 /**
  * A Dynamic Color theme that maxes out colorfulness at each position in the
  * Primary Tonal Palette.
+ *
+ * @deprecated Use {@link DynamicScheme.from} instead.
  */
 export class SchemeVibrant extends DynamicScheme {
   constructor(
