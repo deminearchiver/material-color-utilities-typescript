@@ -20,6 +20,12 @@
     "directory": "typescript"
   },
   "author": "Material Eng",
+  "contributors": [
+    {
+      "name": "deminearchiver",
+      "url": "https://github.com/deminearchiver"
+    }
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/material-foundation/material-color-utilities/issues"
@@ -47,7 +53,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/node": "^22.15.29",
     "tsdown": "^0.12.6",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
