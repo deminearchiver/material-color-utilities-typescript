@@ -19,11 +19,10 @@ import { Contrast } from "../contrast/contrast";
 import { Hct } from "../hct/hct";
 import type { TonalPalette } from "../palettes/tonal_palette";
 import * as math from "../utils/math_utils";
-
-import type { SpecVersion } from "./color_spec";
 import type { ContrastCurve } from "./contrast_curve";
 import type { DynamicScheme } from "./dynamic_scheme";
 import type { ToneDeltaPair } from "./tone_delta_pair";
+import type { SpecVersion } from "./spec_version";
 
 /**
  * @param name The name of the dynamic color. Defaults to empty.

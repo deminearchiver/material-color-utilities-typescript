@@ -20,19 +20,11 @@ import { DislikeAnalyzer } from "../dislike/dislike_analyzer";
 import { Hct } from "../hct/hct";
 import { TonalPalette } from "../palettes/tonal_palette";
 import { TemperatureCache } from "../temperature/temperature_cache";
-import { SpecVersion } from "./color_spec";
 import type { DynamicColor } from "./dynamic_color";
 import { MaterialDynamicColors } from "./material_dynamic_colors";
 import { Variant } from "./variant";
-
-/**
- * The platform on which this scheme is intended to be used. Only used in the
- * 2025 spec.
- */
-export enum Platform {
-  PHONE,
-  WATCH,
-}
+import { SpecVersion } from "./spec_version";
+import { Platform } from "./platform";
 
 /**
  * @param sourceColorArgb The source color of the theme as an ARGB 32-bit

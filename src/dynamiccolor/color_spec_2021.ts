@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
+import type { ColorSpecDelegate } from "./color_spec";
+import type { DynamicScheme } from "./dynamic_scheme";
 import { DislikeAnalyzer } from "../dislike/dislike_analyzer";
 import { Hct } from "../hct/hct";
 import { ContrastCurve } from "./contrast_curve";
-import type { ColorSpecDelegate } from "./color_spec";
 import { DynamicColor } from "./dynamic_color";
-import type { DynamicScheme } from "./dynamic_scheme";
 import { ToneDeltaPair } from "./tone_delta_pair";
 import { Variant } from "./variant";
 

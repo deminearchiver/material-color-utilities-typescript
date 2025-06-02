@@ -2541,14 +2541,6 @@ var TemperatureCache = class TemperatureCache {
 };
 
 //#endregion
-//#region src/dynamiccolor/color_spec.ts
-let SpecVersion = /* @__PURE__ */ function(SpecVersion$1) {
-	SpecVersion$1["SPEC_2021"] = "2021";
-	SpecVersion$1["SPEC_2025"] = "2025";
-	return SpecVersion$1;
-}({});
-
-//#endregion
 //#region src/dynamiccolor/contrast_curve.ts
 /**
 * A class containing a value that changes with the contrast level.
@@ -3276,6 +3268,26 @@ var ColorSpecDelegateImpl2021 = class {
 		return s.isDark ? this.surfaceBright() : this.surfaceDim();
 	}
 };
+
+//#endregion
+//#region src/dynamiccolor/spec_version.ts
+let SpecVersion = /* @__PURE__ */ function(SpecVersion$1) {
+	SpecVersion$1["SPEC_2021"] = "2021";
+	SpecVersion$1["SPEC_2025"] = "2025";
+	return SpecVersion$1;
+}({});
+
+//#endregion
+//#region src/dynamiccolor/platform.ts
+/**
+* The platform on which this scheme is intended to be used. Only used in the
+* 2025 spec.
+*/
+let Platform = /* @__PURE__ */ function(Platform$1) {
+	Platform$1[Platform$1["PHONE"] = 0] = "PHONE";
+	Platform$1[Platform$1["WATCH"] = 1] = "WATCH";
+	return Platform$1;
+}({});
 
 //#endregion
 //#region src/dynamiccolor/color_spec_2025.ts
@@ -4373,15 +4385,6 @@ var MaterialDynamicColors = class MaterialDynamicColors {
 
 //#endregion
 //#region src/dynamiccolor/dynamic_scheme.ts
-/**
-* The platform on which this scheme is intended to be used. Only used in the
-* 2025 spec.
-*/
-let Platform = /* @__PURE__ */ function(Platform$1) {
-	Platform$1[Platform$1["PHONE"] = 0] = "PHONE";
-	Platform$1[Platform$1["WATCH"] = 1] = "WATCH";
-	return Platform$1;
-}({});
 /**
 * Constructed by a set of values representing the current UI state (such as
 * whether or not its dark theme, what the theme style is, etc.), and
@@ -6673,6 +6676,7 @@ exports.SchemeRainbow = SchemeRainbow;
 exports.SchemeTonalSpot = SchemeTonalSpot;
 exports.SchemeVibrant = SchemeVibrant;
 exports.Score = Score;
+exports.SpecVersion = SpecVersion;
 exports.TemperatureCache = TemperatureCache;
 exports.TonalPalette = TonalPalette;
 exports.Variant = Variant;

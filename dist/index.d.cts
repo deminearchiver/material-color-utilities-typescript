@@ -369,6 +369,54 @@ declare class TonalPalette {
   private averageArgb;
 }
 //#endregion
+//#region src/dynamiccolor/contrast_curve.d.ts
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * A class containing a value that changes with the contrast level.
+ *
+ * Usually represents the contrast requirements for a dynamic color on its
+ * background. The four values correspond to values for contrast levels -1.0,
+ * 0.0, 0.5, and 1.0, respectively.
+ */
+declare class ContrastCurve {
+  readonly low: number;
+  readonly normal: number;
+  readonly medium: number;
+  readonly high: number;
+  /**
+   * Creates a `ContrastCurve` object.
+   *
+   * @param low Value for contrast level -1.0
+   * @param normal Value for contrast level 0.0
+   * @param medium Value for contrast level 0.5
+   * @param high Value for contrast level 1.0
+   */
+  constructor(low: number, normal: number, medium: number, high: number);
+  /**
+   * Returns the value at a given contrast level.
+   *
+   * @param contrastLevel The contrast level. 0.0 is the default (normal); -1.0
+   *     is the lowest; 1.0 is the highest.
+   * @return The value. For contrast ratios, a number between 1.0 and 21.0.
+   */
+  get(contrastLevel: number): number;
+}
+//#endregion
 //#region src/dynamiccolor/material_dynamic_colors.d.ts
 /**
  * DynamicColors for the colors in the Material Design system.
@@ -583,7 +631,13 @@ declare enum Variant {
   FRUIT_SALAD = 8,
 }
 //#endregion
-//#region src/dynamiccolor/dynamic_scheme.d.ts
+//#region src/dynamiccolor/spec_version.d.ts
+declare enum SpecVersion {
+  SPEC_2021 = "2021",
+  SPEC_2025 = "2025",
+}
+//#endregion
+//#region src/dynamiccolor/platform.d.ts
 /**
  * The platform on which this scheme is intended to be used. Only used in the
  * 2025 spec.
@@ -592,6 +646,8 @@ declare enum Platform {
   PHONE = 0,
   WATCH = 1,
 }
+//#endregion
+//#region src/dynamiccolor/dynamic_scheme.d.ts
 /**
  * @param sourceColorArgb The source color of the theme as an ARGB 32-bit
  *     integer.
@@ -805,67 +861,6 @@ declare class DynamicScheme {
   get onError(): number;
   get errorContainer(): number;
   get onErrorContainer(): number;
-}
-//#endregion
-//#region src/dynamiccolor/color_spec.d.ts
-declare enum SpecVersion {
-  SPEC_2021 = "2021",
-  SPEC_2025 = "2025",
-}
-/**
- * A delegate that provides the dynamic color constraints for
- * MaterialDynamicColors.
- *
- * This is used to allow for different color constraints for different spec
- * versions.
- */
-//#endregion
-//#region src/dynamiccolor/contrast_curve.d.ts
-/**
- * @license
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * A class containing a value that changes with the contrast level.
- *
- * Usually represents the contrast requirements for a dynamic color on its
- * background. The four values correspond to values for contrast levels -1.0,
- * 0.0, 0.5, and 1.0, respectively.
- */
-declare class ContrastCurve {
-  readonly low: number;
-  readonly normal: number;
-  readonly medium: number;
-  readonly high: number;
-  /**
-   * Creates a `ContrastCurve` object.
-   *
-   * @param low Value for contrast level -1.0
-   * @param normal Value for contrast level 0.0
-   * @param medium Value for contrast level 0.5
-   * @param high Value for contrast level 1.0
-   */
-  constructor(low: number, normal: number, medium: number, high: number);
-  /**
-   * Returns the value at a given contrast level.
-   *
-   * @param contrastLevel The contrast level. 0.0 is the default (normal); -1.0
-   *     is the lowest; 1.0 is the highest.
-   * @return The value. For contrast ratios, a number between 1.0 and 21.0.
-   */
-  get(contrastLevel: number): number;
 }
 //#endregion
 //#region src/dynamiccolor/tone_delta_pair.d.ts
@@ -2239,4 +2234,4 @@ declare function applyTheme(theme: Theme, options?: {
   paletteTones?: number[];
 }): void;
 //#endregion
-export { Blend, Cam16, ColorGroup, Contrast, CorePalette, CorePaletteColors, CustomColor, CustomColorGroup, DislikeAnalyzer, DynamicColor, DynamicScheme, Hct, MaterialDynamicColors, Platform, QuantizerCelebi, QuantizerMap, QuantizerWsmeans, QuantizerWu, Scheme, SchemeAndroid, SchemeContent, SchemeExpressive, SchemeFidelity, SchemeFruitSalad, SchemeMonochrome, SchemeNeutral, SchemeRainbow, SchemeTonalSpot, SchemeVibrant, Score, TemperatureCache, Theme, TonalPalette, Variant, ViewingConditions, alphaFromArgb, applyTheme, argbFromHex, argbFromLab, argbFromLinrgb, argbFromLstar, argbFromRgb, argbFromXyz, blueFromArgb, clampDouble, clampInt, customColor, delinearized, differenceDegrees, extendSpecVersion, greenFromArgb, hexFromArgb, isOpaque, labFromArgb, lerp, linearized, lstarFromArgb, lstarFromY, matrixMultiply, redFromArgb, rotationDirection, sanitizeDegreesDouble, sanitizeDegreesInt, signum, sourceColorFromImage, sourceColorFromImageBytes, themeFromImage, themeFromSourceColor, whitePointD65, xyzFromArgb, yFromLstar };
+export { Blend, Cam16, ColorGroup, Contrast, CorePalette, CorePaletteColors, CustomColor, CustomColorGroup, DislikeAnalyzer, DynamicColor, DynamicScheme, Hct, MaterialDynamicColors, Platform, QuantizerCelebi, QuantizerMap, QuantizerWsmeans, QuantizerWu, Scheme, SchemeAndroid, SchemeContent, SchemeExpressive, SchemeFidelity, SchemeFruitSalad, SchemeMonochrome, SchemeNeutral, SchemeRainbow, SchemeTonalSpot, SchemeVibrant, Score, SpecVersion, TemperatureCache, Theme, TonalPalette, Variant, ViewingConditions, alphaFromArgb, applyTheme, argbFromHex, argbFromLab, argbFromLinrgb, argbFromLstar, argbFromRgb, argbFromXyz, blueFromArgb, clampDouble, clampInt, customColor, delinearized, differenceDegrees, extendSpecVersion, greenFromArgb, hexFromArgb, isOpaque, labFromArgb, lerp, linearized, lstarFromArgb, lstarFromY, matrixMultiply, redFromArgb, rotationDirection, sanitizeDegreesDouble, sanitizeDegreesInt, signum, sourceColorFromImage, sourceColorFromImageBytes, themeFromImage, themeFromSourceColor, whitePointD65, xyzFromArgb, yFromLstar };

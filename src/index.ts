@@ -21,6 +21,8 @@ export * from "./dislike/dislike_analyzer";
 export * from "./dynamiccolor/dynamic_color";
 export * from "./dynamiccolor/dynamic_scheme";
 export * from "./dynamiccolor/material_dynamic_colors";
+export * from "./dynamiccolor/spec_version";
+export * from "./dynamiccolor/platform";
 export * from "./dynamiccolor/variant";
 export * from "./hct/cam16";
 export * from "./hct/hct";

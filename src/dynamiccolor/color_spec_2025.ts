@@ -23,8 +23,8 @@ import { ContrastCurve } from "./contrast_curve";
 import { DynamicColor, extendSpecVersion } from "./dynamic_color";
 import { ToneDeltaPair } from "./tone_delta_pair";
 import { Variant } from "./variant";
-import { SpecVersion } from "./color_spec";
-import { Platform } from "./dynamic_scheme";
+import { SpecVersion } from "./spec_version";
+import { Platform } from "./platform";
 
 /**
  * Returns the maximum tone for a given chroma in the palette.

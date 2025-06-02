@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-import { type SpecVersion } from "../dynamiccolor/color_spec";
-import { type Platform, DynamicScheme } from "../dynamiccolor/dynamic_scheme";
+import { DynamicScheme } from "../dynamiccolor/dynamic_scheme";
+import type { Platform } from "../dynamiccolor/platform";
+import type { SpecVersion } from "../dynamiccolor/spec_version";
 import { Variant } from "../dynamiccolor/variant";
 import { Hct } from "../hct/hct";
-
 /**
  * A Dynamic Color theme that is intentionally detached from the source color.
  */

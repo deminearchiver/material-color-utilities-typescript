@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 
-import { SpecVersion, type ColorSpecDelegate } from "./color_spec";
+import type { ColorSpecDelegate } from "./color_spec";
 import { ColorSpecDelegateImpl2021 } from "./color_spec_2021";
 import { ColorSpecDelegateImpl2025 } from "./color_spec_2025";
+import { SpecVersion } from "./spec_version";
 
 export const spec_2021 = new ColorSpecDelegateImpl2021();
 export const spec_2025 = new ColorSpecDelegateImpl2025();
