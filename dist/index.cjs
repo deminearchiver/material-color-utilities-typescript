@@ -1,3 +1,4 @@
+
 //#region src/utils/math_utils.ts
 /**
 
@@ -6629,4 +6630,68 @@ function setSchemeProperties(target, scheme, suffix = "") {
 }
 
 //#endregion
-export { Blend, Cam16, Contrast, CorePalette, DislikeAnalyzer, DynamicColor, DynamicScheme, Hct, MaterialDynamicColors, QuantizerCelebi, QuantizerMap, QuantizerWsmeans, QuantizerWu, Scheme, SchemeAndroid, SchemeContent, SchemeExpressive, SchemeFidelity, SchemeFruitSalad, SchemeMonochrome, SchemeNeutral, SchemeRainbow, SchemeTonalSpot, SchemeVibrant, Score, TemperatureCache, TonalPalette, Variant, ViewingConditions, alphaFromArgb, applyTheme, argbFromHex, argbFromLab, argbFromLinrgb, argbFromLstar, argbFromRgb, argbFromXyz, blueFromArgb, clampDouble, clampInt, customColor, delinearized, differenceDegrees, extendSpecVersion, greenFromArgb, hexFromArgb, isOpaque, labFromArgb, lerp, linearized, lstarFromArgb, lstarFromY, matrixMultiply, redFromArgb, rotationDirection, sanitizeDegreesDouble, sanitizeDegreesInt, signum, sourceColorFromImage, sourceColorFromImageBytes, themeFromImage, themeFromSourceColor, whitePointD65, xyzFromArgb, yFromLstar };
+exports.Blend = Blend;
+exports.Cam16 = Cam16;
+exports.Contrast = Contrast;
+exports.CorePalette = CorePalette;
+exports.DislikeAnalyzer = DislikeAnalyzer;
+exports.DynamicColor = DynamicColor;
+exports.DynamicScheme = DynamicScheme;
+exports.Hct = Hct;
+exports.MaterialDynamicColors = MaterialDynamicColors;
+exports.QuantizerCelebi = QuantizerCelebi;
+exports.QuantizerMap = QuantizerMap;
+exports.QuantizerWsmeans = QuantizerWsmeans;
+exports.QuantizerWu = QuantizerWu;
+exports.Scheme = Scheme;
+exports.SchemeAndroid = SchemeAndroid;
+exports.SchemeContent = SchemeContent;
+exports.SchemeExpressive = SchemeExpressive;
+exports.SchemeFidelity = SchemeFidelity;
+exports.SchemeFruitSalad = SchemeFruitSalad;
+exports.SchemeMonochrome = SchemeMonochrome;
+exports.SchemeNeutral = SchemeNeutral;
+exports.SchemeRainbow = SchemeRainbow;
+exports.SchemeTonalSpot = SchemeTonalSpot;
+exports.SchemeVibrant = SchemeVibrant;
+exports.Score = Score;
+exports.TemperatureCache = TemperatureCache;
+exports.TonalPalette = TonalPalette;
+exports.Variant = Variant;
+exports.ViewingConditions = ViewingConditions;
+exports.alphaFromArgb = alphaFromArgb;
+exports.applyTheme = applyTheme;
+exports.argbFromHex = argbFromHex;
+exports.argbFromLab = argbFromLab;
+exports.argbFromLinrgb = argbFromLinrgb;
+exports.argbFromLstar = argbFromLstar;
+exports.argbFromRgb = argbFromRgb;
+exports.argbFromXyz = argbFromXyz;
+exports.blueFromArgb = blueFromArgb;
+exports.clampDouble = clampDouble;
+exports.clampInt = clampInt;
+exports.customColor = customColor;
+exports.delinearized = delinearized;
+exports.differenceDegrees = differenceDegrees;
+exports.extendSpecVersion = extendSpecVersion;
+exports.greenFromArgb = greenFromArgb;
+exports.hexFromArgb = hexFromArgb;
+exports.isOpaque = isOpaque;
+exports.labFromArgb = labFromArgb;
+exports.lerp = lerp;
+exports.linearized = linearized;
+exports.lstarFromArgb = lstarFromArgb;
+exports.lstarFromY = lstarFromY;
+exports.matrixMultiply = matrixMultiply;
+exports.redFromArgb = redFromArgb;
+exports.rotationDirection = rotationDirection;
+exports.sanitizeDegreesDouble = sanitizeDegreesDouble;
+exports.sanitizeDegreesInt = sanitizeDegreesInt;
+exports.signum = signum;
+exports.sourceColorFromImage = sourceColorFromImage;
+exports.sourceColorFromImageBytes = sourceColorFromImageBytes;
+exports.themeFromImage = themeFromImage;
+exports.themeFromSourceColor = themeFromSourceColor;
+exports.whitePointD65 = whitePointD65;
+exports.xyzFromArgb = xyzFromArgb;
+exports.yFromLstar = yFromLstar;

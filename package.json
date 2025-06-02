@@ -29,13 +29,14 @@
   "files": [
     "dist/**/*"
   ],
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
       "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.d.cts",
       "default": "./dist/index.js"
     }
   },
@@ -48,6 +49,7 @@
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.15.29",
     "tsdown": "^0.12.6",
+    "tsup": "^8.5.0",
     "typescript": "^5.8.3",
     "vitest": "^3.1.4"
   }

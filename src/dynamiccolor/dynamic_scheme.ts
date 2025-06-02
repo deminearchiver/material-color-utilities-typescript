@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 
+import * as math from "../utils/math_utils";
 import { DislikeAnalyzer } from "../dislike/dislike_analyzer";
 import { Hct } from "../hct/hct";
 import { TonalPalette } from "../palettes/tonal_palette";
 import { TemperatureCache } from "../temperature/temperature_cache";
-import * as math from "../utils/math_utils";
-
-import { type SpecVersion } from "./color_spec";
-import { DynamicColor } from "./dynamic_color";
+import type { SpecVersion } from "./color_spec";
+import type { DynamicColor } from "./dynamic_color";
 import { MaterialDynamicColors } from "./material_dynamic_colors";
 import { Variant } from "./variant";
 

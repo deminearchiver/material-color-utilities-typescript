@@ -21,9 +21,9 @@ import type { TonalPalette } from "../palettes/tonal_palette";
 import * as math from "../utils/math_utils";
 
 import type { SpecVersion } from "./color_spec";
-import { ContrastCurve } from "./contrast_curve";
-import { DynamicScheme } from "./dynamic_scheme";
-import { ToneDeltaPair } from "./tone_delta_pair";
+import type { ContrastCurve } from "./contrast_curve";
+import type { DynamicScheme } from "./dynamic_scheme";
+import type { ToneDeltaPair } from "./tone_delta_pair";
 
 /**
  * @param name The name of the dynamic color. Defaults to empty.
