@@ -3797,7 +3797,7 @@ var MaterialDynamicColors = class MaterialDynamicColors {
 	onErrorContainer() {
 		return MaterialDynamicColors.colorSpec.onErrorContainer();
 	}
-	allColors = [
+	allDynamicColors = [
 		this.primaryPaletteKeyColor(),
 		this.secondaryPaletteKeyColor(),
 		this.tertiaryPaletteKeyColor(),

@@ -436,7 +436,7 @@ declare class MaterialDynamicColors {
   onError(): DynamicColor;
   errorContainer(): DynamicColor;
   onErrorContainer(): DynamicColor;
-  allColors: DynamicColor[];
+  allDynamicColors: DynamicColor[];
   /** @deprecated Use highestSurface() instead. */
   static highestSurface(s: DynamicScheme): DynamicColor;
   /** @deprecated Use primaryPaletteKeyColor() instead. */

@@ -309,7 +309,7 @@ export class MaterialDynamicColors {
   // All Colors                                                 //
   ////////////////////////////////////////////////////////////////
 
-  allColors: DynamicColor[] = [
+  allDynamicColors: DynamicColor[] = [
     this.primaryPaletteKeyColor(),
     this.secondaryPaletteKeyColor(),
     this.tertiaryPaletteKeyColor(),
