@@ -15,14 +15,8 @@
  * limitations under the License.
  */
 
-import { Hct } from "../hct/hct";
-import { TonalPalette } from "../palettes/tonal_palette";
-
-import { ColorSpecDelegateImpl2021 } from "./color_spec_2021";
-import { ColorSpecDelegateImpl2025 } from "./color_spec_2025";
 import type { DynamicColor } from "./dynamic_color";
-import { type Platform, DynamicScheme } from "./dynamic_scheme";
-import { Variant } from "./variant";
+import { DynamicScheme } from "./dynamic_scheme";
 
 export type SpecVersion = "2021" | "2025";
 
@@ -193,21 +187,4 @@ export interface ColorSpecDelegate {
   ////////////////////////////////////////////////////////////////
 
   highestSurface: (s: DynamicScheme) => DynamicColor;
-}
-
-export const spec_2021 = new ColorSpecDelegateImpl2021();
-export const spec_2025 = new ColorSpecDelegateImpl2025();
-
-/**
- * Returns the ColorSpecDelegate for the given spec version.
- */
-export function getSpec(specVersion: SpecVersion): ColorSpecDelegate {
-  switch (specVersion) {
-    case "2021":
-      return spec_2021;
-    case "2025":
-      return spec_2025;
-    default:
-      throw new Error(`Unsupported spec version: ${specVersion}`);
-  }
 }

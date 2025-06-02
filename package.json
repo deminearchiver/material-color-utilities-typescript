@@ -27,31 +27,28 @@
   "homepage": "https://github.com/material-foundation/material-color-utilities/tree/main/typescript",
   "type": "module",
   "files": [
-    "**/*.js",
-    "**/*.js.map",
-    "**/*.d.ts",
-    "!**/*_test.*"
+    "dist/**/*"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "default": "./index.js",
-      "import": "./index.js",
-      "types": "./index.d.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
   "packageManager": "yarn@4.9.1",
   "scripts": {
-    "build": "tsdown"
+    "build": "tsdown",
+    "test": "vitest"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/jasmine": "^5.1.8",
     "@types/node": "^22.15.29",
-    "jasmine": "^5.7.1",
     "tsdown": "^0.12.6",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
   }
 }

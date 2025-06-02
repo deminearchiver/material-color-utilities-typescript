@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import "jasmine";
+import { describe, it, expect, assert } from "vitest";
 
 import { Contrast } from "../contrast/contrast";
 import { ContrastCurve } from "../dynamiccolor/contrast_curve";
@@ -175,7 +175,7 @@ describe("DynamicColor", () => {
         const minimumRequirement = scheme.contrastLevel >= 0.0 ? 4.5 : 3.0;
 
         if (contrast < minimumRequirement) {
-          fail(
+          assert.fail(
             `${fgName} on ${bgName} is ${contrast}, needed ${minimumRequirement}`
           );
         }
@@ -432,7 +432,7 @@ describe("DynamicColor", () => {
               minRequirement <= 4.5
             ) {
               // Real fail.
-              fail(
+              assert.fail(
                 `Contrast ${fore} ${ftone.toFixed(
                   prec
                 )} ${back} ${btone.toFixed(prec)} ${contrast.toFixed(
@@ -441,7 +441,7 @@ describe("DynamicColor", () => {
               );
             }
             if (failing && minRequirement > 4.5) {
-              fail(
+              assert.fail(
                 `Contrast(stretch-goal) ${fore} ${ftone.toFixed(
                   prec
                 )} ${back} ${btone.toFixed(prec)} ${contrast.toFixed(
@@ -461,7 +461,7 @@ describe("DynamicColor", () => {
               polarity === "farther" ||
               polarity === "lighter" ||
               polarity === "darker"
-          ).toBeTrue();
+          ).toBe(true);
           for (const pair of pairs) {
             const [fore, back] = pair;
             const ftone = colorUtils.lstarFromArgb(resolvedColors.get(fore)!);
@@ -476,7 +476,7 @@ describe("DynamicColor", () => {
 
             if (observedDelta < cstr.delta! - 0.5 /* lenient */) {
               // Failing
-              fail(
+              assert.fail(
                 `Delta ${fore} ${ftone.toFixed(prec)} ${back} ${btone.toFixed(
                   prec
                 )} ${observedDelta.toFixed(prec)} ${cstr.delta}`
@@ -490,11 +490,11 @@ describe("DynamicColor", () => {
             const bgtone = colorUtils.lstarFromArgb(resolvedColors.get(bg)!);
             if (bgtone >= 50.5 && bgtone < 59.5 /* lenient */) {
               // Failing
-              fail(`Background ${bg} ${bgtone.toFixed(prec)}`);
+              assert.fail(`Background ${bg} ${bgtone.toFixed(prec)}`);
             }
           }
         } else {
-          fail(`Bad constraint kind = ${cstr.kind}`);
+          assert.fail(`Bad constraint kind = ${cstr.kind}`);
         }
       }
     }

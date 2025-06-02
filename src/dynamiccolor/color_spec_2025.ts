@@ -15,11 +15,9 @@
  * limitations under the License.
  */
 
-import { Contrast } from "../contrast/contrast";
+import * as math from "../utils/math_utils";
 import { Hct } from "../hct/hct";
 import { TonalPalette } from "../palettes/tonal_palette";
-import * as math from "../utils/math_utils";
-
 import { ColorSpecDelegateImpl2021 } from "./color_spec_2021";
 import { ContrastCurve } from "./contrast_curve";
 import { DynamicColor, extendSpecVersion } from "./dynamic_color";

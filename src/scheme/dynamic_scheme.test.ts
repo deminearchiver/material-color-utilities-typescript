@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import "jasmine";
+import { describe, expect, it } from "vitest";
 
 import { DynamicScheme } from "../dynamiccolor/dynamic_scheme";
 import { Hct } from "../hct/hct";

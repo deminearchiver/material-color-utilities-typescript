@@ -15,15 +15,11 @@
  * limitations under the License.
  */
 
-import "jasmine";
+import { describe, it, expect, beforeEach } from "vitest";
 
-import { customMatchers } from "../utils/test_utils";
+import "../vitest.d.ts";
 
 import { Blend } from "./blend";
-
-beforeEach(() => {
-  jasmine.addMatchers(customMatchers);
-});
 
 const RED = 0xffff0000;
 const BLUE = 0xff0000ff;
@@ -33,7 +29,7 @@ const YELLOW = 0xffffff00;
 describe("harmonize", () => {
   it("redToBlue", () => {
     const answer = Blend.harmonize(RED, BLUE);
-    expect(answer).matchesColor(0xfffb0057);
+    expect(answer).toBeColor(0xfffb0057);
   });
 
   it("redToGreen", () => {

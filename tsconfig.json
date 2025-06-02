@@ -6,6 +6,7 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
 
+    "moduleDetection": "force",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
@@ -15,17 +16,11 @@
     "esModuleInterop": true,
     "allowJs": true,
 
-    "strict": true,
-    "noImplicitOverride": true,
 
-    "types": [
-      "jasmine"
-    ]
+    "strict": true,
+    "noImplicitOverride": true
   },
   "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "**/*_test.ts"
+    "**/*"
   ]
 }

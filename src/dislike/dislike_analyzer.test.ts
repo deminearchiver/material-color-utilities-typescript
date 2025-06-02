@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import "jasmine";
+import { describe, it, expect } from "vitest";
 
 import { Hct } from "../hct/hct";
 
@@ -29,7 +29,7 @@ describe("dislike analyzer", () => {
       0xff825c43, 0xff604134, 0xff3a312a, 0xff292420,
     ];
     for (const color of monkSkinToneScaleColors) {
-      expect(DislikeAnalyzer.isDisliked(Hct.fromInt(color))).toBeFalse();
+      expect(DislikeAnalyzer.isDisliked(Hct.fromInt(color))).toBe(false);
     }
   });
 
@@ -38,7 +38,7 @@ describe("dislike analyzer", () => {
       0xff95884b, 0xff716b40, 0xffb08e00, 0xff4c4308, 0xff464521,
     ];
     for (const color of unlikable) {
-      expect(DislikeAnalyzer.isDisliked(Hct.fromInt(color))).toBeTrue();
+      expect(DislikeAnalyzer.isDisliked(Hct.fromInt(color))).toBe(true);
     }
   });
 
@@ -48,15 +48,15 @@ describe("dislike analyzer", () => {
     ];
     for (const color of unlikable) {
       const hct = Hct.fromInt(color);
-      expect(DislikeAnalyzer.isDisliked(hct)).toBeTrue();
+      expect(DislikeAnalyzer.isDisliked(hct)).toBe(true);
       const likable = DislikeAnalyzer.fixIfDisliked(hct);
-      expect(DislikeAnalyzer.isDisliked(likable)).toBeFalse();
+      expect(DislikeAnalyzer.isDisliked(likable)).toBe(false);
     }
   });
 
   it("likes tone 67 colors", () => {
     const color = Hct.from(100.0, 50.0, 67.0);
-    expect(DislikeAnalyzer.isDisliked(color)).toBeFalse();
+    expect(DislikeAnalyzer.isDisliked(color)).toBe(false);
     expect(DislikeAnalyzer.fixIfDisliked(color).toInt()).toEqual(color.toInt());
   });
 });

@@ -15,17 +15,9 @@
  * limitations under the License.
  */
 
-import { DislikeAnalyzer } from "../dislike/dislike_analyzer";
-import { Hct } from "../hct/hct";
-import { TonalPalette } from "../palettes/tonal_palette";
-import * as math from "../utils/math_utils";
-
 import { ColorSpecDelegateImpl2025 } from "./color_spec_2025";
-import { ContrastCurve } from "./contrast_curve";
 import { DynamicColor } from "./dynamic_color";
 import type { DynamicScheme } from "./dynamic_scheme";
-import { ToneDeltaPair } from "./tone_delta_pair";
-import { Variant } from "./variant";
 
 /**
  * DynamicColors for the colors in the Material Design system.
@@ -161,7 +153,7 @@ export class MaterialDynamicColors {
     return MaterialDynamicColors.colorSpec.primary();
   }
 
-  primaryDim(): DynamicColor | undefined {
+  primaryDim(): DynamicColor {
     return MaterialDynamicColors.colorSpec.primaryDim();
   }
 
@@ -209,7 +201,7 @@ export class MaterialDynamicColors {
     return MaterialDynamicColors.colorSpec.secondary();
   }
 
-  secondaryDim(): DynamicColor | undefined {
+  secondaryDim(): DynamicColor {
     return MaterialDynamicColors.colorSpec.secondaryDim();
   }
 
@@ -253,7 +245,7 @@ export class MaterialDynamicColors {
     return MaterialDynamicColors.colorSpec.tertiary();
   }
 
-  tertiaryDim(): DynamicColor | undefined {
+  tertiaryDim(): DynamicColor {
     return MaterialDynamicColors.colorSpec.tertiaryDim();
   }
 
@@ -297,7 +289,7 @@ export class MaterialDynamicColors {
     return MaterialDynamicColors.colorSpec.error();
   }
 
-  errorDim(): DynamicColor | undefined {
+  errorDim(): DynamicColor {
     return MaterialDynamicColors.colorSpec.errorDim();
   }
 
@@ -318,6 +310,12 @@ export class MaterialDynamicColors {
   ////////////////////////////////////////////////////////////////
 
   allColors: DynamicColor[] = [
+    this.primaryPaletteKeyColor(),
+    this.secondaryPaletteKeyColor(),
+    this.tertiaryPaletteKeyColor(),
+    this.neutralPaletteKeyColor(),
+    this.neutralVariantPaletteKeyColor(),
+    this.errorPaletteKeyColor(),
     this.background(),
     this.onBackground(),
     this.surface(),
@@ -329,21 +327,25 @@ export class MaterialDynamicColors {
     this.surfaceContainerHigh(),
     this.surfaceContainerHighest(),
     this.onSurface(),
+    this.surfaceVariant(),
     this.onSurfaceVariant(),
     this.outline(),
     this.outlineVariant(),
     this.inverseSurface(),
     this.inverseOnSurface(),
+    this.shadow(),
+    this.scrim(),
+    this.surfaceTint(),
     this.primary(),
     this.primaryDim(),
     this.onPrimary(),
     this.primaryContainer(),
     this.onPrimaryContainer(),
+    this.inversePrimary(),
     this.primaryFixed(),
     this.primaryFixedDim(),
     this.onPrimaryFixed(),
     this.onPrimaryFixedVariant(),
-    this.inversePrimary(),
     this.secondary(),
     this.secondaryDim(),
     this.onSecondary(),
@@ -367,7 +369,7 @@ export class MaterialDynamicColors {
     this.onError(),
     this.errorContainer(),
     this.onErrorContainer(),
-  ].filter((c) => c !== undefined);
+  ];
 
   // Static variables are deprecated. Use the instance methods to get correct
   // specs based on request.
