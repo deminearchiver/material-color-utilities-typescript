@@ -1,0 +1,57 @@
+{
+  "private": true,
+  "name": "@material/material-color-utilities",
+  "version": "0.3.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Algorithms and utilities that power the Material Design 3 (M3) color system, including choosing theme colors from images and creating tones of colors; all in a new color space.",
+  "keywords": [
+    "material",
+    "material design",
+    "material3",
+    "material you",
+    "color extraction",
+    "theming"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-foundation/material-color-utilities.git",
+    "directory": "typescript"
+  },
+  "author": "Material Eng",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/material-foundation/material-color-utilities/issues"
+  },
+  "homepage": "https://github.com/material-foundation/material-color-utilities/tree/main/typescript",
+  "type": "module",
+  "files": [
+    "**/*.js",
+    "**/*.js.map",
+    "**/*.d.ts",
+    "!**/*_test.*"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "default": "./index.js",
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    }
+  },
+  "packageManager": "yarn@4.9.1",
+  "scripts": {
+    "build": "tsdown"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/jasmine": "^5.1.8",
+    "@types/node": "^22.15.29",
+    "jasmine": "^5.7.1",
+    "tsdown": "^0.12.6",
+    "typescript": "^5.8.3"
+  }
+}
