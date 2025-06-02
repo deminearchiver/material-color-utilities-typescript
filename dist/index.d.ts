@@ -679,8 +679,8 @@ declare enum Platform {
 interface DynamicSchemeOptions {
   sourceColorHct: Hct;
   variant: Variant;
-  contrastLevel: number;
   isDark: boolean;
+  contrastLevel?: number;
   platform?: Platform;
   specVersion?: SpecVersion;
   primaryPalette?: TonalPalette;
@@ -690,6 +690,44 @@ interface DynamicSchemeOptions {
   neutralVariantPalette?: TonalPalette;
   errorPalette?: TonalPalette;
 }
+/**
+ * @param sourceColorArgb The source color of the theme as an ARGB 32-bit
+ *     integer.
+ * @param variant The variant, or style, of the theme.
+ * @param contrastLevel Value from -1 to 1. -1 represents minimum contrast, 0
+ *     represents standard (i.e. the design as spec'd), and 1 represents maximum
+ *     contrast.
+ * @param isDark Whether the scheme is in dark mode or light mode.
+ * @param platform The platform on which this scheme is intended to be used.
+ * @param specVersion The version of the design spec that this scheme is based
+ *     on.
+ * @param primaryPalette Given a tone, produces a color. Hue and chroma of the
+ *     color are specified in the design specification of the variant. Usually
+ *     colorful.
+ * @param secondaryPalette Given a tone, produces a color. Hue and chroma of the
+ *     color are specified in the design specification of the variant. Usually
+ *     less colorful.
+ * @param tertiaryPalette Given a tone, produces a color. Hue and chroma of the
+ *     color are specified in the design specification of the variant. Usually a
+ *     different hue from primary and colorful.
+ * @param neutralPalette Given a tone, produces a color. Hue and chroma of the
+ *     color are specified in the design specification of the variant. Usually
+ *     not colorful at all, intended for background & surface colors.
+ * @param neutralVariantPalette Given a tone, produces a color. Hue and chroma
+ *     of the color are specified in the design specification of the variant.
+ *     Usually not colorful, but slightly more colorful than Neutral. Intended
+ *     for backgrounds & surfaces.
+ */
+type DynamicSchemeFromOptions = DynamicSchemeRoles & {
+  sourceColorHct?: Hct;
+  contrastLevel?: number;
+  isDark: boolean;
+  variant?: Variant;
+  platform?: Platform;
+  specVersion?: SpecVersion;
+};
+type DynamicSchemeColorRole<ColorRoleName extends string, PaletteName extends string = `${ColorRoleName}Palette`, PaletteKeyColorname extends string = `${PaletteName}KeyColor`> = ({ [K in PaletteKeyColorname]?: undefined } & { [K in PaletteName]?: TonalPalette }) | ({ [K in PaletteName]?: undefined } & { [K in PaletteKeyColorname]?: Hct });
+type DynamicSchemeRoles = DynamicSchemeColorRole<"primary"> & DynamicSchemeColorRole<"secondary"> & DynamicSchemeColorRole<"tertiary"> & DynamicSchemeColorRole<"neutral"> & DynamicSchemeColorRole<"neutralVariant"> & DynamicSchemeColorRole<"error">;
 /**
  * Constructed by a set of values representing the current UI state (such as
  * whether or not its dark theme, what the theme style is, etc.), and
@@ -702,7 +740,7 @@ declare class DynamicScheme {
   /**
    * The source color of the theme as an HCT color.
    */
-  sourceColorHct: Hct;
+  readonly sourceColorHct: Hct;
   /** The source color of the theme as an ARGB 32-bit integer. */
   readonly sourceColorArgb: number;
   /** The variant, or style, of the theme. */
@@ -752,9 +790,42 @@ declare class DynamicScheme {
   /**
    * Given a tone, produces a reddish, colorful, color.
    */
-  errorPalette: TonalPalette;
+  readonly errorPalette: TonalPalette;
   readonly colors: MaterialDynamicColors;
-  constructor(args: DynamicSchemeOptions);
+  constructor({
+    sourceColorHct,
+    isDark,
+    contrastLevel,
+    variant,
+    specVersion,
+    platform,
+    primaryPalette,
+    secondaryPalette,
+    tertiaryPalette,
+    neutralPalette,
+    neutralVariantPalette,
+    errorPalette
+  }: DynamicSchemeOptions);
+  static from({
+    sourceColorHct,
+    isDark,
+    contrastLevel,
+    variant,
+    specVersion,
+    platform,
+    primaryPalette,
+    secondaryPalette,
+    tertiaryPalette,
+    neutralPalette,
+    neutralVariantPalette,
+    errorPalette,
+    primaryPaletteKeyColor,
+    secondaryPaletteKeyColor,
+    tertiaryPaletteKeyColor,
+    neutralPaletteKeyColor,
+    neutralVariantPaletteKeyColor,
+    errorPaletteKeyColor
+  }: DynamicSchemeFromOptions): DynamicScheme;
   toString(): string;
   /**
    * Returns a new hue based on a piecewise function and input color hue.
@@ -2234,4 +2305,4 @@ declare function applyTheme(theme: Theme, options?: {
   paletteTones?: number[];
 }): void;
 //#endregion
-export { Blend, Cam16, ColorGroup, Contrast, CorePalette, CorePaletteColors, CustomColor, CustomColorGroup, DislikeAnalyzer, DynamicColor, DynamicScheme, Hct, MaterialDynamicColors, Platform, QuantizerCelebi, QuantizerMap, QuantizerWsmeans, QuantizerWu, Scheme, SchemeAndroid, SchemeContent, SchemeExpressive, SchemeFidelity, SchemeFruitSalad, SchemeMonochrome, SchemeNeutral, SchemeRainbow, SchemeTonalSpot, SchemeVibrant, Score, SpecVersion, TemperatureCache, Theme, TonalPalette, Variant, ViewingConditions, alphaFromArgb, applyTheme, argbFromHex, argbFromLab, argbFromLinrgb, argbFromLstar, argbFromRgb, argbFromXyz, blueFromArgb, clampDouble, clampInt, customColor, delinearized, differenceDegrees, extendSpecVersion, greenFromArgb, hexFromArgb, isOpaque, labFromArgb, lerp, linearized, lstarFromArgb, lstarFromY, matrixMultiply, redFromArgb, rotationDirection, sanitizeDegreesDouble, sanitizeDegreesInt, signum, sourceColorFromImage, sourceColorFromImageBytes, themeFromImage, themeFromSourceColor, whitePointD65, xyzFromArgb, yFromLstar };
+export { Blend, Cam16, ColorGroup, Contrast, CorePalette, CorePaletteColors, CustomColor, CustomColorGroup, DislikeAnalyzer, DynamicColor, DynamicScheme, DynamicSchemeFromOptions, DynamicSchemeOptions, Hct, MaterialDynamicColors, Platform, QuantizerCelebi, QuantizerMap, QuantizerWsmeans, QuantizerWu, Scheme, SchemeAndroid, SchemeContent, SchemeExpressive, SchemeFidelity, SchemeFruitSalad, SchemeMonochrome, SchemeNeutral, SchemeRainbow, SchemeTonalSpot, SchemeVibrant, Score, SpecVersion, TemperatureCache, Theme, TonalPalette, Variant, ViewingConditions, alphaFromArgb, applyTheme, argbFromHex, argbFromLab, argbFromLinrgb, argbFromLstar, argbFromRgb, argbFromXyz, blueFromArgb, clampDouble, clampInt, customColor, delinearized, differenceDegrees, extendSpecVersion, greenFromArgb, hexFromArgb, isOpaque, labFromArgb, lerp, linearized, lstarFromArgb, lstarFromY, matrixMultiply, redFromArgb, rotationDirection, sanitizeDegreesDouble, sanitizeDegreesInt, signum, sourceColorFromImage, sourceColorFromImageBytes, themeFromImage, themeFromSourceColor, whitePointD65, xyzFromArgb, yFromLstar };

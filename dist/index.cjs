@@ -4449,21 +4449,37 @@ var DynamicScheme = class DynamicScheme {
 	*/
 	errorPalette;
 	colors;
-	constructor(args) {
-		this.sourceColorArgb = args.sourceColorHct.toInt();
-		this.variant = args.variant;
-		this.contrastLevel = args.contrastLevel;
-		this.isDark = args.isDark;
-		this.platform = args.platform ?? DynamicScheme.DEFAULT_PLATFORM;
-		this.specVersion = args.specVersion ?? DynamicScheme.DEFAULT_SPEC_VERSION;
-		this.sourceColorHct = args.sourceColorHct;
-		this.primaryPalette = args.primaryPalette ?? getSpec(this.specVersion).getPrimaryPalette(this.variant, args.sourceColorHct, this.isDark, this.platform, this.contrastLevel);
-		this.secondaryPalette = args.secondaryPalette ?? getSpec(this.specVersion).getSecondaryPalette(this.variant, args.sourceColorHct, this.isDark, this.platform, this.contrastLevel);
-		this.tertiaryPalette = args.tertiaryPalette ?? getSpec(this.specVersion).getTertiaryPalette(this.variant, args.sourceColorHct, this.isDark, this.platform, this.contrastLevel);
-		this.neutralPalette = args.neutralPalette ?? getSpec(this.specVersion).getNeutralPalette(this.variant, args.sourceColorHct, this.isDark, this.platform, this.contrastLevel);
-		this.neutralVariantPalette = args.neutralVariantPalette ?? getSpec(this.specVersion).getNeutralVariantPalette(this.variant, args.sourceColorHct, this.isDark, this.platform, this.contrastLevel);
-		this.errorPalette = args.errorPalette ?? getSpec(this.specVersion).getErrorPalette(this.variant, args.sourceColorHct, this.isDark, this.platform, this.contrastLevel) ?? TonalPalette.fromHueAndChroma(25, 84);
+	constructor({ sourceColorHct, isDark, contrastLevel = 0, variant, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM, primaryPalette, secondaryPalette, tertiaryPalette, neutralPalette, neutralVariantPalette, errorPalette }) {
+		this.sourceColorArgb = sourceColorHct.toInt();
+		this.variant = variant;
+		this.contrastLevel = contrastLevel;
+		this.isDark = isDark;
+		this.platform = platform;
+		this.specVersion = specVersion;
+		this.sourceColorHct = sourceColorHct;
+		this.primaryPalette = primaryPalette ?? getSpec(specVersion).getPrimaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
+		this.secondaryPalette = secondaryPalette ?? getSpec(specVersion).getSecondaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
+		this.tertiaryPalette = tertiaryPalette ?? getSpec(specVersion).getTertiaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
+		this.neutralPalette = neutralPalette ?? getSpec(specVersion).getNeutralPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
+		this.neutralVariantPalette = neutralVariantPalette ?? getSpec(specVersion).getNeutralVariantPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
+		this.errorPalette = errorPalette ?? getSpec(specVersion).getErrorPalette(variant, sourceColorHct, isDark, platform, contrastLevel) ?? TonalPalette.fromHueAndChroma(25, 84);
 		this.colors = new MaterialDynamicColors();
+	}
+	static from({ sourceColorHct = Hct.fromInt(4284960932), isDark, contrastLevel = 0, variant = Variant.TONAL_SPOT, specVersion = DynamicScheme.DEFAULT_SPEC_VERSION, platform = DynamicScheme.DEFAULT_PLATFORM, primaryPalette, secondaryPalette, tertiaryPalette, neutralPalette, neutralVariantPalette, errorPalette, primaryPaletteKeyColor, secondaryPaletteKeyColor, tertiaryPaletteKeyColor, neutralPaletteKeyColor, neutralVariantPaletteKeyColor, errorPaletteKeyColor }) {
+		return new DynamicScheme({
+			sourceColorHct,
+			isDark,
+			contrastLevel,
+			variant,
+			specVersion,
+			platform,
+			primaryPalette: primaryPalette ?? getSpec(specVersion).getPrimaryPalette(variant, primaryPaletteKeyColor ?? sourceColorHct, isDark, platform, contrastLevel),
+			secondaryPalette: secondaryPalette ?? getSpec(specVersion).getSecondaryPalette(variant, secondaryPaletteKeyColor ?? sourceColorHct, isDark, platform, contrastLevel),
+			tertiaryPalette: tertiaryPalette ?? getSpec(specVersion).getTertiaryPalette(variant, tertiaryPaletteKeyColor ?? sourceColorHct, isDark, platform, contrastLevel),
+			neutralPalette: neutralPalette ?? getSpec(specVersion).getNeutralPalette(variant, neutralPaletteKeyColor ?? sourceColorHct, isDark, platform, contrastLevel),
+			neutralVariantPalette: neutralVariantPalette ?? getSpec(specVersion).getNeutralVariantPalette(variant, neutralVariantPaletteKeyColor ?? sourceColorHct, isDark, platform, contrastLevel),
+			errorPalette: errorPalette ?? getSpec(specVersion).getErrorPalette(variant, errorPaletteKeyColor ?? sourceColorHct, isDark, platform, contrastLevel) ?? TonalPalette.fromHueAndChroma(25, 84)
+		});
 	}
 	toString() {
 		return `Scheme: variant=${Variant[this.variant]}, mode=${this.isDark ? "dark" : "light"}, platform=${this.platform}, contrastLevel=${this.contrastLevel.toFixed(1)}, seed=${this.sourceColorHct.toString()}, specVersion=${this.specVersion}`;

@@ -54,11 +54,11 @@ import { Platform } from "./platform";
  *     Usually not colorful, but slightly more colorful than Neutral. Intended
  *     for backgrounds & surfaces.
  */
-interface DynamicSchemeOptions {
+export interface DynamicSchemeOptions {
   sourceColorHct: Hct;
   variant: Variant;
-  contrastLevel: number;
   isDark: boolean;
+  contrastLevel?: number;
   platform?: Platform;
   specVersion?: SpecVersion;
   primaryPalette?: TonalPalette;
@@ -68,6 +68,62 @@ interface DynamicSchemeOptions {
   neutralVariantPalette?: TonalPalette;
   errorPalette?: TonalPalette;
 }
+
+/**
+ * @param sourceColorArgb The source color of the theme as an ARGB 32-bit
+ *     integer.
+ * @param variant The variant, or style, of the theme.
+ * @param contrastLevel Value from -1 to 1. -1 represents minimum contrast, 0
+ *     represents standard (i.e. the design as spec'd), and 1 represents maximum
+ *     contrast.
+ * @param isDark Whether the scheme is in dark mode or light mode.
+ * @param platform The platform on which this scheme is intended to be used.
+ * @param specVersion The version of the design spec that this scheme is based
+ *     on.
+ * @param primaryPalette Given a tone, produces a color. Hue and chroma of the
+ *     color are specified in the design specification of the variant. Usually
+ *     colorful.
+ * @param secondaryPalette Given a tone, produces a color. Hue and chroma of the
+ *     color are specified in the design specification of the variant. Usually
+ *     less colorful.
+ * @param tertiaryPalette Given a tone, produces a color. Hue and chroma of the
+ *     color are specified in the design specification of the variant. Usually a
+ *     different hue from primary and colorful.
+ * @param neutralPalette Given a tone, produces a color. Hue and chroma of the
+ *     color are specified in the design specification of the variant. Usually
+ *     not colorful at all, intended for background & surface colors.
+ * @param neutralVariantPalette Given a tone, produces a color. Hue and chroma
+ *     of the color are specified in the design specification of the variant.
+ *     Usually not colorful, but slightly more colorful than Neutral. Intended
+ *     for backgrounds & surfaces.
+ */
+export type DynamicSchemeFromOptions = DynamicSchemeRoles & {
+  sourceColorHct?: Hct;
+  contrastLevel?: number;
+  isDark: boolean;
+  variant?: Variant;
+  platform?: Platform;
+  specVersion?: SpecVersion;
+};
+
+type DynamicSchemeColorRole<
+  ColorRoleName extends string,
+  PaletteName extends string = `${ColorRoleName}Palette`,
+  PaletteKeyColorname extends string = `${PaletteName}KeyColor`
+> =
+  | ({
+      [K in PaletteKeyColorname]?: undefined;
+    } & { [K in PaletteName]?: TonalPalette })
+  | ({ [K in PaletteName]?: undefined } & { [K in PaletteKeyColorname]?: Hct });
+
+type DynamicSchemeRoles = DynamicSchemeColorRole<"primary"> &
+  DynamicSchemeColorRole<"secondary"> &
+  DynamicSchemeColorRole<"tertiary"> &
+  DynamicSchemeColorRole<"neutral"> &
+  DynamicSchemeColorRole<"neutralVariant"> &
+  DynamicSchemeColorRole<"error">;
+
+// const A: DynamicSchemeColorRole<"primary"> = {primaryPalette};
 
 /**
  * A delegate that provides the palettes of a DynamicScheme.
@@ -138,7 +194,7 @@ export class DynamicScheme {
   /**
    * The source color of the theme as an HCT color.
    */
-  sourceColorHct: Hct;
+  readonly sourceColorHct: Hct;
 
   /** The source color of the theme as an ARGB 32-bit integer. */
   readonly sourceColorArgb: number;
@@ -200,75 +256,173 @@ export class DynamicScheme {
   /**
    * Given a tone, produces a reddish, colorful, color.
    */
-  errorPalette: TonalPalette;
+  readonly errorPalette: TonalPalette;
 
   readonly colors: MaterialDynamicColors;
 
-  constructor(args: DynamicSchemeOptions) {
-    this.sourceColorArgb = args.sourceColorHct.toInt();
-    this.variant = args.variant;
-    this.contrastLevel = args.contrastLevel;
-    this.isDark = args.isDark;
-    this.platform = args.platform ?? DynamicScheme.DEFAULT_PLATFORM;
-    this.specVersion = args.specVersion ?? DynamicScheme.DEFAULT_SPEC_VERSION;
-    this.sourceColorHct = args.sourceColorHct;
+  constructor({
+    sourceColorHct,
+    isDark,
+    contrastLevel = 0.0,
+    variant,
+    specVersion = DynamicScheme.DEFAULT_SPEC_VERSION,
+    platform = DynamicScheme.DEFAULT_PLATFORM,
+    primaryPalette,
+    secondaryPalette,
+    tertiaryPalette,
+    neutralPalette,
+    neutralVariantPalette,
+    errorPalette,
+  }: DynamicSchemeOptions) {
+    this.sourceColorArgb = sourceColorHct.toInt();
+    this.variant = variant;
+    this.contrastLevel = contrastLevel;
+    this.isDark = isDark;
+    this.platform = platform;
+    this.specVersion = specVersion;
+    this.sourceColorHct = sourceColorHct;
     this.primaryPalette =
-      args.primaryPalette ??
-      getSpec(this.specVersion).getPrimaryPalette(
-        this.variant,
-        args.sourceColorHct,
-        this.isDark,
-        this.platform,
-        this.contrastLevel
+      primaryPalette ??
+      getSpec(specVersion).getPrimaryPalette(
+        variant,
+        sourceColorHct,
+        isDark,
+        platform,
+        contrastLevel
       );
     this.secondaryPalette =
-      args.secondaryPalette ??
-      getSpec(this.specVersion).getSecondaryPalette(
-        this.variant,
-        args.sourceColorHct,
-        this.isDark,
-        this.platform,
-        this.contrastLevel
+      secondaryPalette ??
+      getSpec(specVersion).getSecondaryPalette(
+        variant,
+        sourceColorHct,
+        isDark,
+        platform,
+        contrastLevel
       );
     this.tertiaryPalette =
-      args.tertiaryPalette ??
-      getSpec(this.specVersion).getTertiaryPalette(
-        this.variant,
-        args.sourceColorHct,
-        this.isDark,
-        this.platform,
-        this.contrastLevel
+      tertiaryPalette ??
+      getSpec(specVersion).getTertiaryPalette(
+        variant,
+        sourceColorHct,
+        isDark,
+        platform,
+        contrastLevel
       );
     this.neutralPalette =
-      args.neutralPalette ??
-      getSpec(this.specVersion).getNeutralPalette(
-        this.variant,
-        args.sourceColorHct,
-        this.isDark,
-        this.platform,
-        this.contrastLevel
+      neutralPalette ??
+      getSpec(specVersion).getNeutralPalette(
+        variant,
+        sourceColorHct,
+        isDark,
+        platform,
+        contrastLevel
       );
     this.neutralVariantPalette =
-      args.neutralVariantPalette ??
-      getSpec(this.specVersion).getNeutralVariantPalette(
-        this.variant,
-        args.sourceColorHct,
-        this.isDark,
-        this.platform,
-        this.contrastLevel
+      neutralVariantPalette ??
+      getSpec(specVersion).getNeutralVariantPalette(
+        variant,
+        sourceColorHct,
+        isDark,
+        platform,
+        contrastLevel
       );
     this.errorPalette =
-      args.errorPalette ??
-      getSpec(this.specVersion).getErrorPalette(
-        this.variant,
-        args.sourceColorHct,
-        this.isDark,
-        this.platform,
-        this.contrastLevel
+      errorPalette ??
+      getSpec(specVersion).getErrorPalette(
+        variant,
+        sourceColorHct,
+        isDark,
+        platform,
+        contrastLevel
       ) ??
       TonalPalette.fromHueAndChroma(25.0, 84.0);
 
     this.colors = new MaterialDynamicColors();
+  }
+
+  static from({
+    sourceColorHct = Hct.fromInt(0xff6750a4),
+    isDark,
+    contrastLevel = 0.0,
+    variant = Variant.TONAL_SPOT,
+    specVersion = DynamicScheme.DEFAULT_SPEC_VERSION,
+    platform = DynamicScheme.DEFAULT_PLATFORM,
+    primaryPalette,
+    secondaryPalette,
+    tertiaryPalette,
+    neutralPalette,
+    neutralVariantPalette,
+    errorPalette,
+    primaryPaletteKeyColor,
+    secondaryPaletteKeyColor,
+    tertiaryPaletteKeyColor,
+    neutralPaletteKeyColor,
+    neutralVariantPaletteKeyColor,
+    errorPaletteKeyColor,
+  }: DynamicSchemeFromOptions): DynamicScheme {
+    return new DynamicScheme({
+      sourceColorHct,
+      isDark,
+      contrastLevel,
+      variant,
+      specVersion,
+      platform,
+      primaryPalette:
+        primaryPalette ??
+        getSpec(specVersion).getPrimaryPalette(
+          variant,
+          primaryPaletteKeyColor ?? sourceColorHct,
+          isDark,
+          platform,
+          contrastLevel
+        ),
+      secondaryPalette:
+        secondaryPalette ??
+        getSpec(specVersion).getSecondaryPalette(
+          variant,
+          secondaryPaletteKeyColor ?? sourceColorHct,
+          isDark,
+          platform,
+          contrastLevel
+        ),
+      tertiaryPalette:
+        tertiaryPalette ??
+        getSpec(specVersion).getTertiaryPalette(
+          variant,
+          tertiaryPaletteKeyColor ?? sourceColorHct,
+          isDark,
+          platform,
+          contrastLevel
+        ),
+      neutralPalette:
+        neutralPalette ??
+        getSpec(specVersion).getNeutralPalette(
+          variant,
+          neutralPaletteKeyColor ?? sourceColorHct,
+          isDark,
+          platform,
+          contrastLevel
+        ),
+      neutralVariantPalette:
+        neutralVariantPalette ??
+        getSpec(specVersion).getNeutralVariantPalette(
+          variant,
+          neutralVariantPaletteKeyColor ?? sourceColorHct,
+          isDark,
+          platform,
+          contrastLevel
+        ),
+      errorPalette:
+        errorPalette ??
+        getSpec(specVersion).getErrorPalette(
+          variant,
+          errorPaletteKeyColor ?? sourceColorHct,
+          isDark,
+          platform,
+          contrastLevel
+        ) ??
+        TonalPalette.fromHueAndChroma(25.0, 84.0),
+    });
   }
 
   toString(): string {
