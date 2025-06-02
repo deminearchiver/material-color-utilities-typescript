@@ -588,7 +588,10 @@ declare enum Variant {
  * The platform on which this scheme is intended to be used. Only used in the
  * 2025 spec.
  */
-type Platform = "phone" | "watch";
+declare enum Platform {
+  PHONE = 0,
+  WATCH = 1,
+}
 /**
  * @param sourceColorArgb The source color of the theme as an ARGB 32-bit
  *     integer.
@@ -638,8 +641,8 @@ interface DynamicSchemeOptions {
  * with the theme style. Used by DynamicColor to resolve into a color.
  */
 declare class DynamicScheme {
-  static readonly DEFAULT_SPEC_VERSION = "2021";
-  static readonly DEFAULT_PLATFORM = "phone";
+  static readonly DEFAULT_SPEC_VERSION: SpecVersion;
+  static readonly DEFAULT_PLATFORM: Platform;
   /**
    * The source color of the theme as an HCT color.
    */
@@ -805,7 +808,10 @@ declare class DynamicScheme {
 }
 //#endregion
 //#region src/dynamiccolor/color_spec.d.ts
-type SpecVersion = "2021" | "2025";
+declare enum SpecVersion {
+  SPEC_2021 = "2021",
+  SPEC_2025 = "2025",
+}
 /**
  * A delegate that provides the dynamic color constraints for
  * MaterialDynamicColors.

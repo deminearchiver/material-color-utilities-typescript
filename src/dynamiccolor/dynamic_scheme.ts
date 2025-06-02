@@ -20,7 +20,7 @@ import { DislikeAnalyzer } from "../dislike/dislike_analyzer";
 import { Hct } from "../hct/hct";
 import { TonalPalette } from "../palettes/tonal_palette";
 import { TemperatureCache } from "../temperature/temperature_cache";
-import type { SpecVersion } from "./color_spec";
+import { SpecVersion } from "./color_spec";
 import type { DynamicColor } from "./dynamic_color";
 import { MaterialDynamicColors } from "./material_dynamic_colors";
 import { Variant } from "./variant";
@@ -29,7 +29,10 @@ import { Variant } from "./variant";
  * The platform on which this scheme is intended to be used. Only used in the
  * 2025 spec.
  */
-export type Platform = "phone" | "watch";
+export enum Platform {
+  PHONE,
+  WATCH,
+}
 
 /**
  * @param sourceColorArgb The source color of the theme as an ARGB 32-bit
@@ -137,8 +140,8 @@ interface DynamicSchemePalettesDelegate {
  * with the theme style. Used by DynamicColor to resolve into a color.
  */
 export class DynamicScheme {
-  static readonly DEFAULT_SPEC_VERSION = "2021";
-  static readonly DEFAULT_PLATFORM = "phone";
+  static readonly DEFAULT_SPEC_VERSION: SpecVersion = SpecVersion.SPEC_2021;
+  static readonly DEFAULT_PLATFORM: Platform = Platform.PHONE;
 
   /**
    * The source color of the theme as an HCT color.
@@ -214,8 +217,8 @@ export class DynamicScheme {
     this.variant = args.variant;
     this.contrastLevel = args.contrastLevel;
     this.isDark = args.isDark;
-    this.platform = args.platform ?? "phone";
-    this.specVersion = args.specVersion ?? "2021";
+    this.platform = args.platform ?? DynamicScheme.DEFAULT_PLATFORM;
+    this.specVersion = args.specVersion ?? DynamicScheme.DEFAULT_SPEC_VERSION;
     this.sourceColorHct = args.sourceColorHct;
     this.primaryPalette =
       args.primaryPalette ??
@@ -899,7 +902,7 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
       case Variant.NEUTRAL:
         return TonalPalette.fromHueAndChroma(
           sourceColorHct.hue,
-          platform === "phone"
+          platform === Platform.PHONE
             ? Hct.isBlue(sourceColorHct.hue)
               ? 12
               : 8
@@ -910,17 +913,17 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
       case Variant.TONAL_SPOT:
         return TonalPalette.fromHueAndChroma(
           sourceColorHct.hue,
-          platform === "phone" && isDark ? 26 : 32
+          platform === Platform.PHONE && isDark ? 26 : 32
         );
       case Variant.EXPRESSIVE:
         return TonalPalette.fromHueAndChroma(
           sourceColorHct.hue,
-          platform === "phone" ? (isDark ? 36 : 48) : 40
+          platform === Platform.PHONE ? (isDark ? 36 : 48) : 40
         );
       case Variant.VIBRANT:
         return TonalPalette.fromHueAndChroma(
           sourceColorHct.hue,
-          platform === "phone" ? 74 : 56
+          platform === Platform.PHONE ? 74 : 56
         );
       default:
         return super.getPrimaryPalette(
@@ -944,7 +947,7 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
       case Variant.NEUTRAL:
         return TonalPalette.fromHueAndChroma(
           sourceColorHct.hue,
-          platform === "phone"
+          platform === Platform.PHONE
             ? Hct.isBlue(sourceColorHct.hue)
               ? 6
               : 4
@@ -961,7 +964,7 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
             [0, 105, 140, 204, 253, 278, 300, 333, 360],
             [-160, 155, -100, 96, -96, -156, -165, -160]
           ),
-          platform === "phone" ? (isDark ? 16 : 24) : 24
+          platform === Platform.PHONE ? (isDark ? 16 : 24) : 24
         );
       case Variant.VIBRANT:
         return TonalPalette.fromHueAndChroma(
@@ -970,7 +973,7 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
             [0, 38, 105, 140, 333, 360],
             [-14, 10, -14, 10, -14]
           ),
-          platform === "phone" ? 56 : 36
+          platform === Platform.PHONE ? 56 : 36
         );
       default:
         return super.getSecondaryPalette(
@@ -998,7 +1001,7 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
             [0, 38, 105, 161, 204, 278, 333, 360],
             [-32, 26, 10, -39, 24, -15, -32]
           ),
-          platform === "phone" ? 20 : 36
+          platform === Platform.PHONE ? 20 : 36
         );
       case Variant.TONAL_SPOT:
         return TonalPalette.fromHueAndChroma(
@@ -1007,7 +1010,7 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
             [0, 20, 71, 161, 333, 360],
             [-40, 48, -32, 40, -32]
           ),
-          platform === "phone" ? 28 : 32
+          platform === Platform.PHONE ? 28 : 32
         );
       case Variant.EXPRESSIVE:
         return TonalPalette.fromHueAndChroma(
@@ -1056,7 +1059,7 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
       DynamicSchemePalettesDelegateImpl2025.getExpressiveNeutralHue(
         sourceColorHct
       );
-    return platform === "phone"
+    return platform === Platform.PHONE
       ? isDark
         ? Hct.isYellow(neutralHue)
           ? 6
@@ -1081,7 +1084,7 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
       DynamicSchemePalettesDelegateImpl2025.getVibrantNeutralHue(
         sourceColorHct
       );
-    return platform === "phone" ? 28 : Hct.isBlue(neutralHue) ? 28 : 20;
+    return platform === Platform.PHONE ? 28 : Hct.isBlue(neutralHue) ? 28 : 20;
   }
 
   override getNeutralPalette(
@@ -1095,12 +1098,12 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
       case Variant.NEUTRAL:
         return TonalPalette.fromHueAndChroma(
           sourceColorHct.hue,
-          platform === "phone" ? 1.4 : 6
+          platform === Platform.PHONE ? 1.4 : 6
         );
       case Variant.TONAL_SPOT:
         return TonalPalette.fromHueAndChroma(
           sourceColorHct.hue,
-          platform === "phone" ? 5 : 10
+          platform === Platform.PHONE ? 5 : 10
         );
       case Variant.EXPRESSIVE:
         return TonalPalette.fromHueAndChroma(
@@ -1145,12 +1148,12 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
       case Variant.NEUTRAL:
         return TonalPalette.fromHueAndChroma(
           sourceColorHct.hue,
-          (platform === "phone" ? 1.4 : 6) * 2.2
+          (platform === Platform.PHONE ? 1.4 : 6) * 2.2
         );
       case Variant.TONAL_SPOT:
         return TonalPalette.fromHueAndChroma(
           sourceColorHct.hue,
-          (platform === "phone" ? 5 : 10) * 1.7
+          (platform === Platform.PHONE ? 5 : 10) * 1.7
         );
       case Variant.EXPRESSIVE:
         const expressiveNeutralHue =
@@ -1211,22 +1214,22 @@ class DynamicSchemePalettesDelegateImpl2025 extends DynamicSchemePalettesDelegat
       case Variant.NEUTRAL:
         return TonalPalette.fromHueAndChroma(
           errorHue,
-          platform === "phone" ? 50 : 40
+          platform === Platform.PHONE ? 50 : 40
         );
       case Variant.TONAL_SPOT:
         return TonalPalette.fromHueAndChroma(
           errorHue,
-          platform === "phone" ? 60 : 48
+          platform === Platform.PHONE ? 60 : 48
         );
       case Variant.EXPRESSIVE:
         return TonalPalette.fromHueAndChroma(
           errorHue,
-          platform === "phone" ? 64 : 48
+          platform === Platform.PHONE ? 64 : 48
         );
       case Variant.VIBRANT:
         return TonalPalette.fromHueAndChroma(
           errorHue,
-          platform === "phone" ? 80 : 60
+          platform === Platform.PHONE ? 80 : 60
         );
       default:
         return super.getErrorPalette(

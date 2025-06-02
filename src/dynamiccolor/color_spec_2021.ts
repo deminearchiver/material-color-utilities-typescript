@@ -17,11 +17,8 @@
 
 import { DislikeAnalyzer } from "../dislike/dislike_analyzer";
 import { Hct } from "../hct/hct";
-import { TonalPalette } from "../palettes/tonal_palette";
-import * as math from "../utils/math_utils";
-
-import { type ColorSpecDelegate } from "./color_spec";
 import { ContrastCurve } from "./contrast_curve";
+import type { ColorSpecDelegate } from "./color_spec";
 import { DynamicColor } from "./dynamic_color";
 import type { DynamicScheme } from "./dynamic_scheme";
 import { ToneDeltaPair } from "./tone_delta_pair";

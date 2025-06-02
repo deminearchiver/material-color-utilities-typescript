@@ -18,7 +18,10 @@
 import type { DynamicColor } from "./dynamic_color";
 import { DynamicScheme } from "./dynamic_scheme";
 
-export type SpecVersion = "2021" | "2025";
+export enum SpecVersion {
+  SPEC_2021 = "2021",
+  SPEC_2025 = "2025",
+}
 
 /**
  * A delegate that provides the dynamic color constraints for

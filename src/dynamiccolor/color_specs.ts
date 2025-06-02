@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import type { ColorSpecDelegate, SpecVersion } from "./color_spec";
+import { SpecVersion, type ColorSpecDelegate } from "./color_spec";
 import { ColorSpecDelegateImpl2021 } from "./color_spec_2021";
 import { ColorSpecDelegateImpl2025 } from "./color_spec_2025";
 
@@ -27,9 +27,9 @@ export const spec_2025 = new ColorSpecDelegateImpl2025();
  */
 export function getSpec(specVersion: SpecVersion): ColorSpecDelegate {
   switch (specVersion) {
-    case "2021":
+    case SpecVersion.SPEC_2021:
       return spec_2021;
-    case "2025":
+    case SpecVersion.SPEC_2025:
       return spec_2025;
     default:
       throw new Error(`Unsupported spec version: ${specVersion}`);

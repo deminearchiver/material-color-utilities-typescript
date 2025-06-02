@@ -23,6 +23,8 @@ import { ContrastCurve } from "./contrast_curve";
 import { DynamicColor, extendSpecVersion } from "./dynamic_color";
 import { ToneDeltaPair } from "./tone_delta_pair";
 import { Variant } from "./variant";
+import { SpecVersion } from "./color_spec";
+import { Platform } from "./dynamic_scheme";
 
 /**
  * Returns the maximum tone for a given chroma in the palette.
@@ -136,7 +138,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       palette: (s) => s.neutralPalette,
       tone: (s) => {
         super.surface().tone(s);
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.isDark) {
             return 4;
           } else {
@@ -154,7 +156,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
     });
-    return extendSpecVersion(super.surface(), "2025", color2025);
+    return extendSpecVersion(super.surface(), SpecVersion.SPEC_2025, color2025);
   }
 
   override surfaceDim(): DynamicColor {
@@ -190,7 +192,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
         return 1;
       },
     });
-    return extendSpecVersion(super.surfaceDim(), "2025", color2025);
+    return extendSpecVersion(
+      super.surfaceDim(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override surfaceBright(): DynamicColor {
@@ -226,7 +232,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
         return 1;
       },
     });
-    return extendSpecVersion(super.surfaceBright(), "2025", color2025);
+    return extendSpecVersion(
+      super.surfaceBright(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override surfaceContainerLowest(): DynamicColor {
@@ -236,7 +246,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       tone: (s) => (s.isDark ? 0 : 100),
       isBackground: true,
     });
-    return extendSpecVersion(super.surfaceContainerLowest(), "2025", color2025);
+    return extendSpecVersion(
+      super.surfaceContainerLowest(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override surfaceContainerLow(): DynamicColor {
@@ -244,7 +258,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "surface_container_low",
       palette: (s) => s.neutralPalette,
       tone: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.isDark) {
             return 6;
           } else {
@@ -262,7 +276,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       chromaMultiplier: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.variant === Variant.NEUTRAL) {
             return 1.3;
           } else if (s.variant === Variant.TONAL_SPOT) {
@@ -276,7 +290,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
         return 1;
       },
     });
-    return extendSpecVersion(super.surfaceContainerLow(), "2025", color2025);
+    return extendSpecVersion(
+      super.surfaceContainerLow(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override surfaceContainer(): DynamicColor {
@@ -284,7 +302,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "surface_container",
       palette: (s) => s.neutralPalette,
       tone: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.isDark) {
             return 9;
           } else {
@@ -302,7 +320,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       chromaMultiplier: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.variant === Variant.NEUTRAL) {
             return 1.6;
           } else if (s.variant === Variant.TONAL_SPOT) {
@@ -316,7 +334,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
         return 1;
       },
     });
-    return extendSpecVersion(super.surfaceContainer(), "2025", color2025);
+    return extendSpecVersion(
+      super.surfaceContainer(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override surfaceContainerHigh(): DynamicColor {
@@ -324,7 +346,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "surface_container_high",
       palette: (s) => s.neutralPalette,
       tone: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.isDark) {
             return 12;
           } else {
@@ -342,7 +364,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       chromaMultiplier: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.variant === Variant.NEUTRAL) {
             return 1.9;
           } else if (s.variant === Variant.TONAL_SPOT) {
@@ -356,7 +378,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
         return 1;
       },
     });
-    return extendSpecVersion(super.surfaceContainerHigh(), "2025", color2025);
+    return extendSpecVersion(
+      super.surfaceContainerHigh(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override surfaceContainerHighest(): DynamicColor {
@@ -394,7 +420,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     });
     return extendSpecVersion(
       super.surfaceContainerHighest(),
-      "2025",
+      SpecVersion.SPEC_2025,
       color2025
     );
   }
@@ -410,14 +436,14 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           // For all other variants, the initial tone should be the default
           // tone, which is the same as the background color.
           return DynamicColor.getInitialToneFromBackground((s) =>
-            s.platform === "phone"
+            s.platform === Platform.PHONE
               ? this.highestSurface(s)
               : this.surfaceContainerHigh()
           )(s);
         }
       },
       chromaMultiplier: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.variant === Variant.NEUTRAL) {
             return 2.2;
           } else if (s.variant === Variant.TONAL_SPOT) {
@@ -433,12 +459,16 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
         return 1;
       },
       background: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? this.highestSurface(s)
           : this.surfaceContainerHigh(),
       contrastCurve: (s) => (s.isDark ? getCurve(11) : getCurve(9)),
     });
-    return extendSpecVersion(super.onSurface(), "2025", color2025);
+    return extendSpecVersion(
+      super.onSurface(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onSurfaceVariant(): DynamicColor {
@@ -446,7 +476,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "on_surface_variant",
       palette: (s) => s.neutralPalette,
       chromaMultiplier: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.variant === Variant.NEUTRAL) {
             return 2.2;
           } else if (s.variant === Variant.TONAL_SPOT) {
@@ -462,13 +492,17 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
         return 1;
       },
       background: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? this.highestSurface(s)
           : this.surfaceContainerHigh(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(4.5) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(4.5) : getCurve(7),
     });
-    return extendSpecVersion(super.onSurfaceVariant(), "2025", color2025);
+    return extendSpecVersion(
+      super.onSurfaceVariant(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override outline(): DynamicColor {
@@ -476,7 +510,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "outline",
       palette: (s) => s.neutralPalette,
       chromaMultiplier: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.variant === Variant.NEUTRAL) {
             return 2.2;
           } else if (s.variant === Variant.TONAL_SPOT) {
@@ -492,13 +526,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
         return 1;
       },
       background: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? this.highestSurface(s)
           : this.surfaceContainerHigh(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(3) : getCurve(4.5),
+        s.platform === Platform.PHONE ? getCurve(3) : getCurve(4.5),
     });
-    return extendSpecVersion(super.outline(), "2025", color2025);
+    return extendSpecVersion(super.outline(), SpecVersion.SPEC_2025, color2025);
   }
 
   override outlineVariant(): DynamicColor {
@@ -506,7 +540,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "outline_variant",
       palette: (s) => s.neutralPalette,
       chromaMultiplier: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           if (s.variant === Variant.NEUTRAL) {
             return 2.2;
           } else if (s.variant === Variant.TONAL_SPOT) {
@@ -522,13 +556,17 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
         return 1;
       },
       background: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? this.highestSurface(s)
           : this.surfaceContainerHigh(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(1.5) : getCurve(3),
+        s.platform === Platform.PHONE ? getCurve(1.5) : getCurve(3),
     });
-    return extendSpecVersion(super.outlineVariant(), "2025", color2025);
+    return extendSpecVersion(
+      super.outlineVariant(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override inverseSurface(): DynamicColor {
@@ -538,7 +576,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       tone: (s) => (s.isDark ? 98 : 4),
       isBackground: true,
     });
-    return extendSpecVersion(super.inverseSurface(), "2025", color2025);
+    return extendSpecVersion(
+      super.inverseSurface(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override inverseOnSurface(): DynamicColor {
@@ -548,7 +590,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       background: (s) => this.inverseSurface(),
       contrastCurve: (s) => getCurve(7),
     });
-    return extendSpecVersion(super.inverseOnSurface(), "2025", color2025);
+    return extendSpecVersion(
+      super.inverseOnSurface(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   ////////////////////////////////////////////////////////////////
@@ -561,13 +607,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       palette: (s) => s.primaryPalette,
       tone: (s) => {
         if (s.variant === Variant.NEUTRAL) {
-          if (s.platform === "phone") {
+          if (s.platform === Platform.PHONE) {
             return s.isDark ? 80 : 40;
           } else {
             return 90;
           }
         } else if (s.variant === Variant.TONAL_SPOT) {
-          if (s.platform === "phone") {
+          if (s.platform === Platform.PHONE) {
             if (s.isDark) {
               return 80;
             } else {
@@ -597,13 +643,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       background: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? this.highestSurface(s)
           : this.surfaceContainerHigh(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(4.5) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(4.5) : getCurve(7),
       toneDeltaPair: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? new ToneDeltaPair(
               this.primaryContainer(),
               this.primary(),
@@ -614,7 +660,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             )
           : undefined,
     });
-    return extendSpecVersion(super.primary(), "2025", color2025);
+    return extendSpecVersion(super.primary(), SpecVersion.SPEC_2025, color2025);
   }
 
   override primaryDim(): DynamicColor {
@@ -650,11 +696,15 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "on_primary",
       palette: (s) => s.primaryPalette,
       background: (s) =>
-        s.platform === "phone" ? this.primary() : this.primaryDim(),
+        s.platform === Platform.PHONE ? this.primary() : this.primaryDim(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(6) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(6) : getCurve(7),
     });
-    return extendSpecVersion(super.onPrimary(), "2025", color2025);
+    return extendSpecVersion(
+      super.onPrimary(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override primaryContainer(): DynamicColor {
@@ -662,7 +712,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "primary_container",
       palette: (s) => s.primaryPalette,
       tone: (s) => {
-        if (s.platform === "watch") {
+        if (s.platform === Platform.WATCH) {
           return 30;
         } else if (s.variant === Variant.NEUTRAL) {
           return s.isDark ? 30 : 90;
@@ -691,9 +741,9 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       background: (s) =>
-        s.platform === "phone" ? this.highestSurface(s) : undefined,
+        s.platform === Platform.PHONE ? this.highestSurface(s) : undefined,
       toneDeltaPair: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? undefined
           : new ToneDeltaPair(
               this.primaryContainer(),
@@ -704,11 +754,15 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
               "farther"
             ),
       contrastCurve: (s) =>
-        s.platform === "phone" && s.contrastLevel > 0
+        s.platform === Platform.PHONE && s.contrastLevel > 0
           ? getCurve(1.5)
           : undefined,
     });
-    return extendSpecVersion(super.primaryContainer(), "2025", color2025);
+    return extendSpecVersion(
+      super.primaryContainer(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onPrimaryContainer(): DynamicColor {
@@ -717,9 +771,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       palette: (s) => s.primaryPalette,
       background: (s) => this.primaryContainer(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(6) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(6) : getCurve(7),
     });
-    return extendSpecVersion(super.onPrimaryContainer(), "2025", color2025);
+    return extendSpecVersion(
+      super.onPrimaryContainer(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override primaryFixed(): DynamicColor {
@@ -732,7 +790,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
     });
-    return extendSpecVersion(super.primaryFixed(), "2025", color2025);
+    return extendSpecVersion(
+      super.primaryFixed(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override primaryFixedDim(): DynamicColor {
@@ -751,7 +813,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           "exact"
         ),
     });
-    return extendSpecVersion(super.primaryFixedDim(), "2025", color2025);
+    return extendSpecVersion(
+      super.primaryFixedDim(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onPrimaryFixed(): DynamicColor {
@@ -761,7 +827,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       background: (s) => this.primaryFixedDim(),
       contrastCurve: (s) => getCurve(7),
     });
-    return extendSpecVersion(super.onPrimaryFixed(), "2025", color2025);
+    return extendSpecVersion(
+      super.onPrimaryFixed(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onPrimaryFixedVariant(): DynamicColor {
@@ -771,7 +841,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       background: (s) => this.primaryFixedDim(),
       contrastCurve: (s) => getCurve(4.5),
     });
-    return extendSpecVersion(super.onPrimaryFixedVariant(), "2025", color2025);
+    return extendSpecVersion(
+      super.onPrimaryFixedVariant(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override inversePrimary(): DynamicColor {
@@ -781,9 +855,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       tone: (s) => tMaxC(s.primaryPalette),
       background: (s) => this.inverseSurface(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(6) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(6) : getCurve(7),
     });
-    return extendSpecVersion(super.inversePrimary(), "2025", color2025);
+    return extendSpecVersion(
+      super.inversePrimary(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   ////////////////////////////////////////////////////////////////
@@ -795,7 +873,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "secondary",
       palette: (s) => s.secondaryPalette,
       tone: (s) => {
-        if (s.platform === "watch") {
+        if (s.platform === Platform.WATCH) {
           return s.variant === Variant.NEUTRAL
             ? 90
             : tMaxC(s.secondaryPalette, 0, 90);
@@ -812,13 +890,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       background: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? this.highestSurface(s)
           : this.surfaceContainerHigh(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(4.5) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(4.5) : getCurve(7),
       toneDeltaPair: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? new ToneDeltaPair(
               this.secondaryContainer(),
               this.secondary(),
@@ -829,7 +907,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             )
           : undefined,
     });
-    return extendSpecVersion(super.secondary(), "2025", color2025);
+    return extendSpecVersion(
+      super.secondary(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override secondaryDim(): DynamicColor {
@@ -863,11 +945,15 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "on_secondary",
       palette: (s) => s.secondaryPalette,
       background: (s) =>
-        s.platform === "phone" ? this.secondary() : this.secondaryDim(),
+        s.platform === Platform.PHONE ? this.secondary() : this.secondaryDim(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(6) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(6) : getCurve(7),
     });
-    return extendSpecVersion(super.onSecondary(), "2025", color2025);
+    return extendSpecVersion(
+      super.onSecondary(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override secondaryContainer(): DynamicColor {
@@ -875,7 +961,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "secondary_container",
       palette: (s) => s.secondaryPalette,
       tone: (s) => {
-        if (s.platform === "watch") {
+        if (s.platform === Platform.WATCH) {
           return 30;
         } else if (s.variant === Variant.VIBRANT) {
           return s.isDark
@@ -889,9 +975,9 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       background: (s) =>
-        s.platform === "phone" ? this.highestSurface(s) : undefined,
+        s.platform === Platform.PHONE ? this.highestSurface(s) : undefined,
       toneDeltaPair: (s) =>
-        s.platform === "watch"
+        s.platform === Platform.WATCH
           ? new ToneDeltaPair(
               this.secondaryContainer(),
               this.secondaryDim(),
@@ -902,11 +988,15 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             )
           : undefined,
       contrastCurve: (s) =>
-        s.platform === "phone" && s.contrastLevel > 0
+        s.platform === Platform.PHONE && s.contrastLevel > 0
           ? getCurve(1.5)
           : undefined,
     });
-    return extendSpecVersion(super.secondaryContainer(), "2025", color2025);
+    return extendSpecVersion(
+      super.secondaryContainer(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onSecondaryContainer(): DynamicColor {
@@ -915,9 +1005,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       palette: (s) => s.secondaryPalette,
       background: (s) => this.secondaryContainer(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(6) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(6) : getCurve(7),
     });
-    return extendSpecVersion(super.onSecondaryContainer(), "2025", color2025);
+    return extendSpecVersion(
+      super.onSecondaryContainer(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override secondaryFixed(): DynamicColor {
@@ -930,7 +1024,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
     });
-    return extendSpecVersion(super.secondaryFixed(), "2025", color2025);
+    return extendSpecVersion(
+      super.secondaryFixed(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override secondaryFixedDim(): DynamicColor {
@@ -949,7 +1047,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           "exact"
         ),
     });
-    return extendSpecVersion(super.secondaryFixedDim(), "2025", color2025);
+    return extendSpecVersion(
+      super.secondaryFixedDim(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onSecondaryFixed(): DynamicColor {
@@ -959,7 +1061,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       background: (s) => this.secondaryFixedDim(),
       contrastCurve: (s) => getCurve(7),
     });
-    return extendSpecVersion(super.onSecondaryFixed(), "2025", color2025);
+    return extendSpecVersion(
+      super.onSecondaryFixed(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onSecondaryFixedVariant(): DynamicColor {
@@ -971,7 +1077,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     });
     return extendSpecVersion(
       super.onSecondaryFixedVariant(),
-      "2025",
+      SpecVersion.SPEC_2025,
       color2025
     );
   }
@@ -985,7 +1091,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "tertiary",
       palette: (s) => s.tertiaryPalette,
       tone: (s) => {
-        if (s.platform === "watch") {
+        if (s.platform === Platform.WATCH) {
           return s.variant === Variant.TONAL_SPOT
             ? tMaxC(s.tertiaryPalette, 0, 90)
             : tMaxC(s.tertiaryPalette);
@@ -1007,13 +1113,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       background: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? this.highestSurface(s)
           : this.surfaceContainerHigh(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(4.5) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(4.5) : getCurve(7),
       toneDeltaPair: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? new ToneDeltaPair(
               this.tertiaryContainer(),
               this.tertiary(),
@@ -1024,7 +1130,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             )
           : undefined,
     });
-    return extendSpecVersion(super.tertiary(), "2025", color2025);
+    return extendSpecVersion(
+      super.tertiary(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override tertiaryDim(): DynamicColor {
@@ -1058,11 +1168,15 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "on_tertiary",
       palette: (s) => s.tertiaryPalette,
       background: (s) =>
-        s.platform === "phone" ? this.tertiary() : this.tertiaryDim(),
+        s.platform === Platform.PHONE ? this.tertiary() : this.tertiaryDim(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(6) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(6) : getCurve(7),
     });
-    return extendSpecVersion(super.onTertiary(), "2025", color2025);
+    return extendSpecVersion(
+      super.onTertiary(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override tertiaryContainer(): DynamicColor {
@@ -1070,7 +1184,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "tertiary_container",
       palette: (s) => s.tertiaryPalette,
       tone: (s) => {
-        if (s.platform === "watch") {
+        if (s.platform === Platform.WATCH) {
           return s.variant === Variant.TONAL_SPOT
             ? tMaxC(s.tertiaryPalette, 0, 90)
             : tMaxC(s.tertiaryPalette);
@@ -1097,9 +1211,9 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       background: (s) =>
-        s.platform === "phone" ? this.highestSurface(s) : undefined,
+        s.platform === Platform.PHONE ? this.highestSurface(s) : undefined,
       toneDeltaPair: (s) =>
-        s.platform === "watch"
+        s.platform === Platform.WATCH
           ? new ToneDeltaPair(
               this.tertiaryContainer(),
               this.tertiaryDim(),
@@ -1110,11 +1224,15 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             )
           : undefined,
       contrastCurve: (s) =>
-        s.platform === "phone" && s.contrastLevel > 0
+        s.platform === Platform.PHONE && s.contrastLevel > 0
           ? getCurve(1.5)
           : undefined,
     });
-    return extendSpecVersion(super.tertiaryContainer(), "2025", color2025);
+    return extendSpecVersion(
+      super.tertiaryContainer(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onTertiaryContainer(): DynamicColor {
@@ -1123,9 +1241,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       palette: (s) => s.tertiaryPalette,
       background: (s) => this.tertiaryContainer(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(6) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(6) : getCurve(7),
     });
-    return extendSpecVersion(super.onTertiaryContainer(), "2025", color2025);
+    return extendSpecVersion(
+      super.onTertiaryContainer(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override tertiaryFixed(): DynamicColor {
@@ -1138,7 +1260,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
     });
-    return extendSpecVersion(super.tertiaryFixed(), "2025", color2025);
+    return extendSpecVersion(
+      super.tertiaryFixed(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override tertiaryFixedDim(): DynamicColor {
@@ -1157,7 +1283,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           "exact"
         ),
     });
-    return extendSpecVersion(super.tertiaryFixedDim(), "2025", color2025);
+    return extendSpecVersion(
+      super.tertiaryFixedDim(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onTertiaryFixed(): DynamicColor {
@@ -1167,7 +1297,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       background: (s) => this.tertiaryFixedDim(),
       contrastCurve: (s) => getCurve(7),
     });
-    return extendSpecVersion(super.onTertiaryFixed(), "2025", color2025);
+    return extendSpecVersion(
+      super.onTertiaryFixed(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onTertiaryFixedVariant(): DynamicColor {
@@ -1177,7 +1311,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       background: (s) => this.tertiaryFixedDim(),
       contrastCurve: (s) => getCurve(4.5),
     });
-    return extendSpecVersion(super.onTertiaryFixedVariant(), "2025", color2025);
+    return extendSpecVersion(
+      super.onTertiaryFixedVariant(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   ////////////////////////////////////////////////////////////////
@@ -1189,7 +1327,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "error",
       palette: (s) => s.errorPalette,
       tone: (s) => {
-        if (s.platform === "phone") {
+        if (s.platform === Platform.PHONE) {
           return s.isDark
             ? tMinC(s.errorPalette, 0, 98)
             : tMaxC(s.errorPalette);
@@ -1199,13 +1337,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       background: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? this.highestSurface(s)
           : this.surfaceContainerHigh(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(4.5) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(4.5) : getCurve(7),
       toneDeltaPair: (s) =>
-        s.platform === "phone"
+        s.platform === Platform.PHONE
           ? new ToneDeltaPair(
               this.errorContainer(),
               this.error(),
@@ -1216,7 +1354,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             )
           : undefined,
     });
-    return extendSpecVersion(super.error(), "2025", color2025);
+    return extendSpecVersion(super.error(), SpecVersion.SPEC_2025, color2025);
   }
 
   override errorDim(): DynamicColor {
@@ -1244,11 +1382,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "on_error",
       palette: (s) => s.errorPalette,
       background: (s) =>
-        s.platform === "phone" ? this.error() : this.errorDim(),
+        s.platform === Platform.PHONE ? this.error() : this.errorDim(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(6) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(6) : getCurve(7),
     });
-    return extendSpecVersion(super.onError(), "2025", color2025);
+    return extendSpecVersion(super.onError(), SpecVersion.SPEC_2025, color2025);
   }
 
   override errorContainer(): DynamicColor {
@@ -1256,7 +1394,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       name: "error_container",
       palette: (s) => s.errorPalette,
       tone: (s) => {
-        if (s.platform === "watch") {
+        if (s.platform === Platform.WATCH) {
           return 30;
         } else {
           return s.isDark
@@ -1266,9 +1404,9 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       },
       isBackground: true,
       background: (s) =>
-        s.platform === "phone" ? this.highestSurface(s) : undefined,
+        s.platform === Platform.PHONE ? this.highestSurface(s) : undefined,
       toneDeltaPair: (s) =>
-        s.platform === "watch"
+        s.platform === Platform.WATCH
           ? new ToneDeltaPair(
               this.errorContainer(),
               this.errorDim(),
@@ -1279,11 +1417,15 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             )
           : undefined,
       contrastCurve: (s) =>
-        s.platform === "phone" && s.contrastLevel > 0
+        s.platform === Platform.PHONE && s.contrastLevel > 0
           ? getCurve(1.5)
           : undefined,
     });
-    return extendSpecVersion(super.errorContainer(), "2025", color2025);
+    return extendSpecVersion(
+      super.errorContainer(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onErrorContainer(): DynamicColor {
@@ -1292,9 +1434,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       palette: (s) => s.errorPalette,
       background: (s) => this.errorContainer(),
       contrastCurve: (s) =>
-        s.platform === "phone" ? getCurve(4.5) : getCurve(7),
+        s.platform === Platform.PHONE ? getCurve(4.5) : getCurve(7),
     });
-    return extendSpecVersion(super.onErrorContainer(), "2025", color2025);
+    return extendSpecVersion(
+      super.onErrorContainer(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   /////////////////////////////////////////////////////////////////
@@ -1306,27 +1452,43 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       this.surfaceContainerHighest().clone(),
       { name: "surface_variant" }
     );
-    return extendSpecVersion(super.surfaceVariant(), "2025", color2025);
+    return extendSpecVersion(
+      super.surfaceVariant(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override surfaceTint(): DynamicColor {
     const color2025: DynamicColor = Object.assign(this.primary().clone(), {
       name: "surface_tint",
     });
-    return extendSpecVersion(super.surfaceTint(), "2025", color2025);
+    return extendSpecVersion(
+      super.surfaceTint(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override background(): DynamicColor {
     const color2025: DynamicColor = Object.assign(this.surface().clone(), {
       name: "background",
     });
-    return extendSpecVersion(super.background(), "2025", color2025);
+    return extendSpecVersion(
+      super.background(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 
   override onBackground(): DynamicColor {
     const color2025: DynamicColor = Object.assign(this.onSurface().clone(), {
       name: "on_background",
     });
-    return extendSpecVersion(super.onBackground(), "2025", color2025);
+    return extendSpecVersion(
+      super.onBackground(),
+      SpecVersion.SPEC_2025,
+      color2025
+    );
   }
 }
