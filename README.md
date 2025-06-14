@@ -4,6 +4,6 @@
 
 ### Shared
 
-[`tmol4/material-color-utilities`](https://github.com/tmol4/material-color-utilities)
+[`tmol4/material-color-utilities`](https://github.com/deminearchiver/material-color-utilities)
 
 ### Usage
