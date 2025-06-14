@@ -167,7 +167,7 @@ export class HctSolver {
   private static hueOf(linrgb: number[]): number {
     const scaledDiscount = mathUtils.matrixMultiply(
       linrgb,
-      HctSolver.SCALED_DISCOUNT_FROM_LINRGB
+      HctSolver.SCALED_DISCOUNT_FROM_LINRGB,
     );
     const rA = HctSolver.chromaticAdaptation(scaledDiscount[0]);
     const gA = HctSolver.chromaticAdaptation(scaledDiscount[1]);
@@ -196,7 +196,7 @@ export class HctSolver {
   private static intercept(
     source: number,
     mid: number,
-    target: number
+    target: number,
   ): number {
     return (mid - source) / (target - source);
   }
@@ -204,7 +204,7 @@ export class HctSolver {
   private static lerpPoint(
     source: number[],
     t: number,
-    target: number[]
+    target: number[],
   ): number[] {
     return [
       source[0] + (target[0] - source[0]) * t,
@@ -228,7 +228,7 @@ export class HctSolver {
     source: number[],
     coordinate: number,
     target: number[],
-    axis: number
+    axis: number,
   ): number[] {
     const t = HctSolver.intercept(source[axis], coordinate, target[axis]);
     return HctSolver.lerpPoint(source, t, target);
@@ -359,17 +359,17 @@ export class HctSolver {
         let rPlane = 255;
         if (left[axis] < right[axis]) {
           lPlane = HctSolver.criticalPlaneBelow(
-            HctSolver.trueDelinearized(left[axis])
+            HctSolver.trueDelinearized(left[axis]),
           );
           rPlane = HctSolver.criticalPlaneAbove(
-            HctSolver.trueDelinearized(right[axis])
+            HctSolver.trueDelinearized(right[axis]),
           );
         } else {
           lPlane = HctSolver.criticalPlaneAbove(
-            HctSolver.trueDelinearized(left[axis])
+            HctSolver.trueDelinearized(left[axis]),
           );
           rPlane = HctSolver.criticalPlaneBelow(
-            HctSolver.trueDelinearized(right[axis])
+            HctSolver.trueDelinearized(right[axis]),
           );
         }
         for (let i = 0; i < 8; i++) {
@@ -382,7 +382,7 @@ export class HctSolver {
               left,
               midPlaneCoordinate,
               right,
-              axis
+              axis,
             );
             const midHue = HctSolver.hueOf(mid);
             if (HctSolver.areInCyclicOrder(leftHue, targetHue, midHue)) {
@@ -418,7 +418,7 @@ export class HctSolver {
   private static findResultByJ(
     hueRadians: number,
     chroma: number,
-    y: number
+    y: number,
   ): number {
     // Initial estimate of j.
     let j = Math.sqrt(y) * 11.0;
@@ -458,7 +458,7 @@ export class HctSolver {
       const bCScaled = HctSolver.inverseChromaticAdaptation(bA);
       const linrgb = mathUtils.matrixMultiply(
         [rCScaled, gCScaled, bCScaled],
-        HctSolver.LINRGB_FROM_SCALED_DISCOUNT
+        HctSolver.LINRGB_FROM_SCALED_DISCOUNT,
       );
       // ===========================================================
       // Operations inlined from Cam16 to avoid repeated calculation

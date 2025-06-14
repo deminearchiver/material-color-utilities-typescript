@@ -33,7 +33,7 @@ export class SchemeVibrant extends DynamicScheme {
     isDark: boolean,
     contrastLevel: number,
     specVersion: SpecVersion = DynamicScheme.DEFAULT_SPEC_VERSION,
-    platform: Platform = DynamicScheme.DEFAULT_PLATFORM
+    platform: Platform = DynamicScheme.DEFAULT_PLATFORM,
   ) {
     super({
       sourceColorHct,

@@ -45,7 +45,7 @@ describe("QuantizerCelebi", () => {
   it("5B", () => {
     const answer = QuantizerCelebi.quantize(
       [BLUE, BLUE, BLUE, BLUE, BLUE],
-      128
+      128,
     );
     expect(answer.size).toBe(1);
     expect(answer.get(BLUE)).toBe(5);
@@ -54,7 +54,7 @@ describe("QuantizerCelebi", () => {
   it("2R 3G", () => {
     const answer = QuantizerCelebi.quantize(
       [RED, RED, GREEN, GREEN, GREEN],
-      128
+      128,
     );
     expect(answer.size).toBe(2);
     expect(answer.get(RED)).toBe(2);

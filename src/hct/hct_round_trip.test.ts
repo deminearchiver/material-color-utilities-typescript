@@ -31,7 +31,7 @@ describe("HCT roundtrip", () => {
           const argb = colorUtils.argbFromRgb(
             Math.min(255, r),
             Math.min(255, g),
-            Math.min(255, b)
+            Math.min(255, b),
           );
 
           const hct = Hct.fromInt(argb);

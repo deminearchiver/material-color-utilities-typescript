@@ -54,7 +54,7 @@ export class TonalPalette {
   private constructor(
     readonly hue: number,
     readonly chroma: number,
-    readonly keyColor: Hct
+    readonly keyColor: Hct,
   ) {}
 
   /**
@@ -110,7 +110,10 @@ class KeyColor {
   private readonly chromaCache = new Map<number, number>();
   private readonly maxChromaValue = 200.0;
 
-  constructor(readonly hue: number, readonly requestedChroma: number) {}
+  constructor(
+    readonly hue: number,
+    readonly requestedChroma: number,
+  ) {}
 
   /**
    * Creates a key color from a [hue] and a [chroma].

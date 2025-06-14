@@ -90,7 +90,7 @@ export class CorePalette {
 
   private static createPaletteFromColors(
     content: boolean,
-    colors: CorePaletteColors
+    colors: CorePaletteColors,
   ) {
     const palette = new CorePalette(colors.primary, content);
     if (colors.secondary) {

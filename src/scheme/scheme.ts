@@ -281,7 +281,7 @@ export class Scheme {
       inverseSurface: number;
       inverseOnSurface: number;
       inversePrimary: number;
-    }
+    },
   ) {}
 
   toJSON() {

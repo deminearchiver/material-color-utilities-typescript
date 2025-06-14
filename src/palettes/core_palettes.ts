@@ -28,6 +28,6 @@ export class CorePalettes {
     public secondary: TonalPalette,
     public tertiary: TonalPalette,
     public neutral: TonalPalette,
-    public neutralVariant: TonalPalette
+    public neutralVariant: TonalPalette,
   ) {}
 }

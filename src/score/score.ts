@@ -41,7 +41,7 @@ const SCORE_OPTION_DEFAULTS = {
 
 function compare(
   a: { hct: Hct; score: number },
-  b: { hct: Hct; score: number }
+  b: { hct: Hct; score: number },
 ): number {
   if (a.score > b.score) {
     return -1;
@@ -84,7 +84,7 @@ export class Score {
    */
   static score(
     colorsToPopulation: Map<number, number>,
-    options?: ScoreOptions
+    options?: ScoreOptions,
   ): number[] {
     const { desired, fallbackColorARGB, filter } = {
       ...SCORE_OPTION_DEFAULTS,

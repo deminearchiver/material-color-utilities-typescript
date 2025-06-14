@@ -40,7 +40,10 @@ const seedColors = [
 ];
 
 class Pair {
-  constructor(public fgName: string, public bgName: string) {}
+  constructor(
+    public fgName: string,
+    public bgName: string,
+  ) {}
 }
 
 const colors = [
@@ -176,7 +179,7 @@ describe("DynamicColor", () => {
 
         if (contrast < minimumRequirement) {
           assert.fail(
-            `${fgName} on ${bgName} is ${contrast}, needed ${minimumRequirement}`
+            `${fgName} on ${bgName} is ${contrast}, needed ${minimumRequirement}`,
           );
         }
       }
@@ -394,7 +397,7 @@ describe("DynamicColor", () => {
       const prec = 2;
 
       const resolvedColors = new Map(
-        colors.map((color) => [color.name, color.getArgb(scheme)])
+        colors.map((color) => [color.name, color.getArgb(scheme)]),
       );
 
       for (const cstr of constraints) {
@@ -403,7 +406,7 @@ describe("DynamicColor", () => {
 
           const minRequirement = getMinRequirement(
             cstr.values!,
-            scheme.contrastLevel
+            scheme.contrastLevel,
           );
           const respectively = cstr.respectively ?? false;
           const pairs = getPairs(respectively, cstr.fore!, cstr.back!);
@@ -434,19 +437,19 @@ describe("DynamicColor", () => {
               // Real fail.
               assert.fail(
                 `Contrast ${fore} ${ftone.toFixed(
-                  prec
+                  prec,
                 )} ${back} ${btone.toFixed(prec)} ${contrast.toFixed(
-                  prec
-                )} ${minRequirement} `
+                  prec,
+                )} ${minRequirement} `,
               );
             }
             if (failing && minRequirement > 4.5) {
               assert.fail(
                 `Contrast(stretch-goal) ${fore} ${ftone.toFixed(
-                  prec
+                  prec,
                 )} ${back} ${btone.toFixed(prec)} ${contrast.toFixed(
-                  prec
-                )} ${minRequirement} `
+                  prec,
+                )} ${minRequirement} `,
               );
             }
           }
@@ -460,7 +463,7 @@ describe("DynamicColor", () => {
             polarity === "nearer" ||
               polarity === "farther" ||
               polarity === "lighter" ||
-              polarity === "darker"
+              polarity === "darker",
           ).toBe(true);
           for (const pair of pairs) {
             const [fore, back] = pair;
@@ -478,8 +481,8 @@ describe("DynamicColor", () => {
               // Failing
               assert.fail(
                 `Delta ${fore} ${ftone.toFixed(prec)} ${back} ${btone.toFixed(
-                  prec
-                )} ${observedDelta.toFixed(prec)} ${cstr.delta}`
+                  prec,
+                )} ${observedDelta.toFixed(prec)} ${cstr.delta}`,
               );
             }
           }

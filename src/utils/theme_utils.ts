@@ -78,7 +78,7 @@ export interface Theme {
  */
 export function themeFromSourceColor(
   source: number,
-  customColors: CustomColor[] = []
+  customColors: CustomColor[] = [],
 ): Theme {
   const palette = CorePalette.of(source);
   return {
@@ -108,7 +108,7 @@ export function themeFromSourceColor(
  */
 export async function themeFromImage(
   image: HTMLImageElement,
-  customColors: CustomColor[] = []
+  customColors: CustomColor[] = [],
 ) {
   const source = await sourceColorFromImage(image);
   return themeFromSourceColor(source, customColors);
@@ -125,7 +125,7 @@ export async function themeFromImage(
  */
 export function customColor(
   source: number,
-  color: CustomColor
+  color: CustomColor,
 ): CustomColorGroup {
   let value = color.value;
   const from = value;
@@ -166,7 +166,7 @@ export function applyTheme(
     target?: HTMLElement;
     brightnessSuffix?: boolean;
     paletteTones?: number[];
-  }
+  },
 ) {
   const target = options?.target || document.body;
   const isDark = options?.dark ?? false;
@@ -192,7 +192,7 @@ export function applyTheme(
 function setSchemeProperties(
   target: HTMLElement,
   scheme: Scheme,
-  suffix: string = ""
+  suffix: string = "",
 ) {
   for (const [key, value] of Object.entries(scheme.toJSON())) {
     const token = key.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();

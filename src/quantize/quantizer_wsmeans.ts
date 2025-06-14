@@ -52,7 +52,7 @@ export class QuantizerWsmeans {
   static quantize(
     inputPixels: number[],
     startingClusters: number[],
-    maxColors: number
+    maxColors: number,
   ): Map<number, number> {
     const pixelToCount = new Map<number, number>();
     const points = new Array<number[]>();
@@ -164,7 +164,7 @@ export class QuantizerWsmeans {
         }
         if (newClusterIndex !== -1) {
           const distanceChange = Math.abs(
-            Math.sqrt(minimumDistance) - Math.sqrt(previousDistance)
+            Math.sqrt(minimumDistance) - Math.sqrt(previousDistance),
           );
           if (distanceChange > MIN_MOVEMENT_DISTANCE) {
             pointsMoved++;

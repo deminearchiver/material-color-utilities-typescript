@@ -250,7 +250,7 @@ export class SchemeAndroid {
       textSecondaryOnAccent: number;
       volumeBackground: number;
       scrim: number;
-    }
+    },
   ) {}
 
   toJSON() {

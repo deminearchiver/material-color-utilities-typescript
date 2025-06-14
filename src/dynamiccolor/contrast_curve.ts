@@ -37,7 +37,7 @@ export class ContrastCurve {
     readonly low: number,
     readonly normal: number,
     readonly medium: number,
-    readonly high: number
+    readonly high: number,
   ) {}
 
   /**

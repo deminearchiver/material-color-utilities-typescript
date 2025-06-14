@@ -48,12 +48,12 @@ export class Blend {
     const toHct = Hct.fromInt(sourceColor);
     const differenceDegrees = mathUtils.differenceDegrees(
       fromHct.hue,
-      toHct.hue
+      toHct.hue,
     );
     const rotationDegrees = Math.min(differenceDegrees * 0.5, 15.0);
     const outputHue = mathUtils.sanitizeDegreesDouble(
       fromHct.hue +
-        rotationDegrees * mathUtils.rotationDirection(fromHct.hue, toHct.hue)
+        rotationDegrees * mathUtils.rotationDirection(fromHct.hue, toHct.hue),
     );
     return Hct.from(outputHue, fromHct.chroma, fromHct.tone).toInt();
   }
@@ -75,7 +75,7 @@ export class Blend {
     const blended = Hct.from(
       ucsCam.hue,
       fromCam.chroma,
-      colorUtils.lstarFromArgb(from)
+      colorUtils.lstarFromArgb(from),
     );
     return blended.toInt();
   }

@@ -63,27 +63,27 @@ describe("TemperatureCache", () => {
 
   it("complement", () => {
     const blueComplement = new TemperatureCache(
-      Hct.fromInt(0xff0000ff)
+      Hct.fromInt(0xff0000ff),
     ).complement.toInt();
     expect(blueComplement).toBe(0xff9d0002);
 
     const redComplement = new TemperatureCache(
-      Hct.fromInt(0xffff0000)
+      Hct.fromInt(0xffff0000),
     ).complement.toInt();
     expect(redComplement).toBe(0xff007bfc);
 
     const greenComplement = new TemperatureCache(
-      Hct.fromInt(0xff00ff00)
+      Hct.fromInt(0xff00ff00),
     ).complement.toInt();
     expect(greenComplement).toBe(0xffffd2c9);
 
     const whiteComplement = new TemperatureCache(
-      Hct.fromInt(0xffffffff)
+      Hct.fromInt(0xffffffff),
     ).complement.toInt();
     expect(whiteComplement).toBe(0xffffffff);
 
     const blackComplement = new TemperatureCache(
-      Hct.fromInt(0xff000000)
+      Hct.fromInt(0xff000000),
     ).complement.toInt();
     expect(blackComplement).toBe(0xff000000);
   });

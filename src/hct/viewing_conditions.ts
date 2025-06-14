@@ -62,7 +62,7 @@ export class ViewingConditions {
     adaptingLuminance = ((200.0 / Math.PI) * utils.yFromLstar(50.0)) / 100.0,
     backgroundLstar = 50.0,
     surround = 2.0,
-    discountingIlluminant = false
+    discountingIlluminant = false,
   ): ViewingConditions {
     const xyz = whitePoint;
     const rW = xyz[0] * 0.401288 + xyz[1] * 0.650173 + xyz[2] * -0.051461;
@@ -114,7 +114,7 @@ export class ViewingConditions {
       rgbD,
       fl,
       Math.pow(fl, 0.25),
-      z
+      z,
     );
   }
 
@@ -135,6 +135,6 @@ export class ViewingConditions {
     public rgbD: number[],
     public fl: number,
     public fLRoot: number,
-    public z: number
+    public z: number,
   ) {}
 }

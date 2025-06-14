@@ -44,7 +44,7 @@ export class QuantizerWu {
     private momentsG: number[] = [],
     private momentsB: number[] = [],
     private moments: number[] = [],
-    private cubes: Box[] = []
+    private cubes: Box[] = [],
   ) {}
 
   /**
@@ -218,7 +218,7 @@ export class QuantizerWu {
       wholeR,
       wholeG,
       wholeB,
-      wholeW
+      wholeW,
     );
     const maxGResult = this.maximize(
       one,
@@ -228,7 +228,7 @@ export class QuantizerWu {
       wholeR,
       wholeG,
       wholeB,
-      wholeW
+      wholeW,
     );
     const maxBResult = this.maximize(
       one,
@@ -238,7 +238,7 @@ export class QuantizerWu {
       wholeR,
       wholeG,
       wholeB,
-      wholeW
+      wholeW,
     );
 
     let direction;
@@ -296,7 +296,7 @@ export class QuantizerWu {
     wholeR: number,
     wholeG: number,
     wholeB: number,
-    wholeW: number
+    wholeW: number,
   ) {
     const bottomR = this.bottom(cube, direction, this.momentsR);
     const bottomG = this.bottom(cube, direction, this.momentsG);
@@ -388,7 +388,7 @@ export class QuantizerWu {
     cube: Box,
     direction: string,
     position: number,
-    moment: number[]
+    moment: number[],
   ) {
     switch (direction) {
       case directions.RED:
@@ -441,7 +441,7 @@ class Box {
     public g1: number = 0,
     public b0: number = 0,
     public b1: number = 0,
-    public vol: number = 0
+    public vol: number = 0,
   ) {}
 }
 
@@ -455,7 +455,10 @@ class CreateBoxesResult {
    * @param resultCount the actual number of colors achieved from quantization.
    *     May be lower than the requested count.
    */
-  constructor(public requestedCount: number, public resultCount: number) {}
+  constructor(
+    public requestedCount: number,
+    public resultCount: number,
+  ) {}
 }
 
 /**
@@ -463,5 +466,8 @@ class CreateBoxesResult {
  * a way to maximize variance between the two new boxes created by a cut.
  */
 class MaximizeResult {
-  constructor(public cutLocation: number, public maximum: number) {}
+  constructor(
+    public cutLocation: number,
+    public maximum: number,
+  ) {}
 }

@@ -52,7 +52,7 @@ function findDesiredChromaByTone(
   hue: number,
   chroma: number,
   tone: number,
-  byDecreasingTone: boolean
+  byDecreasingTone: boolean,
 ): number {
   let answer = tone;
 
@@ -363,7 +363,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.primary(),
           10,
           "nearer",
-          false
+          false,
         ),
     });
   }
@@ -409,7 +409,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.primary(),
           10,
           "nearer",
-          false
+          false,
         ),
     });
   }
@@ -422,7 +422,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
         if (isFidelity(s)) {
           return DynamicColor.foregroundTone(
             this.primaryContainer().tone(s),
-            4.5
+            4.5,
           );
         }
         if (isMonochrome(s)) {
@@ -463,7 +463,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.secondary(),
           10,
           "nearer",
-          false
+          false,
         ),
     });
   }
@@ -504,7 +504,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           s.secondaryPalette.hue,
           s.secondaryPalette.chroma,
           initialTone,
-          s.isDark ? false : true
+          s.isDark ? false : true,
         );
       },
       isBackground: true,
@@ -516,7 +516,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.secondary(),
           10,
           "nearer",
-          false
+          false,
         ),
     });
   }
@@ -534,7 +534,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
         }
         return DynamicColor.foregroundTone(
           this.secondaryContainer().tone(s),
-          4.5
+          4.5,
         );
       },
       background: (s) => this.secondaryContainer(),
@@ -565,7 +565,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.tertiary(),
           10,
           "nearer",
-          false
+          false,
         ),
     });
   }
@@ -612,7 +612,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.tertiary(),
           10,
           "nearer",
-          false
+          false,
         ),
     });
   }
@@ -630,7 +630,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
         }
         return DynamicColor.foregroundTone(
           this.tertiaryContainer().tone(s),
-          4.5
+          4.5,
         );
       },
       background: (s) => this.tertiaryContainer(),
@@ -656,7 +656,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.error(),
           10,
           "nearer",
-          false
+          false,
         ),
     });
   }
@@ -689,7 +689,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.error(),
           10,
           "nearer",
-          false
+          false,
         ),
     });
   }
@@ -727,7 +727,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.primaryFixedDim(),
           10,
           "lighter",
-          true
+          true,
         ),
     });
   }
@@ -746,7 +746,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.primaryFixedDim(),
           10,
           "lighter",
-          true
+          true,
         ),
     });
   }
@@ -791,7 +791,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.secondaryFixedDim(),
           10,
           "lighter",
-          true
+          true,
         ),
     });
   }
@@ -810,7 +810,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.secondaryFixedDim(),
           10,
           "lighter",
-          true
+          true,
         ),
     });
   }
@@ -855,7 +855,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.tertiaryFixedDim(),
           10,
           "lighter",
-          true
+          true,
         ),
     });
   }
@@ -874,7 +874,7 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
           this.tertiaryFixedDim(),
           10,
           "lighter",
-          true
+          true,
         ),
     });
   }

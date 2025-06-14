@@ -76,11 +76,11 @@ interface ColorCalculationDelegate {
 function validateExtendedColor(
   originalColor: DynamicColor,
   specVersion: SpecVersion,
-  extendedColor: DynamicColor
+  extendedColor: DynamicColor,
 ) {
   if (originalColor.name !== extendedColor.name) {
     throw new Error(
-      `Attempting to extend color ${originalColor.name} with color ${extendedColor.name} of different name for spec version ${specVersion}.`
+      `Attempting to extend color ${originalColor.name} with color ${extendedColor.name} of different name for spec version ${specVersion}.`,
     );
   }
   if (originalColor.isBackground !== extendedColor.isBackground) {
@@ -89,7 +89,7 @@ function validateExtendedColor(
         originalColor.isBackground ? "background" : "foreground"
       } with color ${extendedColor.name} as a ${
         extendedColor.isBackground ? "background" : "foreground"
-      } for spec version ${specVersion}.`
+      } for spec version ${specVersion}.`,
     );
   }
 }
@@ -104,7 +104,7 @@ function validateExtendedColor(
 export function extendSpecVersion(
   originlColor: DynamicColor,
   specVersion: SpecVersion,
-  extendedColor: DynamicColor
+  extendedColor: DynamicColor,
 ): DynamicColor {
   validateExtendedColor(originlColor, specVersion, extendedColor);
 
@@ -187,12 +187,12 @@ export class DynamicColor {
       args.background,
       args.secondBackground,
       args.contrastCurve,
-      args.toneDeltaPair
+      args.toneDeltaPair,
     );
   }
 
   static getInitialToneFromBackground(
-    background?: (scheme: DynamicScheme) => DynamicColor | undefined
+    background?: (scheme: DynamicScheme) => DynamicColor | undefined,
   ): (scheme: DynamicScheme) => number {
     if (background === undefined) {
       return (s) => 50;
@@ -241,31 +241,31 @@ export class DynamicColor {
     readonly chromaMultiplier?: (scheme: DynamicScheme) => number,
     readonly background?: (scheme: DynamicScheme) => DynamicColor | undefined,
     readonly secondBackground?: (
-      scheme: DynamicScheme
+      scheme: DynamicScheme,
     ) => DynamicColor | undefined,
     readonly contrastCurve?: (
-      scheme: DynamicScheme
+      scheme: DynamicScheme,
     ) => ContrastCurve | undefined,
     readonly toneDeltaPair?: (
-      scheme: DynamicScheme
-    ) => ToneDeltaPair | undefined
+      scheme: DynamicScheme,
+    ) => ToneDeltaPair | undefined,
   ) {
     if (!background && secondBackground) {
       throw new Error(
         `Color ${name} has secondBackground` +
-          `defined, but background is not defined.`
+          `defined, but background is not defined.`,
       );
     }
     if (!background && contrastCurve) {
       throw new Error(
         `Color ${name} has contrastCurve` +
-          `defined, but background is not defined.`
+          `defined, but background is not defined.`,
       );
     }
     if (background && !contrastCurve) {
       throw new Error(
         `Color ${name} has background` +
-          `defined, but contrastCurve is not defined.`
+          `defined, but contrastCurve is not defined.`,
       );
     }
   }
@@ -665,13 +665,13 @@ class ColorCalculationDelegateImpl2025 implements ColorCalculationDelegate {
           selfTone = math.clampDouble(
             0,
             100,
-            math.clampDouble(refTone, refTone + relativeDelta, selfTone)
+            math.clampDouble(refTone, refTone + relativeDelta, selfTone),
           );
         } else {
           selfTone = math.clampDouble(
             0,
             100,
-            math.clampDouble(refTone + relativeDelta, refTone, selfTone)
+            math.clampDouble(refTone + relativeDelta, refTone, selfTone),
           );
         }
       } else if (constraint === "farther") {

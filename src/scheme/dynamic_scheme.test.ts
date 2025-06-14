@@ -40,7 +40,7 @@ describe("dynamic scheme test", () => {
     const hue = DynamicScheme.getRotatedHue(
       Hct.from(43, 16, 16),
       [0, 42, 360],
-      [0, 15, 0]
+      [0, 15, 0],
     );
     expect(hue).toBeCloseTo(43 + 15, 0.4);
   });
@@ -49,7 +49,7 @@ describe("dynamic scheme test", () => {
     const hue = DynamicScheme.getRotatedHue(
       Hct.from(43, 16, 16),
       [0, 42, 360],
-      [0, 480, 0]
+      [0, 480, 0],
     );
     expect(hue).toBeCloseTo(163, 0.4);
   });

@@ -67,7 +67,7 @@ export class Cam16 {
     readonly s: number,
     readonly jstar: number,
     readonly astar: number,
-    readonly bstar: number
+    readonly bstar: number,
   ) {}
 
   /**
@@ -101,7 +101,7 @@ export class Cam16 {
    */
   static fromIntInViewingConditions(
     argb: number,
-    viewingConditions: ViewingConditions
+    viewingConditions: ViewingConditions,
   ): Cam16 {
     const red = (argb & 0x00ff0000) >> 16;
     const green = (argb & 0x0000ff00) >> 8;
@@ -139,8 +139,8 @@ export class Cam16 {
       atanDegrees < 0
         ? atanDegrees + 360.0
         : atanDegrees >= 360
-        ? atanDegrees - 360.0
-        : atanDegrees;
+          ? atanDegrees - 360.0
+          : atanDegrees;
     const hueRadians = (hue * Math.PI) / 180.0;
 
     const ac = p2 * viewingConditions.nbb;
@@ -148,7 +148,7 @@ export class Cam16 {
       100.0 *
       Math.pow(
         ac / viewingConditions.aw,
-        viewingConditions.c * viewingConditions.z
+        viewingConditions.c * viewingConditions.z,
       );
     const q =
       (4.0 / viewingConditions.c) *
@@ -196,7 +196,7 @@ export class Cam16 {
     j: number,
     c: number,
     h: number,
-    viewingConditions: ViewingConditions
+    viewingConditions: ViewingConditions,
   ): Cam16 {
     const q =
       (4.0 / viewingConditions.c) *
@@ -228,7 +228,7 @@ export class Cam16 {
       jstar,
       astar,
       bstar,
-      ViewingConditions.DEFAULT
+      ViewingConditions.DEFAULT,
     );
   }
 
@@ -245,7 +245,7 @@ export class Cam16 {
     jstar: number,
     astar: number,
     bstar: number,
-    viewingConditions: ViewingConditions
+    viewingConditions: ViewingConditions,
   ): Cam16 {
     const a = astar;
     const b = bstar;
@@ -282,7 +282,7 @@ export class Cam16 {
 
     const t = Math.pow(
       alpha / Math.pow(1.64 - Math.pow(0.29, viewingConditions.n), 0.73),
-      1.0 / 0.9
+      1.0 / 0.9,
     );
     const hRad = (this.hue * Math.PI) / 180.0;
 
@@ -339,7 +339,7 @@ export class Cam16 {
     x: number,
     y: number,
     z: number,
-    viewingConditions: ViewingConditions
+    viewingConditions: ViewingConditions,
   ): Cam16 {
     // Transform XYZ to 'cone'/'rgb' responses
 
@@ -376,8 +376,8 @@ export class Cam16 {
       atanDegrees < 0
         ? atanDegrees + 360.0
         : atanDegrees >= 360
-        ? atanDegrees - 360
-        : atanDegrees;
+          ? atanDegrees - 360
+          : atanDegrees;
     const hueRadians = (hue * Math.PI) / 180.0;
 
     // achromatic response to color
@@ -388,7 +388,7 @@ export class Cam16 {
       100.0 *
       Math.pow(
         ac / viewingConditions.aw,
-        viewingConditions.c * viewingConditions.z
+        viewingConditions.c * viewingConditions.z,
       );
     const Q =
       (4.0 / viewingConditions.c) *
@@ -429,7 +429,7 @@ export class Cam16 {
 
     const t = Math.pow(
       alpha / Math.pow(1.64 - Math.pow(0.29, viewingConditions.n), 0.73),
-      1.0 / 0.9
+      1.0 / 0.9,
     );
     const hRad = (this.hue * Math.PI) / 180.0;
 

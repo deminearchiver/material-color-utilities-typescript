@@ -75,7 +75,7 @@ export class ToneDeltaPair {
     readonly delta: number,
     readonly polarity: TonePolarity,
     readonly stayTogether: boolean,
-    readonly constraint?: DeltaConstraint
+    readonly constraint?: DeltaConstraint,
   ) {
     this.constraint = constraint ?? "exact";
   }

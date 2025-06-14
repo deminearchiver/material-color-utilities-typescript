@@ -87,7 +87,7 @@ export class Hct {
    */
   set hue(newHue: number) {
     this.setInternalState(
-      HctSolver.solveToInt(newHue, this.internalChroma, this.internalTone)
+      HctSolver.solveToInt(newHue, this.internalChroma, this.internalTone),
     );
   }
 
@@ -102,7 +102,7 @@ export class Hct {
    */
   set chroma(newChroma: number) {
     this.setInternalState(
-      HctSolver.solveToInt(this.internalHue, newChroma, this.internalTone)
+      HctSolver.solveToInt(this.internalHue, newChroma, this.internalTone),
     );
   }
 
@@ -118,7 +118,7 @@ export class Hct {
    */
   set tone(newTone: number) {
     this.setInternalState(
-      HctSolver.solveToInt(this.internalHue, this.internalChroma, newTone)
+      HctSolver.solveToInt(this.internalHue, this.internalChroma, newTone),
     );
   }
 
@@ -129,7 +129,7 @@ export class Hct {
 
   toString(): string {
     return `HCT(${this.hue.toFixed(0)}, ${this.chroma.toFixed(
-      0
+      0,
     )}, ${this.tone.toFixed(0)})`;
   }
 
@@ -185,7 +185,7 @@ export class Hct {
       viewedInVc[0],
       viewedInVc[1],
       viewedInVc[2],
-      ViewingConditions.make()
+      ViewingConditions.make(),
     );
 
     // 3. Create HCT from:
@@ -194,7 +194,7 @@ export class Hct {
     const recastHct = Hct.from(
       recastInVc.hue,
       recastInVc.chroma,
-      utils.lstarFromY(viewedInVc[1])
+      utils.lstarFromY(viewedInVc[1]),
     );
     return recastHct;
   }

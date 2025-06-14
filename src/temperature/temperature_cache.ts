@@ -175,7 +175,7 @@ export class TemperatureCache {
     const startHueIsColdestToWarmest = TemperatureCache.isBetween(
       this.input.hue,
       coldestHue,
-      warmestHue
+      warmestHue,
     );
     const startHue = startHueIsColdestToWarmest ? warmestHue : coldestHue;
     const endHue = startHueIsColdestToWarmest ? coldestHue : warmestHue;
@@ -188,7 +188,7 @@ export class TemperatureCache {
     // of the input color. This is the complement.
     for (let hueAddend = 0.0; hueAddend <= 360.0; hueAddend += 1.0) {
       const hue = mathUtils.sanitizeDegreesDouble(
-        startHue + directionOfRotation * hueAddend
+        startHue + directionOfRotation * hueAddend,
       );
       if (!TemperatureCache.isBetween(hue, startHue, endHue)) {
         continue;
@@ -294,7 +294,7 @@ export class TemperatureCache {
   static rawTemperature(color: Hct): number {
     const lab = colorUtils.labFromArgb(color.toInt());
     const hue = mathUtils.sanitizeDegreesDouble(
-      (Math.atan2(lab[2], lab[1]) * 180.0) / Math.PI
+      (Math.atan2(lab[2], lab[1]) * 180.0) / Math.PI,
     );
     const chroma = Math.sqrt(lab[1] * lab[1] + lab[2] * lab[2]);
     const temperature =
@@ -302,7 +302,7 @@ export class TemperatureCache {
       0.02 *
         Math.pow(chroma, 1.07) *
         Math.cos(
-          (mathUtils.sanitizeDegreesDouble(hue - 50.0) * Math.PI) / 180.0
+          (mathUtils.sanitizeDegreesDouble(hue - 50.0) * Math.PI) / 180.0,
         );
     return temperature;
   }
