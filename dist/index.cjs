@@ -3686,10 +3686,15 @@ var ColorSpecDelegateImpl2025 = class extends ColorSpecDelegateImpl2021 {
 			name: "primary_fixed",
 			palette: (s) => s.primaryPalette,
 			tone: (s) => {
-				let tempS = Object.assign({}, s, { isDark: false });
+				let tempS = Object.assign({}, s, {
+					isDark: false,
+					contrastLevel: 0
+				});
 				return this.primaryContainer().getTone(tempS);
 			},
-			isBackground: true
+			isBackground: true,
+			background: (s) => s.platform === Platform.PHONE ? this.highestSurface(s) : void 0,
+			contrastCurve: (s) => s.platform === Platform.PHONE && s.contrastLevel > 0 ? getCurve(1.5) : void 0
 		});
 		return extendSpecVersion(super.primaryFixed(), SpecVersion.SPEC_2025, color2025);
 	}
@@ -3802,10 +3807,15 @@ var ColorSpecDelegateImpl2025 = class extends ColorSpecDelegateImpl2021 {
 			name: "secondary_fixed",
 			palette: (s) => s.secondaryPalette,
 			tone: (s) => {
-				let tempS = Object.assign({}, s, { isDark: false });
+				let tempS = Object.assign({}, s, {
+					isDark: false,
+					contrastLevel: 0
+				});
 				return this.secondaryContainer().getTone(tempS);
 			},
-			isBackground: true
+			isBackground: true,
+			background: (s) => s.platform === Platform.PHONE ? this.highestSurface(s) : void 0,
+			contrastCurve: (s) => s.platform === Platform.PHONE && s.contrastLevel > 0 ? getCurve(1.5) : void 0
 		});
 		return extendSpecVersion(super.secondaryFixed(), SpecVersion.SPEC_2025, color2025);
 	}
@@ -3908,10 +3918,15 @@ var ColorSpecDelegateImpl2025 = class extends ColorSpecDelegateImpl2021 {
 			name: "tertiary_fixed",
 			palette: (s) => s.tertiaryPalette,
 			tone: (s) => {
-				let tempS = Object.assign({}, s, { isDark: false });
+				let tempS = Object.assign({}, s, {
+					isDark: false,
+					contrastLevel: 0
+				});
 				return this.tertiaryContainer().getTone(tempS);
 			},
-			isBackground: true
+			isBackground: true,
+			background: (s) => s.platform === Platform.PHONE ? this.highestSurface(s) : void 0,
+			contrastCurve: (s) => s.platform === Platform.PHONE && s.contrastLevel > 0 ? getCurve(1.5) : void 0
 		});
 		return extendSpecVersion(super.tertiaryFixed(), SpecVersion.SPEC_2025, color2025);
 	}
