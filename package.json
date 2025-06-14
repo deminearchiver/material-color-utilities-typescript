@@ -52,7 +52,7 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.0-beta.6",
     "tsdown": "^0.12.7",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
