@@ -3492,7 +3492,7 @@ var ColorSpecDelegateImpl2025 = class extends ColorSpecDelegateImpl2021 {
 				return 1;
 			},
 			background: (s) => s.platform === Platform.PHONE ? this.highestSurface(s) : this.surfaceContainerHigh(),
-			contrastCurve: (s) => s.platform === Platform.PHONE ? getCurve(4.5) : getCurve(7)
+			contrastCurve: (s) => s.platform === Platform.PHONE ? s.isDark ? getCurve(6) : getCurve(4.5) : getCurve(7)
 		});
 		return extendSpecVersion(super.onSurfaceVariant(), SpecVersion.SPEC_2025, color2025);
 	}
