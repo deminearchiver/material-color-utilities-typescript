@@ -6821,3 +6821,4 @@ exports.themeFromSourceColor = themeFromSourceColor;
 exports.whitePointD65 = whitePointD65;
 exports.xyzFromArgb = xyzFromArgb;
 exports.yFromLstar = yFromLstar;
+//# sourceMappingURL=index.cjs.map
