@@ -37,13 +37,13 @@ function tMaxC(
   palette: TonalPalette,
   lowerBound: number = 0,
   upperBound: number = 100,
-  chromaMultiplier: number = 1
+  chromaMultiplier: number = 1,
 ): number {
   let answer = findBestToneForChroma(
     palette.hue,
     palette.chroma * chromaMultiplier,
     100,
-    true
+    true,
   );
   return math.clampDouble(lowerBound, upperBound, answer);
 }
@@ -58,7 +58,7 @@ function tMaxC(
 function tMinC(
   palette: TonalPalette,
   lowerBound: number = 0,
-  upperBound: number = 100
+  upperBound: number = 100,
 ): number {
   let answer = findBestToneForChroma(palette.hue, palette.chroma, 0, false);
   return math.clampDouble(lowerBound, upperBound, answer);
@@ -77,7 +77,7 @@ function findBestToneForChroma(
   hue: number,
   chroma: number,
   tone: number,
-  byDecreasingTone: boolean
+  byDecreasingTone: boolean,
 ): number {
   let answer = tone;
   let bestCandidate = Hct.from(hue, chroma, answer);
@@ -195,7 +195,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.surfaceDim(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -235,7 +235,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.surfaceBright(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -249,7 +249,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.surfaceContainerLowest(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -293,7 +293,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.surfaceContainerLow(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -337,7 +337,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.surfaceContainer(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -381,7 +381,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.surfaceContainerHigh(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -421,7 +421,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.surfaceContainerHighest(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -438,7 +438,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           return DynamicColor.getInitialToneFromBackground((s) =>
             s.platform === Platform.PHONE
               ? this.highestSurface(s)
-              : this.surfaceContainerHigh()
+              : this.surfaceContainerHigh(),
           )(s);
         }
       },
@@ -467,7 +467,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onSurface(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -505,7 +505,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onSurfaceVariant(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -569,7 +569,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.outlineVariant(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -583,7 +583,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.inverseSurface(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -597,7 +597,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.inverseOnSurface(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -633,15 +633,15 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             Hct.isYellow(s.primaryPalette.hue)
               ? 25
               : Hct.isCyan(s.primaryPalette.hue)
-              ? 88
-              : 98
+                ? 88
+                : 98,
           );
         } else {
           // VIBRANT
           return tMaxC(
             s.primaryPalette,
             0,
-            Hct.isCyan(s.primaryPalette.hue) ? 88 : 98
+            Hct.isCyan(s.primaryPalette.hue) ? 88 : 98,
           );
         }
       },
@@ -660,7 +660,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
               5,
               "relative_lighter",
               true,
-              "farther"
+              "farther",
             )
           : undefined,
     });
@@ -690,7 +690,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           5,
           "darker",
           true,
-          "farther"
+          "farther",
         ),
     });
   }
@@ -707,7 +707,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onPrimary(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -730,7 +730,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             : tMaxC(
                 s.primaryPalette,
                 78,
-                Hct.isCyan(s.primaryPalette.hue) ? 88 : 90
+                Hct.isCyan(s.primaryPalette.hue) ? 88 : 90,
               );
         } else {
           // VIBRANT
@@ -739,7 +739,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             : tMaxC(
                 s.primaryPalette,
                 66,
-                Hct.isCyan(s.primaryPalette.hue) ? 88 : 93
+                Hct.isCyan(s.primaryPalette.hue) ? 88 : 93,
               );
         }
       },
@@ -755,7 +755,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
               10,
               "darker",
               true,
-              "farther"
+              "farther",
             ),
       contrastCurve: (s) =>
         s.platform === Platform.PHONE && s.contrastLevel > 0
@@ -765,7 +765,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.primaryContainer(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -780,7 +780,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onPrimaryContainer(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -803,7 +803,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.primaryFixed(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -820,13 +820,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           5,
           "darker",
           true,
-          "exact"
+          "exact",
         ),
     });
     return extendSpecVersion(
       super.primaryFixedDim(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -840,7 +840,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onPrimaryFixed(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -854,7 +854,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onPrimaryFixedVariant(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -870,7 +870,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.inversePrimary(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -913,14 +913,14 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
               5,
               "relative_lighter",
               true,
-              "farther"
+              "farther",
             )
           : undefined,
     });
     return extendSpecVersion(
       super.secondary(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -945,7 +945,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           5,
           "darker",
           true,
-          "farther"
+          "farther",
         ),
     });
   }
@@ -962,7 +962,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onSecondary(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -994,7 +994,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
               10,
               "darker",
               true,
-              "farther"
+              "farther",
             )
           : undefined,
       contrastCurve: (s) =>
@@ -1005,7 +1005,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.secondaryContainer(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1020,7 +1020,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onSecondaryContainer(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1043,7 +1043,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.secondaryFixed(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1060,13 +1060,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           5,
           "darker",
           true,
-          "exact"
+          "exact",
         ),
     });
     return extendSpecVersion(
       super.secondaryFixedDim(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1080,7 +1080,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onSecondaryFixed(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1094,7 +1094,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onSecondaryFixedVariant(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1118,7 +1118,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           return tMaxC(
             s.tertiaryPalette,
             0,
-            Hct.isCyan(s.tertiaryPalette.hue) ? 88 : s.isDark ? 98 : 100
+            Hct.isCyan(s.tertiaryPalette.hue) ? 88 : s.isDark ? 98 : 100,
           );
         } else {
           // NEUTRAL and TONAL_SPOT
@@ -1142,14 +1142,14 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
               5,
               "relative_lighter",
               true,
-              "farther"
+              "farther",
             )
           : undefined,
     });
     return extendSpecVersion(
       super.tertiary(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1174,7 +1174,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           5,
           "darker",
           true,
-          "farther"
+          "farther",
         ),
     });
   }
@@ -1191,7 +1191,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onTertiary(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1215,7 +1215,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
             return tMaxC(
               s.tertiaryPalette,
               75,
-              Hct.isCyan(s.tertiaryPalette.hue) ? 88 : s.isDark ? 93 : 100
+              Hct.isCyan(s.tertiaryPalette.hue) ? 88 : s.isDark ? 93 : 100,
             );
           } else {
             // VIBRANT
@@ -1236,7 +1236,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
               10,
               "darker",
               true,
-              "farther"
+              "farther",
             )
           : undefined,
       contrastCurve: (s) =>
@@ -1247,7 +1247,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.tertiaryContainer(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1262,7 +1262,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onTertiaryContainer(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1285,7 +1285,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.tertiaryFixed(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1302,13 +1302,13 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           5,
           "darker",
           true,
-          "exact"
+          "exact",
         ),
     });
     return extendSpecVersion(
       super.tertiaryFixedDim(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1322,7 +1322,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onTertiaryFixed(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1336,7 +1336,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onTertiaryFixedVariant(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1372,7 +1372,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
               5,
               "relative_lighter",
               true,
-              "farther"
+              "farther",
             )
           : undefined,
     });
@@ -1394,7 +1394,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
           5,
           "darker",
           true,
-          "farther"
+          "farther",
         ),
     });
   }
@@ -1435,7 +1435,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
               10,
               "darker",
               true,
-              "farther"
+              "farther",
             )
           : undefined,
       contrastCurve: (s) =>
@@ -1446,7 +1446,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.errorContainer(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1461,7 +1461,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onErrorContainer(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1472,12 +1472,12 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
   override surfaceVariant(): DynamicColor {
     const color2025: DynamicColor = Object.assign(
       this.surfaceContainerHighest().clone(),
-      { name: "surface_variant" }
+      { name: "surface_variant" },
     );
     return extendSpecVersion(
       super.surfaceVariant(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1488,7 +1488,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.surfaceTint(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1499,7 +1499,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.background(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 
@@ -1510,7 +1510,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
     return extendSpecVersion(
       super.onBackground(),
       SpecVersion.SPEC_2025,
-      color2025
+      color2025,
     );
   }
 }
