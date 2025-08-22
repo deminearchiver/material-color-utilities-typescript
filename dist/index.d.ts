@@ -484,7 +484,15 @@ declare class MaterialDynamicColors {
   onError(): DynamicColor;
   errorContainer(): DynamicColor;
   onErrorContainer(): DynamicColor;
-  allDynamicColors: DynamicColor[];
+  controlActivated(): DynamicColor;
+  controlNormal(): DynamicColor;
+  controlHighlight(): DynamicColor;
+  textPrimaryInverse(): DynamicColor;
+  textSecondaryAndTertiaryInverse(): DynamicColor;
+  textPrimaryInverseDisableOnly(): DynamicColor;
+  textSecondaryAndTertiaryInverseDisabled(): DynamicColor;
+  textHintInverse(): DynamicColor;
+  readonly allDynamicColors: DynamicColor[];
   /** @deprecated Use highestSurface() instead. */
   static highestSurface(s: DynamicScheme): DynamicColor;
   /** @deprecated Use primaryPaletteKeyColor() instead. */

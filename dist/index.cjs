@@ -1899,7 +1899,8 @@ var DynamicColor = class DynamicColor {
 			background: this.background,
 			secondBackground: this.secondBackground,
 			contrastCurve: this.contrastCurve,
-			toneDeltaPair: this.toneDeltaPair
+			toneDeltaPair: this.toneDeltaPair,
+			opacity: this.opacity
 		});
 	}
 	/**
@@ -3212,6 +3213,64 @@ var ColorSpecDelegateImpl2021 = class {
 			contrastCurve: (s) => new ContrastCurve(3, 4.5, 7, 11)
 		});
 	}
+	controlActivated() {
+		return DynamicColor.fromPalette({
+			name: "control_activated",
+			palette: (s) => s.primaryPalette,
+			tone: (s) => s.isDark ? 30 : 90,
+			isBackground: true
+		});
+	}
+	controlNormal() {
+		return DynamicColor.fromPalette({
+			name: "control_normal",
+			palette: (s) => s.neutralVariantPalette,
+			tone: (s) => s.isDark ? 80 : 30
+		});
+	}
+	controlHighlight() {
+		return DynamicColor.fromPalette({
+			name: "control_highlight",
+			palette: (s) => s.neutralPalette,
+			tone: (s) => s.isDark ? 100 : 0,
+			opacity: (s) => s.isDark ? .2 : .12
+		});
+	}
+	textPrimaryInverse() {
+		return DynamicColor.fromPalette({
+			name: "text_primary_inverse",
+			palette: (s) => s.neutralPalette,
+			tone: (s) => s.isDark ? 10 : 90
+		});
+	}
+	textSecondaryAndTertiaryInverse() {
+		return DynamicColor.fromPalette({
+			name: "text_secondary_and_tertiary_inverse",
+			palette: (s) => s.neutralVariantPalette,
+			tone: (s) => s.isDark ? 30 : 80
+		});
+	}
+	textPrimaryInverseDisableOnly() {
+		return DynamicColor.fromPalette({
+			name: "text_primary_inverse_disable_only",
+			palette: (s) => s.neutralPalette,
+			tone: (s) => s.inverseOnSurface ? 10 : 90
+		});
+	}
+	textSecondaryAndTertiaryInverseDisabled() {
+		return DynamicColor.fromPalette({
+			name: "text_secondary_and_tertiary_inverse_disabled",
+			palette: (s) => s.neutralPalette,
+			tone: (s) => s.isDark ? 10 : 90
+		});
+	}
+	textHintInverse() {
+		return DynamicColor.fromPalette({
+			name: "text_hint_inverse",
+			palette: (s) => s.neutralPalette,
+			tone: (s) => s.isDark ? 10 : 90
+		});
+	}
 	highestSurface(s) {
 		return s.isDark ? this.surfaceBright() : this.surfaceDim();
 	}
@@ -3981,6 +4040,18 @@ var ColorSpecDelegateImpl2025 = class extends ColorSpecDelegateImpl2021 {
 		const color2025 = Object.assign(this.onSurface().clone(), { name: "on_background" });
 		return extendSpecVersion(super.onBackground(), SpecVersion.SPEC_2025, color2025);
 	}
+	controlActivated() {
+		const color2025 = Object.assign(this.primaryContainer().clone(), { name: "control_activated" });
+		return extendSpecVersion(super.controlActivated(), SpecVersion.SPEC_2025, color2025);
+	}
+	controlNormal() {
+		const color2025 = Object.assign(this.onSurfaceVariant().clone(), { name: "control_normal" });
+		return extendSpecVersion(super.controlNormal(), SpecVersion.SPEC_2025, color2025);
+	}
+	textPrimaryInverse() {
+		const color2025 = Object.assign(this.inverseOnSurface().clone(), { name: "text_primary_inverse" });
+		return extendSpecVersion(super.textPrimaryInverse(), SpecVersion.SPEC_2025, color2025);
+	}
 };
 
 //#endregion
@@ -4171,6 +4242,30 @@ var MaterialDynamicColors = class MaterialDynamicColors {
 	onErrorContainer() {
 		return MaterialDynamicColors.colorSpec.onErrorContainer();
 	}
+	controlActivated() {
+		return MaterialDynamicColors.colorSpec.controlActivated();
+	}
+	controlNormal() {
+		return MaterialDynamicColors.colorSpec.controlNormal();
+	}
+	controlHighlight() {
+		return MaterialDynamicColors.colorSpec.controlHighlight();
+	}
+	textPrimaryInverse() {
+		return MaterialDynamicColors.colorSpec.textPrimaryInverse();
+	}
+	textSecondaryAndTertiaryInverse() {
+		return MaterialDynamicColors.colorSpec.textSecondaryAndTertiaryInverse();
+	}
+	textPrimaryInverseDisableOnly() {
+		return MaterialDynamicColors.colorSpec.textPrimaryInverseDisableOnly();
+	}
+	textSecondaryAndTertiaryInverseDisabled() {
+		return MaterialDynamicColors.colorSpec.textSecondaryAndTertiaryInverseDisabled();
+	}
+	textHintInverse() {
+		return MaterialDynamicColors.colorSpec.textHintInverse();
+	}
 	allDynamicColors = [
 		this.primaryPaletteKeyColor(),
 		this.secondaryPaletteKeyColor(),
@@ -4230,7 +4325,15 @@ var MaterialDynamicColors = class MaterialDynamicColors {
 		this.errorDim(),
 		this.onError(),
 		this.errorContainer(),
-		this.onErrorContainer()
+		this.onErrorContainer(),
+		this.controlActivated(),
+		this.controlNormal(),
+		this.controlHighlight(),
+		this.textPrimaryInverse(),
+		this.textSecondaryAndTertiaryInverse(),
+		this.textPrimaryInverseDisableOnly(),
+		this.textSecondaryAndTertiaryInverseDisabled(),
+		this.textHintInverse()
 	];
 	/** @deprecated Use highestSurface() instead. */
 	static highestSurface(s) {

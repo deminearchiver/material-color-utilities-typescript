@@ -902,6 +902,76 @@ export class ColorSpecDelegateImpl2021 implements ColorSpecDelegate {
   }
 
   ////////////////////////////////////////////////////////////////
+  // Android-only Colors                                        //
+  ////////////////////////////////////////////////////////////////
+
+  controlActivated(): DynamicColor {
+    return DynamicColor.fromPalette({
+      name: "control_activated",
+      palette: (s) => s.primaryPalette,
+      tone: (s) => (s.isDark ? 30.0 : 90.0),
+      isBackground: true,
+    });
+  }
+
+  controlNormal(): DynamicColor {
+    return DynamicColor.fromPalette({
+      name: "control_normal",
+      palette: (s) => s.neutralVariantPalette,
+      tone: (s) => (s.isDark ? 80.0 : 30.0),
+    });
+  }
+
+  controlHighlight(): DynamicColor {
+    return DynamicColor.fromPalette({
+      name: "control_highlight",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => (s.isDark ? 100.0 : 0.0),
+      opacity: (s) => (s.isDark ? 0.2 : 0.12),
+    });
+  }
+
+  textPrimaryInverse(): DynamicColor {
+    return DynamicColor.fromPalette({
+      name: "text_primary_inverse",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => (s.isDark ? 10.0 : 90.0),
+    });
+  }
+
+  textSecondaryAndTertiaryInverse(): DynamicColor {
+    return DynamicColor.fromPalette({
+      name: "text_secondary_and_tertiary_inverse",
+      palette: (s) => s.neutralVariantPalette,
+      tone: (s) => (s.isDark ? 30.0 : 80.0),
+    });
+  }
+
+  textPrimaryInverseDisableOnly(): DynamicColor {
+    return DynamicColor.fromPalette({
+      name: "text_primary_inverse_disable_only",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => (s.inverseOnSurface ? 10.0 : 90.0),
+    });
+  }
+
+  textSecondaryAndTertiaryInverseDisabled(): DynamicColor {
+    return DynamicColor.fromPalette({
+      name: "text_secondary_and_tertiary_inverse_disabled",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => (s.isDark ? 10.0 : 90.0),
+    });
+  }
+
+  textHintInverse(): DynamicColor {
+    return DynamicColor.fromPalette({
+      name: "text_hint_inverse",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => (s.isDark ? 10.0 : 90.0),
+    });
+  }
+
+  ////////////////////////////////////////////////////////////////
   // Other                                                      //
   ////////////////////////////////////////////////////////////////
 

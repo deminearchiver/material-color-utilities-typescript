@@ -306,10 +306,46 @@ export class MaterialDynamicColors {
   }
 
   ////////////////////////////////////////////////////////////////
+  // Android-only Colors                                        //
+  ////////////////////////////////////////////////////////////////
+
+  controlActivated(): DynamicColor {
+    return MaterialDynamicColors.colorSpec.controlActivated();
+  }
+
+  controlNormal(): DynamicColor {
+    return MaterialDynamicColors.colorSpec.controlNormal();
+  }
+
+  controlHighlight(): DynamicColor {
+    return MaterialDynamicColors.colorSpec.controlHighlight();
+  }
+
+  textPrimaryInverse(): DynamicColor {
+    return MaterialDynamicColors.colorSpec.textPrimaryInverse();
+  }
+
+  textSecondaryAndTertiaryInverse(): DynamicColor {
+    return MaterialDynamicColors.colorSpec.textSecondaryAndTertiaryInverse();
+  }
+
+  textPrimaryInverseDisableOnly(): DynamicColor {
+    return MaterialDynamicColors.colorSpec.textPrimaryInverseDisableOnly();
+  }
+
+  textSecondaryAndTertiaryInverseDisabled(): DynamicColor {
+    return MaterialDynamicColors.colorSpec.textSecondaryAndTertiaryInverseDisabled();
+  }
+
+  textHintInverse(): DynamicColor {
+    return MaterialDynamicColors.colorSpec.textHintInverse();
+  }
+
+  ////////////////////////////////////////////////////////////////
   // All Colors                                                 //
   ////////////////////////////////////////////////////////////////
 
-  allDynamicColors: DynamicColor[] = [
+  public readonly allDynamicColors: DynamicColor[] = [
     this.primaryPaletteKeyColor(),
     this.secondaryPaletteKeyColor(),
     this.tertiaryPaletteKeyColor(),
@@ -369,6 +405,14 @@ export class MaterialDynamicColors {
     this.onError(),
     this.errorContainer(),
     this.onErrorContainer(),
+    this.controlActivated(),
+    this.controlNormal(),
+    this.controlHighlight(),
+    this.textPrimaryInverse(),
+    this.textSecondaryAndTertiaryInverse(),
+    this.textPrimaryInverseDisableOnly(),
+    this.textSecondaryAndTertiaryInverseDisabled(),
+    this.textHintInverse(),
   ];
 
   // Static variables are deprecated. Use the instance methods to get correct

@@ -294,6 +294,7 @@ export class DynamicColor {
       secondBackground: this.secondBackground,
       contrastCurve: this.contrastCurve,
       toneDeltaPair: this.toneDeltaPair,
+      opacity: this.opacity,
     });
   }
 

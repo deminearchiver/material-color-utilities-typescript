@@ -181,6 +181,26 @@ export interface ColorSpecDelegate {
   onTertiaryFixedVariant(): DynamicColor;
 
   ////////////////////////////////////////////////////////////////
+  // Android-only Colors                                        //
+  ////////////////////////////////////////////////////////////////
+
+  controlActivated(): DynamicColor;
+
+  controlNormal(): DynamicColor;
+
+  controlHighlight(): DynamicColor;
+
+  textPrimaryInverse(): DynamicColor;
+
+  textSecondaryAndTertiaryInverse(): DynamicColor;
+
+  textPrimaryInverseDisableOnly(): DynamicColor;
+
+  textSecondaryAndTertiaryInverseDisabled(): DynamicColor;
+
+  textHintInverse(): DynamicColor;
+
+  ////////////////////////////////////////////////////////////////
   // Other                                                      //
   ////////////////////////////////////////////////////////////////
 

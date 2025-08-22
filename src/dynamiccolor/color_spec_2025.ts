@@ -1513,4 +1513,45 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       color2025,
     );
   }
+  override controlActivated(): DynamicColor {
+    const color2025: DynamicColor = Object.assign(
+      this.primaryContainer().clone(),
+      {
+        name: "control_activated",
+      },
+    );
+    return extendSpecVersion(
+      super.controlActivated(),
+      SpecVersion.SPEC_2025,
+      color2025,
+    );
+  }
+
+  override controlNormal(): DynamicColor {
+    const color2025: DynamicColor = Object.assign(
+      this.onSurfaceVariant().clone(),
+      {
+        name: "control_normal",
+      },
+    );
+    return extendSpecVersion(
+      super.controlNormal(),
+      SpecVersion.SPEC_2025,
+      color2025,
+    );
+  }
+
+  override textPrimaryInverse(): DynamicColor {
+    const color2025: DynamicColor = Object.assign(
+      this.inverseOnSurface().clone(),
+      {
+        name: "text_primary_inverse",
+      },
+    );
+    return extendSpecVersion(
+      super.textPrimaryInverse(),
+      SpecVersion.SPEC_2025,
+      color2025,
+    );
+  }
 }
