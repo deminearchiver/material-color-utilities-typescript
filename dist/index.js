@@ -6478,7 +6478,7 @@ async function sourceColorFromImage(image) {
 		const canvas = document.createElement("canvas");
 		const context = canvas.getContext("2d");
 		if (!context) {
-			reject(new Error("Could not get canvas context"));
+			reject(/* @__PURE__ */ new Error("Could not get canvas context"));
 			return;
 		}
 		const loadCallback = () => {
@@ -6499,7 +6499,7 @@ async function sourceColorFromImage(image) {
 			resolve(context.getImageData(sx, sy, sw, sh).data);
 		};
 		const errorCallback = () => {
-			reject(new Error("Image load failed"));
+			reject(/* @__PURE__ */ new Error("Image load failed"));
 		};
 		if (image.complete) loadCallback();
 		else {
