@@ -1775,36 +1775,40 @@ function validateExtendedColor(originalColor, specVersion, extendedColor) {
 * Returns a new DynamicColor that is the same as the original color, but with
 * the extended dynamic color's constraints for the given spec version.
 *
-* @param originlColor The original color.
+* @param originalColor The original color.
 * @param specVersion The spec version to extend.
 * @param extendedColor The color with the values to extend.
 */
-function extendSpecVersion(originlColor, specVersion, extendedColor) {
-	validateExtendedColor(originlColor, specVersion, extendedColor);
+function extendSpecVersion(originalColor, specVersion, extendedColor) {
+	validateExtendedColor(originalColor, specVersion, extendedColor);
 	return DynamicColor.fromPalette({
-		name: originlColor.name,
-		palette: (s) => s.specVersion === specVersion ? extendedColor.palette(s) : originlColor.palette(s),
-		tone: (s) => s.specVersion === specVersion ? extendedColor.tone(s) : originlColor.tone(s),
-		isBackground: originlColor.isBackground,
+		name: originalColor.name,
+		palette: (s) => s.specVersion === specVersion ? extendedColor.palette(s) : originalColor.palette(s),
+		tone: (s) => s.specVersion === specVersion ? extendedColor.tone(s) : originalColor.tone(s),
+		isBackground: originalColor.isBackground,
 		chromaMultiplier: (s) => {
-			const chromaMultiplier = s.specVersion === specVersion ? extendedColor.chromaMultiplier : originlColor.chromaMultiplier;
+			const chromaMultiplier = s.specVersion === specVersion ? extendedColor.chromaMultiplier : originalColor.chromaMultiplier;
 			return chromaMultiplier !== void 0 ? chromaMultiplier(s) : 1;
 		},
 		background: (s) => {
-			const background = s.specVersion === specVersion ? extendedColor.background : originlColor.background;
+			const background = s.specVersion === specVersion ? extendedColor.background : originalColor.background;
 			return background !== void 0 ? background(s) : void 0;
 		},
 		secondBackground: (s) => {
-			const secondBackground = s.specVersion === specVersion ? extendedColor.secondBackground : originlColor.secondBackground;
+			const secondBackground = s.specVersion === specVersion ? extendedColor.secondBackground : originalColor.secondBackground;
 			return secondBackground !== void 0 ? secondBackground(s) : void 0;
 		},
 		contrastCurve: (s) => {
-			const contrastCurve = s.specVersion === specVersion ? extendedColor.contrastCurve : originlColor.contrastCurve;
+			const contrastCurve = s.specVersion === specVersion ? extendedColor.contrastCurve : originalColor.contrastCurve;
 			return contrastCurve !== void 0 ? contrastCurve(s) : void 0;
 		},
 		toneDeltaPair: (s) => {
-			const toneDeltaPair = s.specVersion === specVersion ? extendedColor.toneDeltaPair : originlColor.toneDeltaPair;
+			const toneDeltaPair = s.specVersion === specVersion ? extendedColor.toneDeltaPair : originalColor.toneDeltaPair;
 			return toneDeltaPair !== void 0 ? toneDeltaPair(s) : void 0;
+		},
+		opacity: (s) => {
+			const opacity = s.specVersion === specVersion ? extendedColor.opacity : originalColor.opacity;
+			return opacity !== void 0 ? opacity(s) : void 0;
 		}
 	});
 }
@@ -1828,7 +1832,7 @@ var DynamicColor = class DynamicColor {
 	*     and tone. May provide a background DynamicColor and ToneDeltaPair.
 	*/
 	static fromPalette(args) {
-		return new DynamicColor(args.name ?? "", args.palette, args.tone ?? DynamicColor.getInitialToneFromBackground(args.background), args.isBackground ?? false, args.chromaMultiplier, args.background, args.secondBackground, args.contrastCurve, args.toneDeltaPair);
+		return new DynamicColor(args.name ?? "", args.palette, args.tone ?? DynamicColor.getInitialToneFromBackground(args.background), args.isBackground ?? false, args.chromaMultiplier, args.background, args.secondBackground, args.contrastCurve, args.toneDeltaPair, args.opacity);
 	}
 	static getInitialToneFromBackground(background) {
 		if (background === void 0) return (s) => 50;
@@ -1867,7 +1871,7 @@ var DynamicColor = class DynamicColor {
 	*     constraint between two colors. One of them must be the color being
 	*     constructed.
 	*/
-	constructor(name, palette, tone, isBackground, chromaMultiplier, background, secondBackground, contrastCurve, toneDeltaPair) {
+	constructor(name, palette, tone, isBackground, chromaMultiplier, background, secondBackground, contrastCurve, toneDeltaPair, opacity) {
 		this.name = name;
 		this.palette = palette;
 		this.tone = tone;
@@ -1877,6 +1881,7 @@ var DynamicColor = class DynamicColor {
 		this.secondBackground = secondBackground;
 		this.contrastCurve = contrastCurve;
 		this.toneDeltaPair = toneDeltaPair;
+		this.opacity = opacity;
 		if (!background && secondBackground) throw new Error(`Color ${name} has secondBackgrounddefined, but background is not defined.`);
 		if (!background && contrastCurve) throw new Error(`Color ${name} has contrastCurvedefined, but background is not defined.`);
 		if (background && !contrastCurve) throw new Error(`Color ${name} has backgrounddefined, but contrastCurve is not defined.`);
@@ -1912,7 +1917,12 @@ var DynamicColor = class DynamicColor {
 	*     contrast level is.
 	*/
 	getArgb(scheme) {
-		return this.getHct(scheme).toInt();
+		const argb = this.getHct(scheme).toInt();
+		if (this.opacity == null) return argb;
+		const percentage = this.opacity(scheme);
+		if (percentage == null) return argb;
+		const alpha = clampInt(0, 255, Math.round(percentage * 255));
+		return argb & 16777215 | alpha << 24;
 	}
 	/**
 	* Returns a color, expressed in the HCT color space, that this

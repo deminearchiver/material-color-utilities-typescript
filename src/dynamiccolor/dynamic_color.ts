@@ -60,6 +60,7 @@ interface FromPaletteOptions {
   secondBackground?: (scheme: DynamicScheme) => DynamicColor | undefined;
   contrastCurve?: (scheme: DynamicScheme) => ContrastCurve | undefined;
   toneDeltaPair?: (scheme: DynamicScheme) => ToneDeltaPair | undefined;
+  opacity?: (scheme: DynamicScheme) => number | undefined;
 }
 
 /**
@@ -97,62 +98,69 @@ function validateExtendedColor(
  * Returns a new DynamicColor that is the same as the original color, but with
  * the extended dynamic color's constraints for the given spec version.
  *
- * @param originlColor The original color.
+ * @param originalColor The original color.
  * @param specVersion The spec version to extend.
  * @param extendedColor The color with the values to extend.
  */
 export function extendSpecVersion(
-  originlColor: DynamicColor,
+  originalColor: DynamicColor,
   specVersion: SpecVersion,
   extendedColor: DynamicColor,
 ): DynamicColor {
-  validateExtendedColor(originlColor, specVersion, extendedColor);
+  validateExtendedColor(originalColor, specVersion, extendedColor);
 
   return DynamicColor.fromPalette({
-    name: originlColor.name,
+    name: originalColor.name,
     palette: (s) =>
       s.specVersion === specVersion
         ? extendedColor.palette(s)
-        : originlColor.palette(s),
+        : originalColor.palette(s),
     tone: (s) =>
       s.specVersion === specVersion
         ? extendedColor.tone(s)
-        : originlColor.tone(s),
-    isBackground: originlColor.isBackground,
+        : originalColor.tone(s),
+    isBackground: originalColor.isBackground,
     chromaMultiplier: (s) => {
       const chromaMultiplier =
         s.specVersion === specVersion
           ? extendedColor.chromaMultiplier
-          : originlColor.chromaMultiplier;
+          : originalColor.chromaMultiplier;
       return chromaMultiplier !== undefined ? chromaMultiplier(s) : 1;
     },
     background: (s) => {
       const background =
         s.specVersion === specVersion
           ? extendedColor.background
-          : originlColor.background;
+          : originalColor.background;
       return background !== undefined ? background(s) : undefined;
     },
     secondBackground: (s) => {
       const secondBackground =
         s.specVersion === specVersion
           ? extendedColor.secondBackground
-          : originlColor.secondBackground;
+          : originalColor.secondBackground;
       return secondBackground !== undefined ? secondBackground(s) : undefined;
     },
     contrastCurve: (s) => {
       const contrastCurve =
         s.specVersion === specVersion
           ? extendedColor.contrastCurve
-          : originlColor.contrastCurve;
+          : originalColor.contrastCurve;
       return contrastCurve !== undefined ? contrastCurve(s) : undefined;
     },
     toneDeltaPair: (s) => {
       const toneDeltaPair =
         s.specVersion === specVersion
           ? extendedColor.toneDeltaPair
-          : originlColor.toneDeltaPair;
+          : originalColor.toneDeltaPair;
       return toneDeltaPair !== undefined ? toneDeltaPair(s) : undefined;
+    },
+    opacity: (s) => {
+      const opacity =
+        s.specVersion === specVersion
+          ? extendedColor.opacity
+          : originalColor.opacity;
+      return opacity !== undefined ? opacity(s) : undefined;
     },
   });
 }
@@ -188,6 +196,7 @@ export class DynamicColor {
       args.secondBackground,
       args.contrastCurve,
       args.toneDeltaPair,
+      args.opacity,
     );
   }
 
@@ -249,6 +258,7 @@ export class DynamicColor {
     readonly toneDeltaPair?: (
       scheme: DynamicScheme,
     ) => ToneDeltaPair | undefined,
+    readonly opacity?: (scheme: DynamicScheme) => number | undefined,
   ) {
     if (!background && secondBackground) {
       throw new Error(
@@ -303,7 +313,12 @@ export class DynamicColor {
    *     contrast level is.
    */
   getArgb(scheme: DynamicScheme): number {
-    return this.getHct(scheme).toInt();
+    const argb = this.getHct(scheme).toInt();
+    if (this.opacity == null) return argb;
+    const percentage = this.opacity(scheme);
+    if (percentage == null) return argb;
+    const alpha = math.clampInt(0, 255, Math.round(percentage * 255));
+    return (argb & 0x00ffffff) | (alpha << 24);
   }
 
   /**

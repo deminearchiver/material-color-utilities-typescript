@@ -46,7 +46,7 @@
       "default": "./dist/index.js"
     }
   },
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.9.3",
   "scripts": {
     "build": "tsdown",
     "test": "vitest"

@@ -1025,16 +1025,17 @@ interface FromPaletteOptions {
   secondBackground?: (scheme: DynamicScheme) => DynamicColor | undefined;
   contrastCurve?: (scheme: DynamicScheme) => ContrastCurve | undefined;
   toneDeltaPair?: (scheme: DynamicScheme) => ToneDeltaPair | undefined;
+  opacity?: (scheme: DynamicScheme) => number | undefined;
 }
 /**
  * Returns a new DynamicColor that is the same as the original color, but with
  * the extended dynamic color's constraints for the given spec version.
  *
- * @param originlColor The original color.
+ * @param originalColor The original color.
  * @param specVersion The spec version to extend.
  * @param extendedColor The color with the values to extend.
  */
-declare function extendSpecVersion(originlColor: DynamicColor, specVersion: SpecVersion, extendedColor: DynamicColor): DynamicColor;
+declare function extendSpecVersion(originalColor: DynamicColor, specVersion: SpecVersion, extendedColor: DynamicColor): DynamicColor;
 /**
  * A color that adjusts itself based on UI state provided by DynamicScheme.
  *
@@ -1056,6 +1057,7 @@ declare class DynamicColor {
   readonly secondBackground?: ((scheme: DynamicScheme) => DynamicColor | undefined) | undefined;
   readonly contrastCurve?: ((scheme: DynamicScheme) => ContrastCurve | undefined) | undefined;
   readonly toneDeltaPair?: ((scheme: DynamicScheme) => ToneDeltaPair | undefined) | undefined;
+  readonly opacity?: ((scheme: DynamicScheme) => number | undefined) | undefined;
   private readonly hctCache;
   /**
    * Create a DynamicColor defined by a TonalPalette and HCT tone.
@@ -1098,7 +1100,7 @@ declare class DynamicColor {
    *     constraint between two colors. One of them must be the color being
    *     constructed.
    */
-  constructor(name: string, palette: (scheme: DynamicScheme) => TonalPalette, tone: (scheme: DynamicScheme) => number, isBackground: boolean, chromaMultiplier?: ((scheme: DynamicScheme) => number) | undefined, background?: ((scheme: DynamicScheme) => DynamicColor | undefined) | undefined, secondBackground?: ((scheme: DynamicScheme) => DynamicColor | undefined) | undefined, contrastCurve?: ((scheme: DynamicScheme) => ContrastCurve | undefined) | undefined, toneDeltaPair?: ((scheme: DynamicScheme) => ToneDeltaPair | undefined) | undefined);
+  constructor(name: string, palette: (scheme: DynamicScheme) => TonalPalette, tone: (scheme: DynamicScheme) => number, isBackground: boolean, chromaMultiplier?: ((scheme: DynamicScheme) => number) | undefined, background?: ((scheme: DynamicScheme) => DynamicColor | undefined) | undefined, secondBackground?: ((scheme: DynamicScheme) => DynamicColor | undefined) | undefined, contrastCurve?: ((scheme: DynamicScheme) => ContrastCurve | undefined) | undefined, toneDeltaPair?: ((scheme: DynamicScheme) => ToneDeltaPair | undefined) | undefined, opacity?: ((scheme: DynamicScheme) => number | undefined) | undefined);
   /**
    * Returns a deep copy of this DynamicColor.
    */
