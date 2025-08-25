@@ -25,6 +25,7 @@ import { ToneDeltaPair } from "./tone_delta_pair";
 import { Variant } from "./variant";
 import { SpecVersion } from "./spec_version";
 import { Platform } from "./platform";
+import type { DynamicScheme } from "./dynamic_scheme";
 
 /**
  * Returns the maximum tone for a given chroma in the palette.
@@ -1506,6 +1507,11 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
   override onBackground(): DynamicColor {
     const color2025: DynamicColor = Object.assign(this.onSurface().clone(), {
       name: "on_background",
+      tone: (s: DynamicScheme) => {
+        return s.platform === Platform.WATCH
+          ? 100.0
+          : this.onSurface().getTone(s);
+      },
     });
     return extendSpecVersion(
       super.onBackground(),
@@ -1513,6 +1519,7 @@ export class ColorSpecDelegateImpl2025 extends ColorSpecDelegateImpl2021 {
       color2025,
     );
   }
+
   override controlActivated(): DynamicColor {
     const color2025: DynamicColor = Object.assign(
       this.primaryContainer().clone(),

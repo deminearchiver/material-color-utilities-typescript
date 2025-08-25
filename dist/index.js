@@ -4036,7 +4036,12 @@ var ColorSpecDelegateImpl2025 = class extends ColorSpecDelegateImpl2021 {
 		return extendSpecVersion(super.background(), SpecVersion.SPEC_2025, color2025);
 	}
 	onBackground() {
-		const color2025 = Object.assign(this.onSurface().clone(), { name: "on_background" });
+		const color2025 = Object.assign(this.onSurface().clone(), {
+			name: "on_background",
+			tone: (s) => {
+				return s.platform === Platform.WATCH ? 100 : this.onSurface().getTone(s);
+			}
+		});
 		return extendSpecVersion(super.onBackground(), SpecVersion.SPEC_2025, color2025);
 	}
 	controlActivated() {
