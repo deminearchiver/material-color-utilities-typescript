@@ -783,6 +783,40 @@ export class DynamicScheme {
   get onErrorContainer(): number {
     return this.getArgb(this.colors.onErrorContainer());
   }
+
+  // Android-only colors
+
+  get controlActivated(): number {
+    return this.getArgb(this.colors.controlActivated());
+  }
+
+  get controlNormal(): number {
+    return this.getArgb(this.colors.controlNormal());
+  }
+
+  get controlHighlight(): number {
+    return this.getArgb(this.colors.controlHighlight());
+  }
+
+  get textPrimaryInverse(): number {
+    return this.getArgb(this.colors.textPrimaryInverse());
+  }
+
+  get textSecondaryAndTertiaryInverse(): number {
+    return this.getArgb(this.colors.textSecondaryAndTertiaryInverse());
+  }
+
+  get textPrimaryInverseDisableOnly(): number {
+    return this.getArgb(this.colors.textPrimaryInverseDisableOnly());
+  }
+
+  get textSecondaryAndTertiaryInverseDisabled(): number {
+    return this.getArgb(this.colors.textSecondaryAndTertiaryInverseDisabled());
+  }
+
+  get textHintInverse(): number {
+    return this.getArgb(this.colors.textHintInverse());
+  }
 }
 
 /**

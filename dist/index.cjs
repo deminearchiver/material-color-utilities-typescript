@@ -1766,6 +1766,46 @@ var DislikeAnalyzer = class DislikeAnalyzer {
 };
 
 //#endregion
+//#region src/dynamiccolor/contrast_curve.ts
+/**
+* A class containing a value that changes with the contrast level.
+*
+* Usually represents the contrast requirements for a dynamic color on its
+* background. The four values correspond to values for contrast levels -1.0,
+* 0.0, 0.5, and 1.0, respectively.
+*/
+var ContrastCurve = class {
+	/**
+	* Creates a `ContrastCurve` object.
+	*
+	* @param low Value for contrast level -1.0
+	* @param normal Value for contrast level 0.0
+	* @param medium Value for contrast level 0.5
+	* @param high Value for contrast level 1.0
+	*/
+	constructor(low, normal, medium, high) {
+		this.low = low;
+		this.normal = normal;
+		this.medium = medium;
+		this.high = high;
+	}
+	/**
+	* Returns the value at a given contrast level.
+	*
+	* @param contrastLevel The contrast level. 0.0 is the default (normal); -1.0
+	*     is the lowest; 1.0 is the highest.
+	* @return The value. For contrast ratios, a number between 1.0 and 21.0.
+	*/
+	get(contrastLevel) {
+		if (contrastLevel <= -1) return this.low;
+		else if (contrastLevel < 0) return lerp(this.low, this.normal, (contrastLevel - -1) / 1);
+		else if (contrastLevel < .5) return lerp(this.normal, this.medium, (contrastLevel - 0) / .5);
+		else if (contrastLevel < 1) return lerp(this.medium, this.high, (contrastLevel - .5) / .5);
+		else return this.high;
+	}
+};
+
+//#endregion
 //#region src/dynamiccolor/dynamic_color.ts
 function validateExtendedColor(originalColor, specVersion, extendedColor) {
 	if (originalColor.name !== extendedColor.name) throw new Error(`Attempting to extend color ${originalColor.name} with color ${extendedColor.name} of different name for spec version ${specVersion}.`);
@@ -2486,46 +2526,6 @@ var TemperatureCache = class TemperatureCache {
 		const chroma = Math.sqrt(lab[1] * lab[1] + lab[2] * lab[2]);
 		const temperature = -.5 + .02 * Math.pow(chroma, 1.07) * Math.cos(sanitizeDegreesDouble(hue - 50) * Math.PI / 180);
 		return temperature;
-	}
-};
-
-//#endregion
-//#region src/dynamiccolor/contrast_curve.ts
-/**
-* A class containing a value that changes with the contrast level.
-*
-* Usually represents the contrast requirements for a dynamic color on its
-* background. The four values correspond to values for contrast levels -1.0,
-* 0.0, 0.5, and 1.0, respectively.
-*/
-var ContrastCurve = class {
-	/**
-	* Creates a `ContrastCurve` object.
-	*
-	* @param low Value for contrast level -1.0
-	* @param normal Value for contrast level 0.0
-	* @param medium Value for contrast level 0.5
-	* @param high Value for contrast level 1.0
-	*/
-	constructor(low, normal, medium, high) {
-		this.low = low;
-		this.normal = normal;
-		this.medium = medium;
-		this.high = high;
-	}
-	/**
-	* Returns the value at a given contrast level.
-	*
-	* @param contrastLevel The contrast level. 0.0 is the default (normal); -1.0
-	*     is the lowest; 1.0 is the highest.
-	* @return The value. For contrast ratios, a number between 1.0 and 21.0.
-	*/
-	get(contrastLevel) {
-		if (contrastLevel <= -1) return this.low;
-		else if (contrastLevel < 0) return lerp(this.low, this.normal, (contrastLevel - -1) / 1);
-		else if (contrastLevel < .5) return lerp(this.normal, this.medium, (contrastLevel - 0) / .5);
-		else if (contrastLevel < 1) return lerp(this.medium, this.high, (contrastLevel - .5) / .5);
-		else return this.high;
 	}
 };
 
@@ -4799,6 +4799,30 @@ var DynamicScheme = class DynamicScheme {
 	get onErrorContainer() {
 		return this.getArgb(this.colors.onErrorContainer());
 	}
+	get controlActivated() {
+		return this.getArgb(this.colors.controlActivated());
+	}
+	get controlNormal() {
+		return this.getArgb(this.colors.controlNormal());
+	}
+	get controlHighlight() {
+		return this.getArgb(this.colors.controlHighlight());
+	}
+	get textPrimaryInverse() {
+		return this.getArgb(this.colors.textPrimaryInverse());
+	}
+	get textSecondaryAndTertiaryInverse() {
+		return this.getArgb(this.colors.textSecondaryAndTertiaryInverse());
+	}
+	get textPrimaryInverseDisableOnly() {
+		return this.getArgb(this.colors.textPrimaryInverseDisableOnly());
+	}
+	get textSecondaryAndTertiaryInverseDisabled() {
+		return this.getArgb(this.colors.textSecondaryAndTertiaryInverseDisabled());
+	}
+	get textHintInverse() {
+		return this.getArgb(this.colors.textHintInverse());
+	}
 };
 /**
 * A delegate for the palettes of a DynamicScheme in the 2021 spec.
@@ -5290,6 +5314,23 @@ var CorePalette = class CorePalette {
 			this.n2 = TonalPalette.fromHueAndChroma(hue, 8);
 		}
 		this.error = TonalPalette.fromHueAndChroma(25, 84);
+	}
+};
+
+//#endregion
+//#region src/palettes/core_palettes.ts
+/**
+* Comprises foundational palettes to build a color scheme. Generated from a
+* source color, these palettes will then be part of a [DynamicScheme] together
+* with appearance preferences.
+*/
+var CorePalettes = class {
+	constructor(primary, secondary, tertiary, neutral, neutralVariant) {
+		this.primary = primary;
+		this.secondary = secondary;
+		this.tertiary = tertiary;
+		this.neutral = neutral;
+		this.neutralVariant = neutralVariant;
 	}
 };
 
@@ -5845,212 +5886,6 @@ var QuantizerCelebi = class {
 };
 
 //#endregion
-//#region src/scheme/scheme.ts
-/**
-* DEPRECATED. The `Scheme` class is deprecated in favor of `DynamicScheme`.
-* Please see
-* https://github.com/material-foundation/material-color-utilities/blob/main/make_schemes.md
-* for migration guidance.
-*
-* Represents a Material color scheme, a mapping of color roles to colors.
-*/
-var Scheme = class Scheme {
-	get primary() {
-		return this.props.primary;
-	}
-	get onPrimary() {
-		return this.props.onPrimary;
-	}
-	get primaryContainer() {
-		return this.props.primaryContainer;
-	}
-	get onPrimaryContainer() {
-		return this.props.onPrimaryContainer;
-	}
-	get secondary() {
-		return this.props.secondary;
-	}
-	get onSecondary() {
-		return this.props.onSecondary;
-	}
-	get secondaryContainer() {
-		return this.props.secondaryContainer;
-	}
-	get onSecondaryContainer() {
-		return this.props.onSecondaryContainer;
-	}
-	get tertiary() {
-		return this.props.tertiary;
-	}
-	get onTertiary() {
-		return this.props.onTertiary;
-	}
-	get tertiaryContainer() {
-		return this.props.tertiaryContainer;
-	}
-	get onTertiaryContainer() {
-		return this.props.onTertiaryContainer;
-	}
-	get error() {
-		return this.props.error;
-	}
-	get onError() {
-		return this.props.onError;
-	}
-	get errorContainer() {
-		return this.props.errorContainer;
-	}
-	get onErrorContainer() {
-		return this.props.onErrorContainer;
-	}
-	get background() {
-		return this.props.background;
-	}
-	get onBackground() {
-		return this.props.onBackground;
-	}
-	get surface() {
-		return this.props.surface;
-	}
-	get onSurface() {
-		return this.props.onSurface;
-	}
-	get surfaceVariant() {
-		return this.props.surfaceVariant;
-	}
-	get onSurfaceVariant() {
-		return this.props.onSurfaceVariant;
-	}
-	get outline() {
-		return this.props.outline;
-	}
-	get outlineVariant() {
-		return this.props.outlineVariant;
-	}
-	get shadow() {
-		return this.props.shadow;
-	}
-	get scrim() {
-		return this.props.scrim;
-	}
-	get inverseSurface() {
-		return this.props.inverseSurface;
-	}
-	get inverseOnSurface() {
-		return this.props.inverseOnSurface;
-	}
-	get inversePrimary() {
-		return this.props.inversePrimary;
-	}
-	/**
-	* @param argb ARGB representation of a color.
-	* @return Light Material color scheme, based on the color's hue.
-	*/
-	static light(argb) {
-		return Scheme.lightFromCorePalette(CorePalette.of(argb));
-	}
-	/**
-	* @param argb ARGB representation of a color.
-	* @return Dark Material color scheme, based on the color's hue.
-	*/
-	static dark(argb) {
-		return Scheme.darkFromCorePalette(CorePalette.of(argb));
-	}
-	/**
-	* @param argb ARGB representation of a color.
-	* @return Light Material content color scheme, based on the color's hue.
-	*/
-	static lightContent(argb) {
-		return Scheme.lightFromCorePalette(CorePalette.contentOf(argb));
-	}
-	/**
-	* @param argb ARGB representation of a color.
-	* @return Dark Material content color scheme, based on the color's hue.
-	*/
-	static darkContent(argb) {
-		return Scheme.darkFromCorePalette(CorePalette.contentOf(argb));
-	}
-	/**
-	* Light scheme from core palette
-	*/
-	static lightFromCorePalette(core) {
-		return new Scheme({
-			primary: core.a1.tone(40),
-			onPrimary: core.a1.tone(100),
-			primaryContainer: core.a1.tone(90),
-			onPrimaryContainer: core.a1.tone(10),
-			secondary: core.a2.tone(40),
-			onSecondary: core.a2.tone(100),
-			secondaryContainer: core.a2.tone(90),
-			onSecondaryContainer: core.a2.tone(10),
-			tertiary: core.a3.tone(40),
-			onTertiary: core.a3.tone(100),
-			tertiaryContainer: core.a3.tone(90),
-			onTertiaryContainer: core.a3.tone(10),
-			error: core.error.tone(40),
-			onError: core.error.tone(100),
-			errorContainer: core.error.tone(90),
-			onErrorContainer: core.error.tone(10),
-			background: core.n1.tone(99),
-			onBackground: core.n1.tone(10),
-			surface: core.n1.tone(99),
-			onSurface: core.n1.tone(10),
-			surfaceVariant: core.n2.tone(90),
-			onSurfaceVariant: core.n2.tone(30),
-			outline: core.n2.tone(50),
-			outlineVariant: core.n2.tone(80),
-			shadow: core.n1.tone(0),
-			scrim: core.n1.tone(0),
-			inverseSurface: core.n1.tone(20),
-			inverseOnSurface: core.n1.tone(95),
-			inversePrimary: core.a1.tone(80)
-		});
-	}
-	/**
-	* Dark scheme from core palette
-	*/
-	static darkFromCorePalette(core) {
-		return new Scheme({
-			primary: core.a1.tone(80),
-			onPrimary: core.a1.tone(20),
-			primaryContainer: core.a1.tone(30),
-			onPrimaryContainer: core.a1.tone(90),
-			secondary: core.a2.tone(80),
-			onSecondary: core.a2.tone(20),
-			secondaryContainer: core.a2.tone(30),
-			onSecondaryContainer: core.a2.tone(90),
-			tertiary: core.a3.tone(80),
-			onTertiary: core.a3.tone(20),
-			tertiaryContainer: core.a3.tone(30),
-			onTertiaryContainer: core.a3.tone(90),
-			error: core.error.tone(80),
-			onError: core.error.tone(20),
-			errorContainer: core.error.tone(30),
-			onErrorContainer: core.error.tone(80),
-			background: core.n1.tone(10),
-			onBackground: core.n1.tone(90),
-			surface: core.n1.tone(10),
-			onSurface: core.n1.tone(90),
-			surfaceVariant: core.n2.tone(30),
-			onSurfaceVariant: core.n2.tone(80),
-			outline: core.n2.tone(60),
-			outlineVariant: core.n2.tone(30),
-			shadow: core.n1.tone(0),
-			scrim: core.n1.tone(0),
-			inverseSurface: core.n1.tone(90),
-			inverseOnSurface: core.n1.tone(20),
-			inversePrimary: core.a1.tone(40)
-		});
-	}
-	constructor(props) {
-		this.props = props;
-	}
-	toJSON() {
-		return { ...this.props };
-	}
-};
-
-//#endregion
 //#region src/scheme/scheme_android.ts
 /**
 * Represents an Android 12 color scheme, a mapping of color roles to colors.
@@ -6432,6 +6267,212 @@ var SchemeVibrant = class extends DynamicScheme {
 };
 
 //#endregion
+//#region src/scheme/scheme.ts
+/**
+* DEPRECATED. The `Scheme` class is deprecated in favor of `DynamicScheme`.
+* Please see
+* https://github.com/material-foundation/material-color-utilities/blob/main/make_schemes.md
+* for migration guidance.
+*
+* Represents a Material color scheme, a mapping of color roles to colors.
+*/
+var Scheme = class Scheme {
+	get primary() {
+		return this.props.primary;
+	}
+	get onPrimary() {
+		return this.props.onPrimary;
+	}
+	get primaryContainer() {
+		return this.props.primaryContainer;
+	}
+	get onPrimaryContainer() {
+		return this.props.onPrimaryContainer;
+	}
+	get secondary() {
+		return this.props.secondary;
+	}
+	get onSecondary() {
+		return this.props.onSecondary;
+	}
+	get secondaryContainer() {
+		return this.props.secondaryContainer;
+	}
+	get onSecondaryContainer() {
+		return this.props.onSecondaryContainer;
+	}
+	get tertiary() {
+		return this.props.tertiary;
+	}
+	get onTertiary() {
+		return this.props.onTertiary;
+	}
+	get tertiaryContainer() {
+		return this.props.tertiaryContainer;
+	}
+	get onTertiaryContainer() {
+		return this.props.onTertiaryContainer;
+	}
+	get error() {
+		return this.props.error;
+	}
+	get onError() {
+		return this.props.onError;
+	}
+	get errorContainer() {
+		return this.props.errorContainer;
+	}
+	get onErrorContainer() {
+		return this.props.onErrorContainer;
+	}
+	get background() {
+		return this.props.background;
+	}
+	get onBackground() {
+		return this.props.onBackground;
+	}
+	get surface() {
+		return this.props.surface;
+	}
+	get onSurface() {
+		return this.props.onSurface;
+	}
+	get surfaceVariant() {
+		return this.props.surfaceVariant;
+	}
+	get onSurfaceVariant() {
+		return this.props.onSurfaceVariant;
+	}
+	get outline() {
+		return this.props.outline;
+	}
+	get outlineVariant() {
+		return this.props.outlineVariant;
+	}
+	get shadow() {
+		return this.props.shadow;
+	}
+	get scrim() {
+		return this.props.scrim;
+	}
+	get inverseSurface() {
+		return this.props.inverseSurface;
+	}
+	get inverseOnSurface() {
+		return this.props.inverseOnSurface;
+	}
+	get inversePrimary() {
+		return this.props.inversePrimary;
+	}
+	/**
+	* @param argb ARGB representation of a color.
+	* @return Light Material color scheme, based on the color's hue.
+	*/
+	static light(argb) {
+		return Scheme.lightFromCorePalette(CorePalette.of(argb));
+	}
+	/**
+	* @param argb ARGB representation of a color.
+	* @return Dark Material color scheme, based on the color's hue.
+	*/
+	static dark(argb) {
+		return Scheme.darkFromCorePalette(CorePalette.of(argb));
+	}
+	/**
+	* @param argb ARGB representation of a color.
+	* @return Light Material content color scheme, based on the color's hue.
+	*/
+	static lightContent(argb) {
+		return Scheme.lightFromCorePalette(CorePalette.contentOf(argb));
+	}
+	/**
+	* @param argb ARGB representation of a color.
+	* @return Dark Material content color scheme, based on the color's hue.
+	*/
+	static darkContent(argb) {
+		return Scheme.darkFromCorePalette(CorePalette.contentOf(argb));
+	}
+	/**
+	* Light scheme from core palette
+	*/
+	static lightFromCorePalette(core) {
+		return new Scheme({
+			primary: core.a1.tone(40),
+			onPrimary: core.a1.tone(100),
+			primaryContainer: core.a1.tone(90),
+			onPrimaryContainer: core.a1.tone(10),
+			secondary: core.a2.tone(40),
+			onSecondary: core.a2.tone(100),
+			secondaryContainer: core.a2.tone(90),
+			onSecondaryContainer: core.a2.tone(10),
+			tertiary: core.a3.tone(40),
+			onTertiary: core.a3.tone(100),
+			tertiaryContainer: core.a3.tone(90),
+			onTertiaryContainer: core.a3.tone(10),
+			error: core.error.tone(40),
+			onError: core.error.tone(100),
+			errorContainer: core.error.tone(90),
+			onErrorContainer: core.error.tone(10),
+			background: core.n1.tone(99),
+			onBackground: core.n1.tone(10),
+			surface: core.n1.tone(99),
+			onSurface: core.n1.tone(10),
+			surfaceVariant: core.n2.tone(90),
+			onSurfaceVariant: core.n2.tone(30),
+			outline: core.n2.tone(50),
+			outlineVariant: core.n2.tone(80),
+			shadow: core.n1.tone(0),
+			scrim: core.n1.tone(0),
+			inverseSurface: core.n1.tone(20),
+			inverseOnSurface: core.n1.tone(95),
+			inversePrimary: core.a1.tone(80)
+		});
+	}
+	/**
+	* Dark scheme from core palette
+	*/
+	static darkFromCorePalette(core) {
+		return new Scheme({
+			primary: core.a1.tone(80),
+			onPrimary: core.a1.tone(20),
+			primaryContainer: core.a1.tone(30),
+			onPrimaryContainer: core.a1.tone(90),
+			secondary: core.a2.tone(80),
+			onSecondary: core.a2.tone(20),
+			secondaryContainer: core.a2.tone(30),
+			onSecondaryContainer: core.a2.tone(90),
+			tertiary: core.a3.tone(80),
+			onTertiary: core.a3.tone(20),
+			tertiaryContainer: core.a3.tone(30),
+			onTertiaryContainer: core.a3.tone(90),
+			error: core.error.tone(80),
+			onError: core.error.tone(20),
+			errorContainer: core.error.tone(30),
+			onErrorContainer: core.error.tone(80),
+			background: core.n1.tone(10),
+			onBackground: core.n1.tone(90),
+			surface: core.n1.tone(10),
+			onSurface: core.n1.tone(90),
+			surfaceVariant: core.n2.tone(30),
+			onSurfaceVariant: core.n2.tone(80),
+			outline: core.n2.tone(60),
+			outlineVariant: core.n2.tone(30),
+			shadow: core.n1.tone(0),
+			scrim: core.n1.tone(0),
+			inverseSurface: core.n1.tone(90),
+			inverseOnSurface: core.n1.tone(20),
+			inversePrimary: core.a1.tone(40)
+		});
+	}
+	constructor(props) {
+		this.props = props;
+	}
+	toJSON() {
+		return { ...this.props };
+	}
+};
+
+//#endregion
 //#region src/score/score.ts
 const SCORE_OPTION_DEFAULTS = {
 	desired: 4,
@@ -6530,61 +6571,6 @@ var Score = class Score {
 };
 
 //#endregion
-//#region src/utils/string_utils.ts
-/**
-* Utility methods for hexadecimal representations of colors.
-*/
-/**
-* @param argb ARGB representation of a color.
-* @return Hex string representing color, ex. #ff0000 for red.
-*/
-function hexFromArgb(argb) {
-	const r = redFromArgb(argb);
-	const g = greenFromArgb(argb);
-	const b = blueFromArgb(argb);
-	const outParts = [
-		r.toString(16),
-		g.toString(16),
-		b.toString(16)
-	];
-	for (const [i, part] of outParts.entries()) if (part.length === 1) outParts[i] = "0" + part;
-	return "#" + outParts.join("");
-}
-/**
-* @param hex String representing color as hex code. Accepts strings with or
-*     without leading #, and string representing the color using 3, 6, or 8
-*     hex characters.
-* @return ARGB representation of color.
-*/
-function argbFromHex(hex) {
-	hex = hex.replace("#", "");
-	const isThree = hex.length === 3;
-	const isSix = hex.length === 6;
-	const isEight = hex.length === 8;
-	if (!isThree && !isSix && !isEight) throw new Error("unexpected hex " + hex);
-	let r = 0;
-	let g = 0;
-	let b = 0;
-	if (isThree) {
-		r = parseIntHex(hex.slice(0, 1).repeat(2));
-		g = parseIntHex(hex.slice(1, 2).repeat(2));
-		b = parseIntHex(hex.slice(2, 3).repeat(2));
-	} else if (isSix) {
-		r = parseIntHex(hex.slice(0, 2));
-		g = parseIntHex(hex.slice(2, 4));
-		b = parseIntHex(hex.slice(4, 6));
-	} else if (isEight) {
-		r = parseIntHex(hex.slice(2, 4));
-		g = parseIntHex(hex.slice(4, 6));
-		b = parseIntHex(hex.slice(6, 8));
-	}
-	return (255 << 24 | (r & 255) << 16 | (g & 255) << 8 | b & 255) >>> 0;
-}
-function parseIntHex(value) {
-	return parseInt(value, 16);
-}
-
-//#endregion
 //#region src/utils/image_utils.ts
 /**
 * Get the source color from an image.
@@ -6649,6 +6635,61 @@ function sourceColorFromImageBytes(imageBytes) {
 	const ranked = Score.score(result);
 	const top = ranked[0];
 	return top;
+}
+
+//#endregion
+//#region src/utils/string_utils.ts
+/**
+* Utility methods for hexadecimal representations of colors.
+*/
+/**
+* @param argb ARGB representation of a color.
+* @return Hex string representing color, ex. #ff0000 for red.
+*/
+function hexFromArgb(argb) {
+	const r = redFromArgb(argb);
+	const g = greenFromArgb(argb);
+	const b = blueFromArgb(argb);
+	const outParts = [
+		r.toString(16),
+		g.toString(16),
+		b.toString(16)
+	];
+	for (const [i, part] of outParts.entries()) if (part.length === 1) outParts[i] = "0" + part;
+	return "#" + outParts.join("");
+}
+/**
+* @param hex String representing color as hex code. Accepts strings with or
+*     without leading #, and string representing the color using 3, 6, or 8
+*     hex characters.
+* @return ARGB representation of color.
+*/
+function argbFromHex(hex) {
+	hex = hex.replace("#", "");
+	const isThree = hex.length === 3;
+	const isSix = hex.length === 6;
+	const isEight = hex.length === 8;
+	if (!isThree && !isSix && !isEight) throw new Error("unexpected hex " + hex);
+	let r = 0;
+	let g = 0;
+	let b = 0;
+	if (isThree) {
+		r = parseIntHex(hex.slice(0, 1).repeat(2));
+		g = parseIntHex(hex.slice(1, 2).repeat(2));
+		b = parseIntHex(hex.slice(2, 3).repeat(2));
+	} else if (isSix) {
+		r = parseIntHex(hex.slice(0, 2));
+		g = parseIntHex(hex.slice(2, 4));
+		b = parseIntHex(hex.slice(4, 6));
+	} else if (isEight) {
+		r = parseIntHex(hex.slice(2, 4));
+		g = parseIntHex(hex.slice(4, 6));
+		b = parseIntHex(hex.slice(6, 8));
+	}
+	return (255 << 24 | (r & 255) << 16 | (g & 255) << 8 | b & 255) >>> 0;
+}
+function parseIntHex(value) {
+	return parseInt(value, 16);
 }
 
 //#endregion
@@ -6762,11 +6803,14 @@ function setSchemeProperties(target, scheme, suffix = "") {
 exports.Blend = Blend;
 exports.Cam16 = Cam16;
 exports.Contrast = Contrast;
+exports.ContrastCurve = ContrastCurve;
 exports.CorePalette = CorePalette;
+exports.CorePalettes = CorePalettes;
 exports.DislikeAnalyzer = DislikeAnalyzer;
 exports.DynamicColor = DynamicColor;
 exports.DynamicScheme = DynamicScheme;
 exports.Hct = Hct;
+exports.LabPointProvider = LabPointProvider;
 exports.MaterialDynamicColors = MaterialDynamicColors;
 exports.Platform = Platform;
 exports.QuantizerCelebi = QuantizerCelebi;
@@ -6788,6 +6832,7 @@ exports.Score = Score;
 exports.SpecVersion = SpecVersion;
 exports.TemperatureCache = TemperatureCache;
 exports.TonalPalette = TonalPalette;
+exports.ToneDeltaPair = ToneDeltaPair;
 exports.Variant = Variant;
 exports.ViewingConditions = ViewingConditions;
 exports.alphaFromArgb = alphaFromArgb;

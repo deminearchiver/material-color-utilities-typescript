@@ -329,46 +329,6 @@ declare class DislikeAnalyzer {
   static fixIfDisliked(hct: Hct): Hct;
 }
 //#endregion
-//#region src/palettes/tonal_palette.d.ts
-/**
- *  A convenience class for retrieving colors that are constant in hue and
- *  chroma, but vary in tone.
- */
-declare class TonalPalette {
-  readonly hue: number;
-  readonly chroma: number;
-  readonly keyColor: Hct;
-  private readonly cache;
-  /**
-   * @param argb ARGB representation of a color
-   * @return Tones matching that color's hue and chroma.
-   */
-  static fromInt(argb: number): TonalPalette;
-  /**
-   * @param hct Hct
-   * @return Tones matching that color's hue and chroma.
-   */
-  static fromHct(hct: Hct): TonalPalette;
-  /**
-   * @param hue HCT hue
-   * @param chroma HCT chroma
-   * @return Tones matching hue and chroma.
-   */
-  static fromHueAndChroma(hue: number, chroma: number): TonalPalette;
-  private constructor();
-  /**
-   * @param tone HCT tone, measured from 0 to 100.
-   * @return ARGB representation of a color with that tone.
-   */
-  tone(tone: number): number;
-  /**
-   * @param tone HCT tone.
-   * @return HCT representation of a color with that tone.
-   */
-  getHct(tone: number): Hct;
-  private averageArgb;
-}
-//#endregion
 //#region src/dynamiccolor/contrast_curve.d.ts
 /**
  * @license
@@ -415,6 +375,46 @@ declare class ContrastCurve {
    * @return The value. For contrast ratios, a number between 1.0 and 21.0.
    */
   get(contrastLevel: number): number;
+}
+//#endregion
+//#region src/palettes/tonal_palette.d.ts
+/**
+ *  A convenience class for retrieving colors that are constant in hue and
+ *  chroma, but vary in tone.
+ */
+declare class TonalPalette {
+  readonly hue: number;
+  readonly chroma: number;
+  readonly keyColor: Hct;
+  private readonly cache;
+  /**
+   * @param argb ARGB representation of a color
+   * @return Tones matching that color's hue and chroma.
+   */
+  static fromInt(argb: number): TonalPalette;
+  /**
+   * @param hct Hct
+   * @return Tones matching that color's hue and chroma.
+   */
+  static fromHct(hct: Hct): TonalPalette;
+  /**
+   * @param hue HCT hue
+   * @param chroma HCT chroma
+   * @return Tones matching hue and chroma.
+   */
+  static fromHueAndChroma(hue: number, chroma: number): TonalPalette;
+  private constructor();
+  /**
+   * @param tone HCT tone, measured from 0 to 100.
+   * @return ARGB representation of a color with that tone.
+   */
+  tone(tone: number): number;
+  /**
+   * @param tone HCT tone.
+   * @return HCT representation of a color with that tone.
+   */
+  getHct(tone: number): Hct;
+  private averageArgb;
 }
 //#endregion
 //#region src/dynamiccolor/material_dynamic_colors.d.ts
@@ -940,6 +940,14 @@ declare class DynamicScheme {
   get onError(): number;
   get errorContainer(): number;
   get onErrorContainer(): number;
+  get controlActivated(): number;
+  get controlNormal(): number;
+  get controlHighlight(): number;
+  get textPrimaryInverse(): number;
+  get textSecondaryAndTertiaryInverse(): number;
+  get textPrimaryInverseDisableOnly(): number;
+  get textSecondaryAndTertiaryInverseDisabled(): number;
+  get textHintInverse(): number;
 }
 //#endregion
 //#region src/dynamiccolor/tone_delta_pair.d.ts
@@ -1354,6 +1362,74 @@ declare class CorePalette {
   private constructor();
 }
 //#endregion
+//#region src/palettes/core_palettes.d.ts
+/**
+ * Comprises foundational palettes to build a color scheme. Generated from a
+ * source color, these palettes will then be part of a [DynamicScheme] together
+ * with appearance preferences.
+ */
+declare class CorePalettes {
+  primary: TonalPalette;
+  secondary: TonalPalette;
+  tertiary: TonalPalette;
+  neutral: TonalPalette;
+  neutralVariant: TonalPalette;
+  constructor(primary: TonalPalette, secondary: TonalPalette, tertiary: TonalPalette, neutral: TonalPalette, neutralVariant: TonalPalette);
+}
+//#endregion
+//#region src/quantize/point_provider.d.ts
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * An interface to allow use of different color spaces by
+ * quantizers.
+ */
+declare interface PointProvider {
+  toInt(point: number[]): number;
+  fromInt(argb: number): number[];
+  distance(from: number[], to: number[]): number;
+}
+//#endregion
+//#region src/quantize/lab_point_provider.d.ts
+/**
+ * Provides conversions needed for K-Means quantization. Converting input to
+ * points, and converting the final state of the K-Means algorithm to colors.
+ */
+declare class LabPointProvider implements PointProvider {
+  /**
+   * Convert a color represented in ARGB to a 3-element array of L*a*b*
+   * coordinates of the color.
+   */
+  fromInt(argb: number): number[];
+  /**
+   * Convert a 3-element array to a color represented in ARGB.
+   */
+  toInt(point: number[]): number;
+  /**
+   * Standard CIE 1976 delta E formula also takes the square root, unneeded
+   * here. This method is used by quantization algorithms to compare distance,
+   * and the relative ordering is the same, with or without a square root.
+   *
+   * This relatively minor optimization is helpful because this method is
+   * called at least once for each pixel in an image.
+   */
+  distance(from: number[], to: number[]): number;
+}
+//#endregion
 //#region src/quantize/quantizer_celebi.d.ts
 /**
  * @license
@@ -1533,108 +1609,6 @@ declare class Box {
   b1: number;
   vol: number;
   constructor(r0?: number, r1?: number, g0?: number, g1?: number, b0?: number, b1?: number, vol?: number);
-}
-//#endregion
-//#region src/scheme/scheme.d.ts
-/**
- * DEPRECATED. The `Scheme` class is deprecated in favor of `DynamicScheme`.
- * Please see
- * https://github.com/material-foundation/material-color-utilities/blob/main/make_schemes.md
- * for migration guidance.
- *
- * Represents a Material color scheme, a mapping of color roles to colors.
- */
-declare class Scheme {
-  private readonly props;
-  get primary(): number;
-  get onPrimary(): number;
-  get primaryContainer(): number;
-  get onPrimaryContainer(): number;
-  get secondary(): number;
-  get onSecondary(): number;
-  get secondaryContainer(): number;
-  get onSecondaryContainer(): number;
-  get tertiary(): number;
-  get onTertiary(): number;
-  get tertiaryContainer(): number;
-  get onTertiaryContainer(): number;
-  get error(): number;
-  get onError(): number;
-  get errorContainer(): number;
-  get onErrorContainer(): number;
-  get background(): number;
-  get onBackground(): number;
-  get surface(): number;
-  get onSurface(): number;
-  get surfaceVariant(): number;
-  get onSurfaceVariant(): number;
-  get outline(): number;
-  get outlineVariant(): number;
-  get shadow(): number;
-  get scrim(): number;
-  get inverseSurface(): number;
-  get inverseOnSurface(): number;
-  get inversePrimary(): number;
-  /**
-   * @param argb ARGB representation of a color.
-   * @return Light Material color scheme, based on the color's hue.
-   */
-  static light(argb: number): Scheme;
-  /**
-   * @param argb ARGB representation of a color.
-   * @return Dark Material color scheme, based on the color's hue.
-   */
-  static dark(argb: number): Scheme;
-  /**
-   * @param argb ARGB representation of a color.
-   * @return Light Material content color scheme, based on the color's hue.
-   */
-  static lightContent(argb: number): Scheme;
-  /**
-   * @param argb ARGB representation of a color.
-   * @return Dark Material content color scheme, based on the color's hue.
-   */
-  static darkContent(argb: number): Scheme;
-  /**
-   * Light scheme from core palette
-   */
-  static lightFromCorePalette(core: CorePalette): Scheme;
-  /**
-   * Dark scheme from core palette
-   */
-  static darkFromCorePalette(core: CorePalette): Scheme;
-  private constructor();
-  toJSON(): {
-    primary: number;
-    onPrimary: number;
-    primaryContainer: number;
-    onPrimaryContainer: number;
-    secondary: number;
-    onSecondary: number;
-    secondaryContainer: number;
-    onSecondaryContainer: number;
-    tertiary: number;
-    onTertiary: number;
-    tertiaryContainer: number;
-    onTertiaryContainer: number;
-    error: number;
-    onError: number;
-    errorContainer: number;
-    onErrorContainer: number;
-    background: number;
-    onBackground: number;
-    surface: number;
-    onSurface: number;
-    surfaceVariant: number;
-    onSurfaceVariant: number;
-    outline: number;
-    outlineVariant: number;
-    shadow: number;
-    scrim: number;
-    inverseSurface: number;
-    inverseOnSurface: number;
-    inversePrimary: number;
-  };
 }
 //#endregion
 //#region src/scheme/scheme_android.d.ts
@@ -1830,6 +1804,108 @@ declare class SchemeTonalSpot extends DynamicScheme {
  */
 declare class SchemeVibrant extends DynamicScheme {
   constructor(sourceColorHct: Hct, isDark: boolean, contrastLevel: number, specVersion?: SpecVersion, platform?: Platform);
+}
+//#endregion
+//#region src/scheme/scheme.d.ts
+/**
+ * DEPRECATED. The `Scheme` class is deprecated in favor of `DynamicScheme`.
+ * Please see
+ * https://github.com/material-foundation/material-color-utilities/blob/main/make_schemes.md
+ * for migration guidance.
+ *
+ * Represents a Material color scheme, a mapping of color roles to colors.
+ */
+declare class Scheme {
+  private readonly props;
+  get primary(): number;
+  get onPrimary(): number;
+  get primaryContainer(): number;
+  get onPrimaryContainer(): number;
+  get secondary(): number;
+  get onSecondary(): number;
+  get secondaryContainer(): number;
+  get onSecondaryContainer(): number;
+  get tertiary(): number;
+  get onTertiary(): number;
+  get tertiaryContainer(): number;
+  get onTertiaryContainer(): number;
+  get error(): number;
+  get onError(): number;
+  get errorContainer(): number;
+  get onErrorContainer(): number;
+  get background(): number;
+  get onBackground(): number;
+  get surface(): number;
+  get onSurface(): number;
+  get surfaceVariant(): number;
+  get onSurfaceVariant(): number;
+  get outline(): number;
+  get outlineVariant(): number;
+  get shadow(): number;
+  get scrim(): number;
+  get inverseSurface(): number;
+  get inverseOnSurface(): number;
+  get inversePrimary(): number;
+  /**
+   * @param argb ARGB representation of a color.
+   * @return Light Material color scheme, based on the color's hue.
+   */
+  static light(argb: number): Scheme;
+  /**
+   * @param argb ARGB representation of a color.
+   * @return Dark Material color scheme, based on the color's hue.
+   */
+  static dark(argb: number): Scheme;
+  /**
+   * @param argb ARGB representation of a color.
+   * @return Light Material content color scheme, based on the color's hue.
+   */
+  static lightContent(argb: number): Scheme;
+  /**
+   * @param argb ARGB representation of a color.
+   * @return Dark Material content color scheme, based on the color's hue.
+   */
+  static darkContent(argb: number): Scheme;
+  /**
+   * Light scheme from core palette
+   */
+  static lightFromCorePalette(core: CorePalette): Scheme;
+  /**
+   * Dark scheme from core palette
+   */
+  static darkFromCorePalette(core: CorePalette): Scheme;
+  private constructor();
+  toJSON(): {
+    primary: number;
+    onPrimary: number;
+    primaryContainer: number;
+    onPrimaryContainer: number;
+    secondary: number;
+    onSecondary: number;
+    secondaryContainer: number;
+    onSecondaryContainer: number;
+    tertiary: number;
+    onTertiary: number;
+    tertiaryContainer: number;
+    onTertiaryContainer: number;
+    error: number;
+    onError: number;
+    errorContainer: number;
+    onErrorContainer: number;
+    background: number;
+    onBackground: number;
+    surface: number;
+    onSurface: number;
+    surfaceVariant: number;
+    onSurfaceVariant: number;
+    outline: number;
+    outlineVariant: number;
+    shadow: number;
+    scrim: number;
+    inverseSurface: number;
+    inverseOnSurface: number;
+    inversePrimary: number;
+  };
 }
 //#endregion
 //#region src/score/score.d.ts
@@ -2103,6 +2179,38 @@ declare function delinearized(rgbComponent: number): number;
  */
 declare function whitePointD65(): number[];
 //#endregion
+//#region src/utils/image_utils.d.ts
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Get the source color from an image.
+ *
+ * @param image The image element
+ * @return Source color - the color most suitable for creating a UI theme
+ */
+declare function sourceColorFromImage(image: HTMLImageElement): Promise<number>;
+/**
+ * Get the source color from image bytes.
+ *
+ * @param imageBytes The image bytes
+ * @return Source color - the color most suitable for creating a UI theme
+ */
+declare function sourceColorFromImageBytes(imageBytes: Uint8ClampedArray): number;
+//#endregion
 //#region src/utils/math_utils.d.ts
 /**
  * @license
@@ -2220,38 +2328,6 @@ declare function hexFromArgb(argb: number): string;
  */
 declare function argbFromHex(hex: string): number;
 //#endregion
-//#region src/utils/image_utils.d.ts
-/**
- * @license
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Get the source color from an image.
- *
- * @param image The image element
- * @return Source color - the color most suitable for creating a UI theme
- */
-declare function sourceColorFromImage(image: HTMLImageElement): Promise<number>;
-/**
- * Get the source color from image bytes.
- *
- * @param imageBytes The image bytes
- * @return Source color - the color most suitable for creating a UI theme
- */
-declare function sourceColorFromImageBytes(imageBytes: Uint8ClampedArray): number;
-//#endregion
 //#region src/utils/theme_utils.d.ts
 /**
  * Custom color used to pair with a theme
@@ -2337,5 +2413,5 @@ declare function applyTheme(theme: Theme, options?: {
   paletteTones?: number[];
 }): void;
 //#endregion
-export { Blend, Cam16, ColorGroup, Contrast, CorePalette, CorePaletteColors, CustomColor, CustomColorGroup, DislikeAnalyzer, DynamicColor, DynamicScheme, DynamicSchemeFromOptions, DynamicSchemeOptions, Hct, MaterialDynamicColors, Platform, QuantizerCelebi, QuantizerMap, QuantizerWsmeans, QuantizerWu, Scheme, SchemeAndroid, SchemeContent, SchemeExpressive, SchemeFidelity, SchemeFruitSalad, SchemeMonochrome, SchemeNeutral, SchemeRainbow, SchemeTonalSpot, SchemeVibrant, Score, SpecVersion, TemperatureCache, Theme, TonalPalette, Variant, ViewingConditions, alphaFromArgb, applyTheme, argbFromHex, argbFromLab, argbFromLinrgb, argbFromLstar, argbFromRgb, argbFromXyz, blueFromArgb, clampDouble, clampInt, customColor, delinearized, differenceDegrees, extendSpecVersion, greenFromArgb, hexFromArgb, isOpaque, labFromArgb, lerp, linearized, lstarFromArgb, lstarFromY, matrixMultiply, redFromArgb, rotationDirection, sanitizeDegreesDouble, sanitizeDegreesInt, signum, sourceColorFromImage, sourceColorFromImageBytes, themeFromImage, themeFromSourceColor, whitePointD65, xyzFromArgb, yFromLstar };
+export { Blend, Cam16, ColorGroup, Contrast, ContrastCurve, CorePalette, CorePaletteColors, CorePalettes, CustomColor, CustomColorGroup, DeltaConstraint, DislikeAnalyzer, DynamicColor, DynamicScheme, DynamicSchemeFromOptions, DynamicSchemeOptions, Hct, LabPointProvider, MaterialDynamicColors, Platform, PointProvider, QuantizerCelebi, QuantizerMap, QuantizerWsmeans, QuantizerWu, Scheme, SchemeAndroid, SchemeContent, SchemeExpressive, SchemeFidelity, SchemeFruitSalad, SchemeMonochrome, SchemeNeutral, SchemeRainbow, SchemeTonalSpot, SchemeVibrant, Score, SpecVersion, TemperatureCache, Theme, TonalPalette, ToneDeltaPair, TonePolarity, Variant, ViewingConditions, alphaFromArgb, applyTheme, argbFromHex, argbFromLab, argbFromLinrgb, argbFromLstar, argbFromRgb, argbFromXyz, blueFromArgb, clampDouble, clampInt, customColor, delinearized, differenceDegrees, extendSpecVersion, greenFromArgb, hexFromArgb, isOpaque, labFromArgb, lerp, linearized, lstarFromArgb, lstarFromY, matrixMultiply, redFromArgb, rotationDirection, sanitizeDegreesDouble, sanitizeDegreesInt, signum, sourceColorFromImage, sourceColorFromImageBytes, themeFromImage, themeFromSourceColor, whitePointD65, xyzFromArgb, yFromLstar };
 //# sourceMappingURL=index.d.cts.map
