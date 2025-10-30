@@ -96,8 +96,7 @@ function sanitizeDegreesDouble(degrees) {
 * distance.
 */
 function rotationDirection(from, to) {
-	const increasingDifference = sanitizeDegreesDouble(to - from);
-	return increasingDifference <= 180 ? 1 : -1;
+	return sanitizeDegreesDouble(to - from) <= 180 ? 1 : -1;
 }
 /**
 * Distance of two points on a circle, represented using degrees.
@@ -109,13 +108,10 @@ function differenceDegrees(a, b) {
 * Multiplies a 1x3 row vector with a 3x3 matrix.
 */
 function matrixMultiply(row, matrix) {
-	const a = row[0] * matrix[0][0] + row[1] * matrix[0][1] + row[2] * matrix[0][2];
-	const b = row[0] * matrix[1][0] + row[1] * matrix[1][1] + row[2] * matrix[1][2];
-	const c = row[0] * matrix[2][0] + row[1] * matrix[2][1] + row[2] * matrix[2][2];
 	return [
-		a,
-		b,
-		c
+		row[0] * matrix[0][0] + row[1] * matrix[0][1] + row[2] * matrix[0][2],
+		row[0] * matrix[1][0] + row[1] * matrix[1][1] + row[2] * matrix[1][2],
+		row[0] * matrix[2][0] + row[1] * matrix[2][1] + row[2] * matrix[2][2]
 	];
 }
 
@@ -176,10 +172,7 @@ function argbFromRgb(red, green, blue) {
 * Converts a color from linear RGB components to ARGB format.
 */
 function argbFromLinrgb(linrgb) {
-	const r = delinearized(linrgb[0]);
-	const g = delinearized(linrgb[1]);
-	const b = delinearized(linrgb[2]);
-	return argbFromRgb(r, g, b);
+	return argbFromRgb(delinearized(linrgb[0]), delinearized(linrgb[1]), delinearized(linrgb[2]));
 }
 /**
 * Returns the alpha component of a color in ARGB format.
@@ -219,10 +212,7 @@ function argbFromXyz(x, y, z) {
 	const linearR = matrix[0][0] * x + matrix[0][1] * y + matrix[0][2] * z;
 	const linearG = matrix[1][0] * x + matrix[1][1] * y + matrix[1][2] * z;
 	const linearB = matrix[2][0] * x + matrix[2][1] * y + matrix[2][2] * z;
-	const r = delinearized(linearR);
-	const g = delinearized(linearG);
-	const b = delinearized(linearB);
-	return argbFromRgb(r, g, b);
+	return argbFromRgb(delinearized(linearR), delinearized(linearG), delinearized(linearB));
 }
 /**
 * Converts a color from XYZ to ARGB.
@@ -249,10 +239,7 @@ function argbFromLab(l, a, b) {
 	const xNormalized = labInvf(fx);
 	const yNormalized = labInvf(fy);
 	const zNormalized = labInvf(fz);
-	const x = xNormalized * whitePoint[0];
-	const y = yNormalized * whitePoint[1];
-	const z = zNormalized * whitePoint[2];
-	return argbFromXyz(x, y, z);
+	return argbFromXyz(xNormalized * whitePoint[0], yNormalized * whitePoint[1], zNormalized * whitePoint[2]);
 }
 /**
 * Converts a color from ARGB representation to L*a*b*
@@ -276,13 +263,10 @@ function labFromArgb(argb) {
 	const fx = labF(xNormalized);
 	const fy = labF(yNormalized);
 	const fz = labF(zNormalized);
-	const l = 116 * fy - 16;
-	const a = 500 * (fx - fy);
-	const b = 200 * (fy - fz);
 	return [
-		l,
-		a,
-		b
+		116 * fy - 16,
+		500 * (fx - fy),
+		200 * (fy - fz)
 	];
 }
 /**
@@ -293,8 +277,7 @@ function labFromArgb(argb) {
 * matching L*
 */
 function argbFromLstar(lstar) {
-	const y = yFromLstar(lstar);
-	const component = delinearized(y);
+	const component = delinearized(yFromLstar(lstar));
 	return argbFromRgb(component, component, component);
 }
 /**
@@ -458,8 +441,7 @@ var ViewingConditions = class ViewingConditions {
 			400 * rgbAFactors[1] / (rgbAFactors[1] + 27.13),
 			400 * rgbAFactors[2] / (rgbAFactors[2] + 27.13)
 		];
-		const aw = (2 * rgbA[0] + rgbA[1] + .05 * rgbA[2]) * nbb;
-		return new ViewingConditions(n, aw, nbb, ncb, c, nc, rgbD, fl, Math.pow(fl, .25), z);
+		return new ViewingConditions(n, (2 * rgbA[0] + rgbA[1] + .05 * rgbA[2]) * nbb, nbb, ncb, c, nc, rgbD, fl, Math.pow(fl, .25), z);
 	}
 	/**
 	* Parameters are intermediate values of the CAM16 conversion process. Their
@@ -543,8 +525,7 @@ var Cam16 = class Cam16 {
 		const dA = this.astar - other.astar;
 		const dB = this.bstar - other.bstar;
 		const dEPrime = Math.sqrt(dJ * dJ + dA * dA + dB * dB);
-		const dE = 1.41 * Math.pow(dEPrime, .63);
-		return dE;
+		return 1.41 * Math.pow(dEPrime, .63);
 	}
 	/**
 	* @param argb ARGB representation of a color.
@@ -586,26 +567,21 @@ var Cam16 = class Cam16 {
 		const b = (rA + gA - 2 * bA) / 9;
 		const u = (20 * rA + 20 * gA + 21 * bA) / 20;
 		const p2 = (40 * rA + 20 * gA + bA) / 20;
-		const atan2 = Math.atan2(b, a);
-		const atanDegrees = atan2 * 180 / Math.PI;
+		const atanDegrees = Math.atan2(b, a) * 180 / Math.PI;
 		const hue = atanDegrees < 0 ? atanDegrees + 360 : atanDegrees >= 360 ? atanDegrees - 360 : atanDegrees;
 		const hueRadians = hue * Math.PI / 180;
 		const ac = p2 * viewingConditions.nbb;
 		const j = 100 * Math.pow(ac / viewingConditions.aw, viewingConditions.c * viewingConditions.z);
 		const q = 4 / viewingConditions.c * Math.sqrt(j / 100) * (viewingConditions.aw + 4) * viewingConditions.fLRoot;
 		const huePrime = hue < 20.14 ? hue + 360 : hue;
-		const eHue = .25 * (Math.cos(huePrime * Math.PI / 180 + 2) + 3.8);
-		const p1 = 5e4 / 13 * eHue * viewingConditions.nc * viewingConditions.ncb;
-		const t = p1 * Math.sqrt(a * a + b * b) / (u + .305);
+		const t = 5e4 / 13 * (.25 * (Math.cos(huePrime * Math.PI / 180 + 2) + 3.8)) * viewingConditions.nc * viewingConditions.ncb * Math.sqrt(a * a + b * b) / (u + .305);
 		const alpha = Math.pow(t, .9) * Math.pow(1.64 - Math.pow(.29, viewingConditions.n), .73);
 		const c = alpha * Math.sqrt(j / 100);
 		const m = c * viewingConditions.fLRoot;
 		const s = 50 * Math.sqrt(alpha * viewingConditions.c / (viewingConditions.aw + 4));
 		const jstar = 1.7000000000000002 * j / (1 + .007 * j);
 		const mstar = 1 / .0228 * Math.log(1 + .0228 * m);
-		const astar = mstar * Math.cos(hueRadians);
-		const bstar = mstar * Math.sin(hueRadians);
-		return new Cam16(hue, c, j, q, m, s, jstar, astar, bstar);
+		return new Cam16(hue, c, j, q, m, s, jstar, mstar * Math.cos(hueRadians), mstar * Math.sin(hueRadians));
 	}
 	/**
 	* @param j CAM16 lightness
@@ -630,9 +606,7 @@ var Cam16 = class Cam16 {
 		const hueRadians = h * Math.PI / 180;
 		const jstar = 1.7000000000000002 * j / (1 + .007 * j);
 		const mstar = 1 / .0228 * Math.log(1 + .0228 * m);
-		const astar = mstar * Math.cos(hueRadians);
-		const bstar = mstar * Math.sin(hueRadians);
-		return new Cam16(h, c, j, q, m, s, jstar, astar, bstar);
+		return new Cam16(h, c, j, q, m, s, jstar, mstar * Math.cos(hueRadians), mstar * Math.sin(hueRadians));
 	}
 	/**
 	* @param jstar CAM16-UCS lightness.
@@ -657,8 +631,7 @@ var Cam16 = class Cam16 {
 		const a = astar;
 		const b = bstar;
 		const m = Math.sqrt(a * a + b * b);
-		const M = (Math.exp(m * .0228) - 1) / .0228;
-		const c = M / viewingConditions.fLRoot;
+		const c = (Math.exp(m * .0228) - 1) / .0228 / viewingConditions.fLRoot;
 		let h = Math.atan2(b, a) * (180 / Math.PI);
 		if (h < 0) h += 360;
 		const j = jstar / (1 - (jstar - 100) * .007);
@@ -705,8 +678,7 @@ var Cam16 = class Cam16 {
 		const x = 1.86206786 * rF - 1.01125463 * gF + .14918677 * bF;
 		const y = .38752654 * rF + .62144744 * gF - .00897398 * bF;
 		const z = -.0158415 * rF - .03412294 * gF + 1.04996444 * bF;
-		const argb = argbFromXyz(x, y, z);
-		return argb;
+		return argbFromXyz(x, y, z);
 	}
 	static fromXyzInViewingConditions(x, y, z, viewingConditions) {
 		const rC = .401288 * x + .650173 * y - .051461 * z;
@@ -725,26 +697,21 @@ var Cam16 = class Cam16 {
 		const b = (rA + gA - 2 * bA) / 9;
 		const u = (20 * rA + 20 * gA + 21 * bA) / 20;
 		const p2 = (40 * rA + 20 * gA + bA) / 20;
-		const atan2 = Math.atan2(b, a);
-		const atanDegrees = atan2 * 180 / Math.PI;
+		const atanDegrees = Math.atan2(b, a) * 180 / Math.PI;
 		const hue = atanDegrees < 0 ? atanDegrees + 360 : atanDegrees >= 360 ? atanDegrees - 360 : atanDegrees;
 		const hueRadians = hue * Math.PI / 180;
 		const ac = p2 * viewingConditions.nbb;
 		const J = 100 * Math.pow(ac / viewingConditions.aw, viewingConditions.c * viewingConditions.z);
 		const Q = 4 / viewingConditions.c * Math.sqrt(J / 100) * (viewingConditions.aw + 4) * viewingConditions.fLRoot;
 		const huePrime = hue < 20.14 ? hue + 360 : hue;
-		const eHue = 1 / 4 * (Math.cos(huePrime * Math.PI / 180 + 2) + 3.8);
-		const p1 = 5e4 / 13 * eHue * viewingConditions.nc * viewingConditions.ncb;
-		const t = p1 * Math.sqrt(a * a + b * b) / (u + .305);
+		const t = 5e4 / 13 * (1 / 4 * (Math.cos(huePrime * Math.PI / 180 + 2) + 3.8)) * viewingConditions.nc * viewingConditions.ncb * Math.sqrt(a * a + b * b) / (u + .305);
 		const alpha = Math.pow(t, .9) * Math.pow(1.64 - Math.pow(.29, viewingConditions.n), .73);
 		const C = alpha * Math.sqrt(J / 100);
 		const M = C * viewingConditions.fLRoot;
 		const s = 50 * Math.sqrt(alpha * viewingConditions.c / (viewingConditions.aw + 4));
 		const jstar = 1.7000000000000002 * J / (1 + .007 * J);
 		const mstar = Math.log(1 + .0228 * M) / .0228;
-		const astar = mstar * Math.cos(hueRadians);
-		const bstar = mstar * Math.sin(hueRadians);
-		return new Cam16(hue, C, J, Q, M, s, jstar, astar, bstar);
+		return new Cam16(hue, C, J, Q, M, s, jstar, mstar * Math.cos(hueRadians), mstar * Math.sin(hueRadians));
 	}
 	xyzInViewingConditions(viewingConditions) {
 		const alpha = this.chroma === 0 || this.j === 0 ? 0 : this.chroma / Math.sqrt(this.j / 100);
@@ -771,13 +738,10 @@ var Cam16 = class Cam16 {
 		const rF = rC / viewingConditions.rgbD[0];
 		const gF = gC / viewingConditions.rgbD[1];
 		const bF = bC / viewingConditions.rgbD[2];
-		const x = 1.86206786 * rF - 1.01125463 * gF + .14918677 * bF;
-		const y = .38752654 * rF + .62144744 * gF - .00897398 * bF;
-		const z = -.0158415 * rF - .03412294 * gF + 1.04996444 * bF;
 		return [
-			x,
-			y,
-			z
+			1.86206786 * rF - 1.01125463 * gF + .14918677 * bF,
+			.38752654 * rF + .62144744 * gF - .00897398 * bF,
+			-.0158415 * rF - .03412294 * gF + 1.04996444 * bF
 		];
 	}
 };
@@ -1130,9 +1094,7 @@ var HctSolver = class HctSolver {
 		return Math.atan2(b, a);
 	}
 	static areInCyclicOrder(a, b, c) {
-		const deltaAB = HctSolver.sanitizeRadians(b - a);
-		const deltaAC = HctSolver.sanitizeRadians(c - a);
-		return deltaAB < deltaAC;
+		return HctSolver.sanitizeRadians(b - a) < HctSolver.sanitizeRadians(c - a);
 	}
 	/**
 	* Solves the lerp equation.
@@ -1347,16 +1309,14 @@ var HctSolver = class HctSolver {
 		let j = Math.sqrt(y) * 11;
 		const viewingConditions = ViewingConditions.DEFAULT;
 		const tInnerCoeff = 1 / Math.pow(1.64 - Math.pow(.29, viewingConditions.n), .73);
-		const eHue = .25 * (Math.cos(hueRadians + 2) + 3.8);
-		const p1 = eHue * (5e4 / 13) * viewingConditions.nc * viewingConditions.ncb;
+		const p1 = .25 * (Math.cos(hueRadians + 2) + 3.8) * (5e4 / 13) * viewingConditions.nc * viewingConditions.ncb;
 		const hSin = Math.sin(hueRadians);
 		const hCos = Math.cos(hueRadians);
 		for (let iterationRound = 0; iterationRound < 5; iterationRound++) {
 			const jNormalized = j / 100;
 			const alpha = chroma === 0 || j === 0 ? 0 : chroma / Math.sqrt(jNormalized);
 			const t = Math.pow(alpha * tInnerCoeff, 1 / .9);
-			const ac = viewingConditions.aw * Math.pow(jNormalized, 1 / viewingConditions.c / viewingConditions.z);
-			const p2 = ac / viewingConditions.nbb;
+			const p2 = viewingConditions.aw * Math.pow(jNormalized, 1 / viewingConditions.c / viewingConditions.z) / viewingConditions.nbb;
 			const gamma = 23 * (p2 + .305) * t / (23 * p1 + 11 * t * hCos + 108 * t * hSin);
 			const a = gamma * hCos;
 			const b = gamma * hSin;
@@ -1540,11 +1500,9 @@ var Hct = class Hct {
 	* See [ViewingConditions.make] for parameters affecting color appearance.
 	*/
 	inViewingConditions(vc) {
-		const cam = Cam16.fromInt(this.toInt());
-		const viewedInVc = cam.xyzInViewingConditions(vc);
+		const viewedInVc = Cam16.fromInt(this.toInt()).xyzInViewingConditions(vc);
 		const recastInVc = Cam16.fromXyzInViewingConditions(viewedInVc[0], viewedInVc[1], viewedInVc[2], ViewingConditions.make());
-		const recastHct = Hct.from(recastInVc.hue, recastInVc.chroma, lstarFromY(viewedInVc[1]));
-		return recastHct;
+		return Hct.from(recastInVc.hue, recastInVc.chroma, lstarFromY(viewedInVc[1]));
 	}
 };
 
@@ -1587,8 +1545,7 @@ var Blend = class Blend {
 		const ucs = Blend.cam16Ucs(from, to, amount);
 		const ucsCam = Cam16.fromInt(ucs);
 		const fromCam = Cam16.fromInt(from);
-		const blended = Hct.from(ucsCam.hue, fromCam.chroma, lstarFromArgb(from));
-		return blended.toInt();
+		return Hct.from(ucsCam.hue, fromCam.chroma, lstarFromArgb(from)).toInt();
 	}
 	/**
 	* Blend in CAM16-UCS space.
@@ -2006,8 +1963,7 @@ var DynamicColor = class DynamicColor {
 		const darkerTone = Contrast.darkerUnsafe(bgTone, ratio);
 		const lighterRatio = Contrast.ratioOfTones(lighterTone, bgTone);
 		const darkerRatio = Contrast.ratioOfTones(darkerTone, bgTone);
-		const preferLighter = DynamicColor.tonePrefersLightForeground(bgTone);
-		if (preferLighter) {
+		if (DynamicColor.tonePrefersLightForeground(bgTone)) {
 			const negligibleDifference = Math.abs(lighterRatio - darkerRatio) < .1 && lighterRatio < ratio && darkerRatio < ratio;
 			return lighterRatio >= ratio || lighterRatio >= darkerRatio || negligibleDifference ? lighterTone : darkerTone;
 		} else return darkerRatio >= ratio || darkerRatio >= lighterRatio ? darkerTone : lighterTone;
@@ -2048,8 +2004,7 @@ var DynamicColor = class DynamicColor {
 var ColorCalculationDelegateImpl2021 = class {
 	getHct(scheme, color) {
 		const tone = color.getTone(scheme);
-		const palette = color.palette(scheme);
-		return palette.getHct(tone);
+		return color.palette(scheme).getHct(tone);
 	}
 	getTone(scheme, color) {
 		const decreasingContrast = scheme.contrastLevel < 0;
@@ -2123,8 +2078,7 @@ var ColorCalculationDelegateImpl2021 = class {
 			const availables = [];
 			if (lightOption !== -1) availables.push(lightOption);
 			if (darkOption !== -1) availables.push(darkOption);
-			const prefersLight = DynamicColor.tonePrefersLightForeground(bgTone1) || DynamicColor.tonePrefersLightForeground(bgTone2);
-			if (prefersLight) return lightOption < 0 ? 100 : lightOption;
+			if (DynamicColor.tonePrefersLightForeground(bgTone1) || DynamicColor.tonePrefersLightForeground(bgTone2)) return lightOption < 0 ? 100 : lightOption;
 			if (availables.length === 1) return availables[0];
 			return darkOption < 0 ? 0 : darkOption;
 		}
@@ -2190,8 +2144,7 @@ var ColorCalculationDelegateImpl2025 = class {
 			const availables = [];
 			if (lightOption !== -1) availables.push(lightOption);
 			if (darkOption !== -1) availables.push(darkOption);
-			const prefersLight = DynamicColor.tonePrefersLightForeground(bgTone1) || DynamicColor.tonePrefersLightForeground(bgTone2);
-			if (prefersLight) return lightOption < 0 ? 100 : lightOption;
+			if (DynamicColor.tonePrefersLightForeground(bgTone1) || DynamicColor.tonePrefersLightForeground(bgTone2)) return lightOption < 0 ? 100 : lightOption;
 			if (availables.length === 1) return availables[0];
 			return darkOption < 0 ? 0 : darkOption;
 		}
@@ -2235,8 +2188,7 @@ var TonalPalette = class TonalPalette {
 	* @return Tones matching hue and chroma.
 	*/
 	static fromHueAndChroma(hue, chroma) {
-		const keyColor = new KeyColor(hue, chroma).create();
-		return new TonalPalette(hue, chroma, keyColor);
+		return new TonalPalette(hue, chroma, new KeyColor(hue, chroma).create());
 	}
 	constructor(hue, chroma, keyColor) {
 		this.hue = hue;
@@ -2302,8 +2254,7 @@ var KeyColor = class {
 		while (lowerTone < upperTone) {
 			const midTone = Math.floor((lowerTone + upperTone) / 2);
 			const isAscending = this.maxChroma(midTone) < this.maxChroma(midTone + toneStepSize);
-			const sufficientChroma = this.maxChroma(midTone) >= this.requestedChroma - epsilon;
-			if (sufficientChroma) if (Math.abs(lowerTone - pivotTone) < Math.abs(upperTone - pivotTone)) upperTone = midTone;
+			if (this.maxChroma(midTone) >= this.requestedChroma - epsilon) if (Math.abs(lowerTone - pivotTone) < Math.abs(upperTone - pivotTone)) upperTone = midTone;
 			else {
 				if (lowerTone === midTone) return Hct.from(this.hue, this.requestedChroma, lowerTone);
 				lowerTone = midTone;
@@ -2434,8 +2385,7 @@ var TemperatureCache = class TemperatureCache {
 		const coldestHue = this.coldest.hue;
 		const coldestTemp = this.tempsByHct.get(this.coldest);
 		const warmestHue = this.warmest.hue;
-		const warmestTemp = this.tempsByHct.get(this.warmest);
-		const range = warmestTemp - coldestTemp;
+		const range = this.tempsByHct.get(this.warmest) - coldestTemp;
 		const startHueIsColdestToWarmest = TemperatureCache.isBetween(this.input.hue, coldestHue, warmestHue);
 		const startHue = startHueIsColdestToWarmest ? warmestHue : coldestHue;
 		const endHue = startHueIsColdestToWarmest ? coldestHue : warmestHue;
@@ -2524,8 +2474,7 @@ var TemperatureCache = class TemperatureCache {
 		const lab = labFromArgb(color.toInt());
 		const hue = sanitizeDegreesDouble(Math.atan2(lab[2], lab[1]) * 180 / Math.PI);
 		const chroma = Math.sqrt(lab[1] * lab[1] + lab[2] * lab[2]);
-		const temperature = -.5 + .02 * Math.pow(chroma, 1.07) * Math.cos(sanitizeDegreesDouble(hue - 50) * Math.PI / 180);
-		return temperature;
+		return -.5 + .02 * Math.pow(chroma, 1.07) * Math.cos(sanitizeDegreesDouble(hue - 50) * Math.PI / 180);
 	}
 };
 
@@ -2644,9 +2593,7 @@ function findDesiredChromaByTone(hue, chroma, tone, byDecreasingTone) {
 			const potentialSolution = Hct.from(hue, chroma, answer);
 			if (chromaPeak > potentialSolution.chroma) break;
 			if (Math.abs(potentialSolution.chroma - chroma) < .4) break;
-			const potentialDelta = Math.abs(potentialSolution.chroma - chroma);
-			const currentDelta = Math.abs(closestToChroma.chroma - chroma);
-			if (potentialDelta < currentDelta) closestToChroma = potentialSolution;
+			if (Math.abs(potentialSolution.chroma - chroma) < Math.abs(closestToChroma.chroma - chroma)) closestToChroma = potentialSolution;
 			chromaPeak = Math.max(chromaPeak, potentialSolution.chroma);
 		}
 	}
@@ -2876,9 +2823,7 @@ var ColorSpecDelegateImpl2021 = class {
 			toneDeltaPair: (s) => new ToneDeltaPair(this.primaryContainer(), this.primary(), 10, "nearer", false)
 		});
 	}
-	primaryDim() {
-		return void 0;
-	}
+	primaryDim() {}
 	onPrimary() {
 		return DynamicColor.fromPalette({
 			name: "on_primary",
@@ -2939,9 +2884,7 @@ var ColorSpecDelegateImpl2021 = class {
 			toneDeltaPair: (s) => new ToneDeltaPair(this.secondaryContainer(), this.secondary(), 10, "nearer", false)
 		});
 	}
-	secondaryDim() {
-		return void 0;
-	}
+	secondaryDim() {}
 	onSecondary() {
 		return DynamicColor.fromPalette({
 			name: "on_secondary",
@@ -2997,9 +2940,7 @@ var ColorSpecDelegateImpl2021 = class {
 			toneDeltaPair: (s) => new ToneDeltaPair(this.tertiaryContainer(), this.tertiary(), 10, "nearer", false)
 		});
 	}
-	tertiaryDim() {
-		return void 0;
-	}
+	tertiaryDim() {}
 	onTertiary() {
 		return DynamicColor.fromPalette({
 			name: "on_tertiary",
@@ -3052,9 +2993,7 @@ var ColorSpecDelegateImpl2021 = class {
 			toneDeltaPair: (s) => new ToneDeltaPair(this.errorContainer(), this.error(), 10, "nearer", false)
 		});
 	}
-	errorDim() {
-		return void 0;
-	}
+	errorDim() {}
 	onError() {
 		return DynamicColor.fromPalette({
 			name: "on_error",
@@ -4978,9 +4917,7 @@ var DynamicSchemePalettesDelegateImpl2021 = class {
 			default: throw new Error(`Unsupported variant: ${variant}`);
 		}
 	}
-	getErrorPalette(variant, sourceColorHct, isDark, platform, contrastLevel) {
-		return void 0;
-	}
+	getErrorPalette(variant, sourceColorHct, isDark, platform, contrastLevel) {}
 };
 /**
 * A delegate for the palettes of a DynamicScheme in the 2025 spec.
@@ -5114,7 +5051,7 @@ var DynamicSchemePalettesDelegateImpl2025 = class DynamicSchemePalettesDelegateI
 		}
 	}
 	static getExpressiveNeutralHue(sourceColorHct) {
-		const hue = DynamicScheme.getRotatedHue(sourceColorHct, [
+		return DynamicScheme.getRotatedHue(sourceColorHct, [
 			0,
 			71,
 			124,
@@ -5130,7 +5067,6 @@ var DynamicSchemePalettesDelegateImpl2025 = class DynamicSchemePalettesDelegateI
 			10,
 			0
 		]);
-		return hue;
 	}
 	static getExpressiveNeutralChroma(sourceColorHct, isDark, platform) {
 		const neutralHue = DynamicSchemePalettesDelegateImpl2025.getExpressiveNeutralHue(sourceColorHct);
@@ -5274,26 +5210,11 @@ var CorePalette = class CorePalette {
 	}
 	static createPaletteFromColors(content, colors) {
 		const palette = new CorePalette(colors.primary, content);
-		if (colors.secondary) {
-			const p = new CorePalette(colors.secondary, content);
-			palette.a2 = p.a1;
-		}
-		if (colors.tertiary) {
-			const p = new CorePalette(colors.tertiary, content);
-			palette.a3 = p.a1;
-		}
-		if (colors.error) {
-			const p = new CorePalette(colors.error, content);
-			palette.error = p.a1;
-		}
-		if (colors.neutral) {
-			const p = new CorePalette(colors.neutral, content);
-			palette.n1 = p.n1;
-		}
-		if (colors.neutralVariant) {
-			const p = new CorePalette(colors.neutralVariant, content);
-			palette.n2 = p.n2;
-		}
+		if (colors.secondary) palette.a2 = new CorePalette(colors.secondary, content).a1;
+		if (colors.tertiary) palette.a3 = new CorePalette(colors.tertiary, content).a1;
+		if (colors.error) palette.error = new CorePalette(colors.error, content).a1;
+		if (colors.neutral) palette.n1 = new CorePalette(colors.neutral, content).n1;
+		if (colors.neutralVariant) palette.n2 = new CorePalette(colors.neutralVariant, content).n2;
 		return palette;
 	}
 	constructor(argb, isContent) {
@@ -5474,8 +5395,7 @@ var QuantizerWsmeans = class {
 					}
 				}
 				if (newClusterIndex !== -1) {
-					const distanceChange = Math.abs(Math.sqrt(minimumDistance) - Math.sqrt(previousDistance));
-					if (distanceChange > MIN_MOVEMENT_DISTANCE) {
+					if (Math.abs(Math.sqrt(minimumDistance) - Math.sqrt(previousDistance)) > MIN_MOVEMENT_DISTANCE) {
 						pointsMoved++;
 						clusterIndices[i] = newClusterIndex;
 					}
@@ -5505,13 +5425,10 @@ var QuantizerWsmeans = class {
 					];
 					continue;
 				}
-				const a = componentASums[i] / count;
-				const b = componentBSums[i] / count;
-				const c = componentCSums[i] / count;
 				clusters[i] = [
-					a,
-					b,
-					c
+					componentASums[i] / count,
+					componentBSums[i] / count,
+					componentCSums[i] / count
 				];
 			}
 		}
@@ -5550,8 +5467,7 @@ var QuantizerMap = class {
 		const countByColor = /* @__PURE__ */ new Map();
 		for (let i = 0; i < pixels.length; i++) {
 			const pixel = pixels[i];
-			const alpha = alphaFromArgb(pixel);
-			if (alpha < 255) continue;
+			if (alphaFromArgb(pixel) < 255) continue;
 			countByColor.set(pixel, (countByColor.get(pixel) ?? 0) + 1);
 		}
 		return countByColor;
@@ -5595,8 +5511,7 @@ var QuantizerWu = class {
 		this.constructHistogram(pixels);
 		this.computeMoments();
 		const createBoxesResult = this.createBoxes(maxColors);
-		const results = this.createResult(createBoxesResult.resultCount);
-		return results;
+		return this.createResult(createBoxesResult.resultCount);
 	}
 	constructHistogram(pixels) {
 		this.weights = Array.from({ length: TOTAL_SIZE }).fill(0);
@@ -5707,10 +5622,7 @@ var QuantizerWu = class {
 		const dr = this.volume(cube, this.momentsR);
 		const dg = this.volume(cube, this.momentsG);
 		const db = this.volume(cube, this.momentsB);
-		const xx = this.moments[this.getIndex(cube.r1, cube.g1, cube.b1)] - this.moments[this.getIndex(cube.r1, cube.g1, cube.b0)] - this.moments[this.getIndex(cube.r1, cube.g0, cube.b1)] + this.moments[this.getIndex(cube.r1, cube.g0, cube.b0)] - this.moments[this.getIndex(cube.r0, cube.g1, cube.b1)] + this.moments[this.getIndex(cube.r0, cube.g1, cube.b0)] + this.moments[this.getIndex(cube.r0, cube.g0, cube.b1)] - this.moments[this.getIndex(cube.r0, cube.g0, cube.b0)];
-		const hypotenuse = dr * dr + dg * dg + db * db;
-		const volume = this.volume(cube, this.weights);
-		return xx - hypotenuse / volume;
+		return this.moments[this.getIndex(cube.r1, cube.g1, cube.b1)] - this.moments[this.getIndex(cube.r1, cube.g1, cube.b0)] - this.moments[this.getIndex(cube.r1, cube.g0, cube.b1)] + this.moments[this.getIndex(cube.r1, cube.g0, cube.b0)] - this.moments[this.getIndex(cube.r0, cube.g1, cube.b1)] + this.moments[this.getIndex(cube.r0, cube.g1, cube.b0)] + this.moments[this.getIndex(cube.r0, cube.g0, cube.b1)] - this.moments[this.getIndex(cube.r0, cube.g0, cube.b0)] - (dr * dr + dg * dg + db * db) / this.volume(cube, this.weights);
 	}
 	cut(one, two) {
 		const wholeR = this.volume(one, this.momentsR);
@@ -5879,8 +5791,7 @@ var QuantizerCelebi = class {
 	*     quantized image.
 	*/
 	static quantize(pixels, maxColors) {
-		const wu = new QuantizerWu();
-		const wuResult = wu.quantize(pixels, maxColors);
+		const wuResult = new QuantizerWu().quantize(pixels, maxColors);
 		return QuantizerWsmeans.quantize(pixels, wuResult, maxColors);
 	}
 };
@@ -6538,13 +6449,11 @@ var Score = class Score {
 		}
 		const scoredHct = new Array();
 		for (const hct of colorsHct) {
-			const hue = sanitizeDegreesInt(Math.round(hct.hue));
-			const proportion = hueExcitedProportions[hue];
+			const proportion = hueExcitedProportions[sanitizeDegreesInt(Math.round(hct.hue))];
 			if (filter && (hct.chroma < Score.CUTOFF_CHROMA || proportion <= Score.CUTOFF_EXCITED_PROPORTION)) continue;
 			const proportionScore = proportion * 100 * Score.WEIGHT_PROPORTION;
 			const chromaWeight = hct.chroma < Score.TARGET_CHROMA ? Score.WEIGHT_CHROMA_BELOW : Score.WEIGHT_CHROMA_ABOVE;
-			const chromaScore = (hct.chroma - Score.TARGET_CHROMA) * chromaWeight;
-			const score = proportionScore + chromaScore;
+			const score = proportionScore + (hct.chroma - Score.TARGET_CHROMA) * chromaWeight;
 			scoredHct.push({
 				hct,
 				score
@@ -6555,10 +6464,9 @@ var Score = class Score {
 		for (let differenceDegrees$1 = 90; differenceDegrees$1 >= 15; differenceDegrees$1--) {
 			chosenColors.length = 0;
 			for (const { hct } of scoredHct) {
-				const duplicateHue = chosenColors.find((chosenHct) => {
+				if (!chosenColors.find((chosenHct) => {
 					return differenceDegrees(hct.hue, chosenHct.hue) < differenceDegrees$1;
-				});
-				if (!duplicateHue) chosenColors.push(hct);
+				})) chosenColors.push(hct);
 				if (chosenColors.length >= desired) break;
 			}
 			if (chosenColors.length >= desired) break;
@@ -6579,7 +6487,7 @@ var Score = class Score {
 * @return Source color - the color most suitable for creating a UI theme
 */
 async function sourceColorFromImage(image) {
-	const imageBytes = await new Promise((resolve, reject) => {
+	return sourceColorFromImageBytes(await new Promise((resolve, reject) => {
 		const canvas = document.createElement("canvas");
 		const context = canvas.getContext("2d");
 		if (!context) {
@@ -6611,8 +6519,7 @@ async function sourceColorFromImage(image) {
 			image.onload = loadCallback;
 			image.onerror = errorCallback;
 		}
-	});
-	return sourceColorFromImageBytes(imageBytes);
+	}));
 }
 /**
 * Get the source color from image bytes.
@@ -6626,15 +6533,12 @@ function sourceColorFromImageBytes(imageBytes) {
 		const r = imageBytes[i];
 		const g = imageBytes[i + 1];
 		const b = imageBytes[i + 2];
-		const a = imageBytes[i + 3];
-		if (a < 255) continue;
+		if (imageBytes[i + 3] < 255) continue;
 		const argb = argbFromRgb(r, g, b);
 		pixels.push(argb);
 	}
 	const result = QuantizerCelebi.quantize(pixels, 128);
-	const ranked = Score.score(result);
-	const top = ranked[0];
-	return top;
+	return Score.score(result)[0];
 }
 
 //#endregion
@@ -6728,8 +6632,7 @@ function themeFromSourceColor(source, customColors = []) {
 * @return Theme object
 */
 async function themeFromImage(image, customColors = []) {
-	const source = await sourceColorFromImage(image);
-	return themeFromSourceColor(source, customColors);
+	return themeFromSourceColor(await sourceColorFromImage(image), customColors);
 }
 /**
 * Generate custom color group from source and target color
@@ -6745,8 +6648,7 @@ function customColor(source, color) {
 	const from = value;
 	const to = source;
 	if (color.blend) value = Blend.harmonize(from, to);
-	const palette = CorePalette.of(value);
-	const tones = palette.a1;
+	const tones = CorePalette.of(value).a1;
 	return {
 		color,
 		value,
@@ -6772,9 +6674,7 @@ function customColor(source, color) {
 */
 function applyTheme(theme, options) {
 	const target = options?.target || document.body;
-	const isDark = options?.dark ?? false;
-	const scheme = isDark ? theme.schemes.dark : theme.schemes.light;
-	setSchemeProperties(target, scheme);
+	setSchemeProperties(target, options?.dark ?? false ? theme.schemes.dark : theme.schemes.light);
 	if (options?.brightnessSuffix) {
 		setSchemeProperties(target, theme.schemes.dark, "-dark");
 		setSchemeProperties(target, theme.schemes.light, "-light");
