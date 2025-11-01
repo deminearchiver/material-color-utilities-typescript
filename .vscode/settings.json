@@ -1,24 +1,9 @@
 {
-  "[json]": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.formatOnSave": true
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.formatOnSave": true
-  },
-  "[json5]": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.formatOnSave": true
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.formatOnSave": true
-  },
-  "[typescript]": {
+  "[json][jsonc][javascript][typescript]": {
     "editor.defaultFormatter": "biomejs.biome",
     "editor.formatOnSave": true
   },
   "biome.enabled": true,
-  "biome.requireConfiguration": true
+  "biome.requireConfiguration": true,
+  "typescript.tsdk": "./node_modules/typescript/lib",
 }

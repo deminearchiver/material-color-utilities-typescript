@@ -1,0 +1,12 @@
+catalog:
+  '@biomejs/biome': 2.3.2
+  tsdown: ^0.15.12
+  typescript: ^5.9.3
+  vitest: ^4.0.6
+
+catalogMode: strict
+
+cleanupUnusedCatalogs: false
+
+onlyBuiltDependencies:
+  - esbuild

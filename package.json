@@ -50,15 +50,15 @@
       }
     }
   },
-  "packageManager": "yarn@4.10.3",
+  "packageManager": "pnpm@10.20.0",
   "scripts": {
     "build": "tsdown",
     "test": "vitest"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.2",
-    "tsdown": "^0.15.12",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.6"
+    "@biomejs/biome": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }
