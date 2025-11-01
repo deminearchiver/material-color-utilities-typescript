@@ -26,9 +26,9 @@ Algorithms and utilities that power the Material Design 3 (M3) color system, inc
 ```sh
 npm install @materialx/material-color-utilities
 # or
-yarn add @materialx/material-color-utilities
-# or
 pnpm add @materialx/material-color-utilities
+# or
+yarn add @materialx/material-color-utilities
 # or
 bun add @materialx/material-color-utilities
 ```
